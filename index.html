@@ -6,13 +6,12 @@
     <title>UPCM CHED MSRS Scholars Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/leader-line-new@1.1.9/leader-line.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chosen Palette: University of the Philippines Official -->
-    <!-- Application Structure Plan: A responsive single-page application using a sticky top navigation bar for easy access to all sections. This improves usability, especially on mobile devices. The layout is structured with distinct sections for each topic, presented in clean cards to enhance readability. The core interactive flowchart is retained for its effectiveness in explaining the process. -->
-    <!-- Visualization & Content Choices: 1) Navigation: Sticky top-bar with anchor links. Goal: Organize/Navigate. Method: HTML/JS. Justification: Standard, intuitive web navigation. 2) Process Flow: A custom HTML/CSS flowchart with JS-drawn connectors, styled with UP branding. Goal: Change/Organize. Method: Tailwind Grid + Leader-Line.js. Interaction: Click to highlight steps. Justification: Superior for showing process sequence and dependencies. 3) Other elements (Donut chart, accordion lists) are restyled to match the new brand identity. -->
+    <!-- Application Structure Plan: A responsive single-page application using a sticky top navigation bar for easy access to all sections. This improves usability, especially on mobile devices. The layout is structured with distinct sections for each topic, presented in clean cards to enhance readability. The process is now visualized in a table for clarity and to highlight durations. -->
+    <!-- Visualization & Content Choices: 1) Navigation: Sticky top-bar with anchor links. Goal: Organize/Navigate. Method: HTML/JS. Justification: Standard, intuitive web navigation. 2) Process Flow: A detailed HTML table replaces the flowchart. Goal: Change/Organize. Method: Tailwind-styled table. Justification: Better for clearly showing sequence and highlighting the extensive, real-world duration of each phase. 3) Other elements (Donut chart, accordion lists) are restyled to match the new brand identity. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         html { scroll-behavior: smooth; }
@@ -21,7 +20,6 @@
         :root {
             --up-maroon: #7B1113;
             --up-green: #014421;
-            --up-gold: #FFB81C;
         }
 
         .main-nav-link {
@@ -32,62 +30,17 @@
             color: #4B5563;
             cursor: pointer;
         }
-        .main-nav-link:hover {
-            color: var(--up-maroon);
-        }
+        .main-nav-link:hover { color: var(--up-maroon); }
         .main-nav-link.active {
             color: var(--up-maroon);
             border-bottom-color: var(--up-maroon);
         }
         
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-        }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
 
         .faq-arrow { transition: transform 0.3s ease; }
         .faq-arrow.open { transform: rotate(180deg); }
-        
-        .swimlane-bg {
-            background-image: radial-gradient(rgba(156, 163, 175, 0.5) 1px, transparent 1px);
-            background-size: 1.5rem 1.5rem;
-        }
-        .flowchart-node {
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            border: 2px solid;
-        }
-        .node-scholar { background-color: #fff7ed; border-color: #fb923c; color: #c2410c; }
-        .node-upcm { background-color: #f5f3ff; border-color: #a78bfa; color: #5b21b6; }
-        .node-chedro { background-color: #eff6ff; border-color: #60a5fa; color: #1e40af; }
-        .node-chedco { background-color: #f0fdf4; border-color: #4ade80; color: #15803d; }
-        
-        .node-diamond {
-            width: 140px; height: 140px;
-            display: flex; align-items: center; justify-content: center;
-            padding: 1rem; text-align: center; font-weight: 600;
-            cursor: pointer; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            border: 2px solid;
-        }
-        .node-diamond-upcm { background-color: #ddd6fe; border-color: #a78bfa; color: #5b21b6; }
-        
-        .flowchart-node.is-active, .node-diamond.is-active {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 4px var(--up-maroon);
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -99,14 +52,13 @@
                     <span class="text-xl font-extrabold tracking-tight text-gray-800">UPCM CHED MSRS Scholars Guide</span>
                 </div>
                 <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
             </div>
             <nav id="main-nav" class="hidden lg:flex flex-col lg:flex-row lg:items-center lg:space-x-4 pb-3 lg:pb-0">
                  <a data-target="home" class="main-nav-link active">Home</a>
                  <a data-target="journey" class="main-nav-link">The Journey</a>
+                 <a data-target="requirements" class="main-nav-link">Requirements</a>
                  <a data-target="players" class="main-nav-link">The Players</a>
                  <a data-target="package" class="main-nav-link">The Package</a>
                  <a data-target="faq" class="main-nav-link">FAQs</a>
@@ -129,34 +81,70 @@
         <section id="journey" class="content-section">
              <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold" style="color: var(--up-green);">The Stipend Journey: A Visual Workflow</h2>
-                    <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This flowchart maps the step-by-step process of stipend disbursement, with arrows showing the flow of actions and dependencies. Click on any step to see more details and identify the bottlenecks.</p>
+                    <h2 class="text-3xl font-bold" style="color: var(--up-green);">The Stipend Journey: Process & Timelines</h2>
+                    <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This table outlines the sequence of the stipend process, the party responsible for each step, and the *actual* timelines experienced by scholars, which often include significant delays.</p>
                 </div>
-                <div class="lg:flex gap-8">
-                    <div class="w-full lg:w-3/4 overflow-x-auto">
-                        <div class="swimlane-bg p-8 rounded-lg border border-gray-200 bg-gray-50 relative" style="min-width: 1200px; height: 1100px;">
-                            <div class="grid grid-cols-4 gap-x-8 h-full" id="flowchart-grid">
-                                <div class="text-center font-bold text-orange-700 bg-orange-100 py-2 rounded-t-lg">SCHOLAR</div>
-                                <div class="text-center font-bold text-purple-700 bg-purple-100 py-2 rounded-t-lg">UPCM</div>
-                                <div class="text-center font-bold text-blue-700 bg-blue-100 py-2 rounded-t-lg">CHEDRO-NCR</div>
-                                <div class="text-center font-bold text-green-700 bg-green-100 py-2 rounded-t-lg">CHED-CO</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full lg:w-1/4 mt-8 lg:mt-0">
-                        <div id="step-details-panel" class="bg-gray-50 p-6 rounded-lg border-2 border-gray-200 min-h-[200px] transition-all sticky top-24">
-                            <h3 class="font-bold text-lg mb-2" id="details-title">Click a step to see details</h3>
-                            <p class="text-gray-600" id="details-description">Details about the selected process step will appear here.</p>
-                            <div id="details-bottleneck" class="mt-4 p-3 bg-red-100 border border-red-200 rounded-md text-red-800 hidden">
-                                <strong class="font-semibold">Potential Bottleneck:</strong>
-                                <p id="bottleneck-text" class="text-sm mt-1"></p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-600 border-b border-gray-200">Step</th>
+                                <th class="py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-600 border-b border-gray-200">Action</th>
+                                <th class="py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-600 border-b border-gray-200">Responsible Party</th>
+                                <th class="py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-600 border-b border-gray-200">Experienced Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">1</td><td class="py-4 px-6 border-b border-gray-200">Submits onboarding documents (NOA, contract) and sets up DBP account.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">Scholar</td><td class="py-4 px-6 border-b border-gray-200">1-2 weeks</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">2</td><td class="py-4 px-6 border-b border-gray-200">Prepares and submits consolidated billing package to CHEDRO.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">UPCM</td><td class="py-4 px-6 border-b border-gray-200">2-4 weeks</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">3</td><td class="py-4 px-6 border-b border-gray-200">Allocates funds to CHEDRO.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">CHED-CO</td><td class="py-4 px-6 border-b border-gray-200 text-red-600">Months (Major Bottleneck)</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">4</td><td class="py-4 px-6 border-b border-gray-200">Validates UPCM's billing; re-submits if errors are found.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">CHEDRO / UPCM</td><td class="py-4 px-6 border-b border-gray-200 text-red-600">Months (Major Bottleneck)</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">5</td><td class="py-4 px-6 border-b border-gray-200">Transfers lump-sum funds (check) to UPCM.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">CHEDRO</td><td class="py-4 px-6 border-b border-gray-200">1-2 weeks</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">6</td><td class="py-4 px-6 border-b border-gray-200">Processes internal disbursement voucher through multiple offices for signatures.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">UPCM</td><td class="py-4 px-6 border-b border-gray-200 text-red-600">Weeks to Months (Bottleneck)</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">7</td><td class="py-4 px-6 border-b border-gray-200">Receives stipend in DBP account.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">Scholar</td><td class="py-4 px-6 border-b border-gray-200 font-bold text-red-700">Total Delay: 9-17 Months</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="py-4 px-6 border-b border-gray-200">8</td><td class="py-4 px-6 border-b border-gray-200">Physically signs payroll to enable university's liquidation report.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">Scholar</td><td class="py-4 px-6 border-b border-gray-200">1-4 weeks</td></tr>
+                            <tr class="bg-red-50"><td class="py-4 px-6 border-b border-gray-200 font-bold">9</td><td class="py-4 px-6 border-b border-gray-200 font-bold">Process for next semester begins, but only after previous liquidation is approved by CHED.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">All Parties</td><td class="py-4 px-6 border-b border-gray-200 font-bold text-red-700">Vicious Cycle Repeats</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
             
+        <section id="requirements" class="content-section">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold" style="color: var(--up-green);">Scholar Requirements Checklist</h2>
+                    <p class="text-lg text-gray-600 mt-2">A guide to the documents and actions required from scholars at each stage.</p>
+                </div>
+                <div class="space-y-8 max-w-4xl mx-auto">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 pb-2 border-b-2" style="border-color: var(--up-maroon);">Onboarding (First-Time Scholars)</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">1.</span><div><h4 class="font-bold">Signed Notice of Award (NOA)</h4><p class="text-gray-600">Must be submitted with a wet (ink) signature.</p></div></li>
+                            <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">2.</span><div><h4 class="font-bold">Scholarship Contract</h4><p class="text-gray-600">Submit 5 copies, printed on A4 paper, all with wet signatures.</p></div></li>
+                             <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">3.</span><div><h4 class="font-bold">DBP Bank Account</h4><p class="text-gray-600">Open an account at the Development Bank of the Philippines and submit the account number to the coordinator.</p></div></li>
+                            <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">4.</span><div><h4 class="font-bold">Withdrawal from other Scholarships</h4><p class="text-gray-600">You must withdraw from any other government scholarships, especially SLAS, as MSRS requires full tuition billing.</p></div></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 pb-2 border-b-2" style="border-color: var(--up-maroon);">For Each Semester's Stipend Request</h3>
+                         <ul class="space-y-4">
+                            <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">1.</span><div><h4 class="font-bold">Billing Statement</h4><p class="text-gray-600">Generate this from the ISKOLAR portal (or request from SRO) and have it verified by the SRO.</p></div></li>
+                            <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">2.</span><div><h4 class="font-bold">Form 5 (Certificate of Registration)</h4><p class="text-gray-600">Your individual registration form. This must show the FULL tuition amount with NO discounts listed.</p></div></li>
+                            <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">3.</span><div><h4 class="font-bold">TCG and COE Fees</h4><p class="text-gray-600">The university requests the True Copy of Grades and a consolidated Certificate of Enrollment for the batch. Scholars must pay the associated fee (e.g., ~₱100).</p></div></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 pb-2 border-b-2" style="border-color: var(--up-maroon);">After Receiving Stipend (Liquidation)</h3>
+                         <ul class="space-y-4">
+                           <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">1.</span><div><h4 class="font-bold">Sign the Payroll</h4><p class="text-gray-600">Crucial step. You must physically go to the designated office to sign the payroll. The process for the next semester's stipend cannot begin until this is done by everyone.</p></div></li>
+                             <li class="flex items-start"><span class="text-xl mr-4" style="color: var(--up-green);">2.</span><div><h4 class="font-bold">Submit PhilHealth KPP Form</h4><p class="text-gray-600">Fill out and submit the Konsulta Provider Portal (KPP) form as a batch when requested. This is needed for CHED to process PhilHealth contributions.</p></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="players" class="content-section">
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
                 <div class="text-center mb-12">
@@ -166,7 +154,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="players-grid"></div>
             </div>
         </section>
-        
+
         <section id="package" class="content-section">
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
                 <div class="text-center mb-12">
@@ -226,21 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'chedro', name: 'CHEDRO-NCR', icon: '🏢', description: 'The regional government authority responsible for implementation, validation, and monitoring.', responsibilities: ['Execute a Memorandum of Agreement (MOA) with UPCM.', 'Validate and approve scholar lists from the university.', 'Issue the official Notice of Award (NOA) to scholars.', 'Process UPCM\'s billing and transfer funds.', 'Review and approve UPCM\'s Liquidation Reports.'] },
         { id: 'chedco', name: 'CHED-CO', icon: '🌐', description: 'The national body responsible for policy, final validation, and initial budget allocation.', responsibilities: ['Conduct final validation of all scholars nationwide.', 'Allocate the program budget to CHED Regional Offices.', 'Issue the annual "Call for Application" to start the cycle.', 'Develop and disseminate official program guidelines.'] }
     ];
-
-    const flowchartData = [
-        { id: 's_step1', lane: 1, y: 100, type: 'node', text: 'Submit Onboarding Docs', actor: 'scholar', description: 'Scholar submits signed Notice of Award (NOA) and 5 copies of the contract, all with wet signatures. Scholar must also withdraw from other conflicting scholarships (e.g., SLAS).', next: 's_step2'},
-        { id: 's_step2', lane: 1, y: 250, type: 'node', text: 'Set Up DBP Account', actor: 'scholar', description: 'Scholar opens a DBP account and submits account number and PhilHealth number to the coordinator.', bottleneck: true, bottleneck_text: 'DBP may require a Form 5 (proof of enrollment) to open an account, but scholars can\'t get a Form 5 until tuition is paid, which the stipend is for, creating a catch-22.', next: 'u_step1'},
-        { id: 'u_step1', lane: 2, y: 250, type: 'node', text: 'Prepare Billing Package', actor: 'upcm', description: 'After scholars submit contracts, the UPCM coordinator prepares a consolidated billing package, including a Certificate of Enrollment (COE) for all scholars.', next: 'r_step1' },
-        { id: 'c_step1', lane: 4, y: 250, type: 'node', text: 'Allocate Funds to Region', actor: 'chedco', description: 'The CHED Central Office processes and transfers bulk funds to the regional office (CHEDRO-NCR).', bottleneck: true, bottleneck_text: 'Government inter-agency fund transfers are inherently slow, subject to multiple layers of approval, and dependent on budget availability. CHED has previously claimed funds were "reverted" or not yet released from the national level.', next: 'r_step1'},
-        { id: 'r_step1', lane: 3, y: 400, type: 'node', text: 'Validate Billing', actor: 'chedro', description: 'CHEDRO\'s finance unit meticulously validates UPCM\'s submission against available funds.', next: 'r_decision1' },
-        { id: 'r_decision1', lane: 2, y: 550, type: 'diamond', text: 'Docs OK?', actor: 'upcm', description: 'CHEDRO checks for completeness and accuracy. Any error in one scholar\'s documents can halt the entire process.', next: [ {condition: 'Yes', target: 'r_step2'}, {condition: 'No', target: 'u_step1_rework'} ] },
-        { id: 'u_step1_rework', lane: 2, y: 700, type: 'node', text: 'Rework & Resubmit Billing', actor: 'upcm', description: 'If CHEDRO finds an error, UPCM must correct the entire billing package and resubmit, restarting the validation process.', bottleneck: true, bottleneck_text: 'A single error can invalidate the entire batch submission. As of the June 16 meeting, issues included incorrect Form 5s (with discounts) and confusion over INTARMED year levels.', next: 'r_step1' },
-        { id: 'r_step2', lane: 3, y: 700, type: 'node', text: 'Transfer Funds to UPCM', actor: 'chedro', description: 'Once validated, CHEDRO transfers the lump-sum grant to UPCM, typically via check.', next: 'u_step2' },
-        { id: 'u_step2', lane: 2, y: 850, type: 'node', text: 'Internal University Processing', actor: 'upcm', description: 'UPCM Accounting receives the check and begins a multi-stage internal process to issue a disbursement voucher (T.O.), which requires signatures from the Dean, Accounting, Budget, OVCAF, and Chancellor.', bottleneck: true, bottleneck_text: 'This internal journey is a major delay. The coordinator noted the accounting office stalls the process with piecemeal requests: "paisa isa kasi ng hinihingi".', next: 's_step3' },
-        { id: 's_step3', lane: 1, y: 850, type: 'node', text: 'Receive Stipend', actor: 'scholar', description: 'After months of processing by other actors, the stipend is finally deposited into the scholar\'s DBP account.', next: 's_step4'},
-        { id: 's_step4', lane: 1, y: 1000, type: 'node', text: 'Acknowledge & Liquidate', actor: 'scholar', description: 'Scholar MUST physically go to the university office to sign a payroll. This is a critical requirement for the university to liquidate the funds.', bottleneck: true, bottleneck_text: 'The university cannot start the billing process for the NEXT semester until this physical signature is obtained. The June 16 meeting revealed UPCM was also failing to submit a required "Transfer Order" as proof of payment.'}
-    ];
-
+    
     const financialData = {
         labels: ['Living Subsidy', 'Lodging', 'Book', 'Clothing', 'Miscellaneous', 'Transportation'],
         data: [30000, 30000, 13000, 3500, 6000, 6000],
@@ -275,97 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (card) {
                 card.querySelector('.details').classList.toggle('hidden');
                 card.classList.toggle('border-maroon-300');
-            }
-        });
-    }
-
-    let flowchartLines = [];
-    function initFlowchart() {
-        const grid = document.getElementById('flowchart-grid');
-        grid.innerHTML = `
-            <div class="text-center font-bold text-orange-700 bg-orange-100 py-2 rounded-t-lg">SCHOLAR</div>
-            <div class="text-center font-bold text-purple-700 bg-purple-100 py-2 rounded-t-lg">UPCM</div>
-            <div class="text-center font-bold text-blue-700 bg-blue-100 py-2 rounded-t-lg">CHEDRO-NCR</div>
-            <div class="text-center font-bold text-green-700 bg-green-100 py-2 rounded-t-lg">CHED-CO</div>
-        `;
-        const detailsTitle = document.getElementById('details-title');
-        const detailsDescription = document.getElementById('details-description');
-        const detailsBottleneck = document.getElementById('details-bottleneck');
-        const bottleneckText = document.getElementById('bottleneck-text');
-        
-        flowchartLines.forEach(line => line.remove());
-        flowchartLines = [];
-
-        flowchartData.forEach(node => {
-            const nodeEl = document.createElement('div');
-            nodeEl.id = node.id;
-            nodeEl.innerHTML = `<span>${node.text}</span>`;
-            nodeEl.style.gridColumn = node.lane;
-            nodeEl.style.position = 'absolute';
-            nodeEl.style.top = `${node.y}px`;
-            
-            if (node.type === 'diamond') {
-                nodeEl.className = `node-diamond node-diamond-${node.actor}`;
-                nodeEl.style.left = '50%';
-                nodeEl.style.transform = 'translateX(-50%)';
-            } else {
-                nodeEl.className = `flowchart-node node-${node.actor}`;
-                nodeEl.style.left = '50%';
-                nodeEl.style.transform = 'translateX(-50%)';
-                nodeEl.style.width = '80%';
-            }
-            grid.appendChild(nodeEl);
-        });
-
-        function drawLines() {
-            flowchartLines.forEach(line => line.remove());
-            flowchartLines = [];
-            flowchartData.forEach(node => {
-                if (node.next) {
-                    if (Array.isArray(node.next)) {
-                        node.next.forEach(conn => {
-                            const line = new LeaderLine(
-                                document.getElementById(node.id),
-                                document.getElementById(conn.target),
-                                { color: '#4B5563', size: 3, path: 'grid', endPlug: 'arrow1', startSocket: 'bottom', endSocket: 'top' }
-                            );
-                             if (conn.condition) {
-                                line.middleLabel = LeaderLine.pathLabel(conn.condition, {color: '#1F2937', fontWeight: 'bold', y: -5});
-                            }
-                            flowchartLines.push(line);
-                        });
-                    } else {
-                         const line = new LeaderLine(
-                            document.getElementById(node.id),
-                            document.getElementById(node.next),
-                            { color: '#4B5563', size: 3, path: 'grid', endPlug: 'arrow1', startSocket: 'bottom', endSocket: 'top' }
-                        );
-                        flowchartLines.push(line);
-                    }
-                }
-            });
-        }
-        
-        setTimeout(drawLines, 50);
-        new ResizeObserver(drawLines).observe(grid.parentElement);
-
-        grid.addEventListener('click', e => {
-            const nodeEl = e.target.closest('.flowchart-node, .node-diamond');
-            if (!nodeEl) return;
-            const nodeId = nodeEl.id;
-            const nodeData = flowchartData.find(n => n.id === nodeId);
-            if (!nodeData) return;
-
-            document.querySelectorAll('.flowchart-node, .node-diamond').forEach(el => el.classList.remove('is-active'));
-            nodeEl.classList.add('is-active');
-
-            detailsTitle.textContent = nodeData.text;
-            detailsDescription.textContent = nodeData.description;
-            if (nodeData.bottleneck) {
-                bottleneckText.innerHTML = nodeData.bottleneck_text;
-                detailsBottleneck.classList.remove('hidden');
-            } else {
-                detailsBottleneck.classList.add('hidden');
             }
         });
     }
@@ -435,13 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.toggle('active', link.dataset.target === targetId);
         });
         window.scrollTo(0, 0);
-
-        if (targetId === 'journey') {
-            initFlowchart();
-        } else if (flowchartLines.length > 0) {
-             flowchartLines.forEach(line => line.remove());
-             flowchartLines = [];
-        }
     }
     
     mainNav.addEventListener('click', (e) => {
@@ -461,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mainNav.classList.toggle('hidden');
     });
 
-    // Initialize first view
+    // Initialize all sections
     initPlayers();
     initFinancials();
     initFaqs();
