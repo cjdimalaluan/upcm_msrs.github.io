@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report: The CHED MSRS Stipend Pipeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Academic Calm -->
+    <!-- Application Structure Plan: The SPA is designed as a narrative journey through the stipend process, prioritizing user exploration over the report's linear structure. It begins with an introduction to the problem, identifies the 'Players' interactively, then visually maps the 'Stipend Journey' in a swimlane format which is the core interactive element. Subsequent sections provide deeper dives into the 'Financial Package', procedural 'Gates' (onboarding/liquidation), identified 'Bottlenecks', and 'Recommendations'. A final FAQ section addresses key scholar concerns. This thematic, task-oriented structure allows users to grasp the key actors and the flow, then drill down into specific areas of interest (e.g., "Why is it delayed?"), making complex information highly digestible. -->
+    <!-- Visualization & Content Choices: 1) Stakeholder Roles: Presented as clickable cards to avoid a wall of text. Goal: Inform/Organize. Method: HTML/CSS grid + JS. Interaction: Click to expand. Justification: Promotes focused exploration. 2) Process Flow: A custom HTML/CSS swimlane diagram. Goal: Change/Organize. Method: Tailwind Flexbox/Grid + JS. Interaction: Click on steps to highlight them and see details/bottlenecks in a side panel. Justification: A swimlane is the best visual metaphor for a multi-actor process. 3) Financial Data (Table 1): A donut chart. Goal: Compare/Inform. Method: Chart.js Canvas. Interaction: Hover for tooltips. Justification: More intuitive for showing proportions than a static table. 4) Document Requirements (Tables 2&3): Interactive tabbed checklists. Goal: Inform/Organize. Method: HTML/CSS lists within JS-controlled tabs. Justification: More scannable and less dense. All choices adhere to the NO SVG/Mermaid rule and support the user's journey. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #2d2d2d; }
+        .swimlane-container { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; }
+        @media (min-width: 1024px) { .swimlane-container { grid-template-columns: repeat(4, 1fr); } }
+        .swimlane { background-color: #FFFFFF; border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #E5E7EB; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .swimlane-step { border: 1px solid #D1D5DB; border-left: 5px solid #6B7280; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s ease; }
+        .swimlane-step.is-bottleneck { border-left-color: #EF4444; }
+        .swimlane-step.is-active { transform: scale(1.03); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); border-color: #3B82F6; border-left-color: #3B82F6; }
+        .chart-container { position: relative; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .nav-link { padding: 0.5rem 1rem; border-radius: 9999px; transition: all 0.2s ease-in-out; font-weight: 500; }
+        .nav-link:hover { background-color: #E5E7EB; }
+        .nav-link.active { background-color: #374151; color: #FFFFFF; }
+        .tab-button { padding: 0.5rem 1rem; border-radius: 0.375rem; border: 1px solid transparent; transition: all 0.2s ease; font-weight: 500; }
+        .tab-button.active { background-color: #fff; border-color: #D1D5DB; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .faq-arrow { transition: transform 0.3s ease; }
+        .faq-arrow.open { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-4 lg:px-6 py-3">
+            <div class="flex flex-wrap justify-between items-center">
+                <a href="#" class="flex items-center">
+                    <span class="text-xl font-bold text-gray-800">The Stipend Pipeline</span>
+                </a>
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="#players" class="nav-link">The Players</a>
+                    <a href="#journey" class="nav-link">The Journey</a>
+                    <a href="#package" class="nav-link">The Package</a>
+                    <a href="#bottlenecks" class="nav-link">The Bottlenecks</a>
+                    <a href="#recommendations" class="nav-link">Recommendations</a>
+                    <a href="#faq" class="nav-link">FAQs</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 lg:px-6 py-8 md:py-16">
+
+        <section class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">Navigating the CHED MSRS Stipend Process</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">An interactive analysis of the financial assistance pipeline for UP College of Medicine scholars. Explore the process, understand the systemic delays, and see the path to improvement.</p>
+        </section>
+
+        <section id="players" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">The Players in the Pipeline</h2>
+                <p class="text-lg text-gray-600 mt-2">The journey of a stipend involves four key actors. Click on each card to understand their specific role in the process.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="players-grid">
+            </div>
+        </section>
+
+        <section id="journey" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">The Stipend Journey: A Visual Workflow</h2>
+                <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This swimlane diagram maps the step-by-step process of stipend disbursement, from national budget allocation to the scholar's bank account. Click on any step to see more details and identify the bottlenecks.</p>
+            </div>
+            <div class="lg:flex gap-8">
+                <div class="w-full lg:w-3/4">
+                    <div class="swimlane-container" id="swimlane-diagram">
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/4 mt-8 lg:mt-0 sticky top-24 self-start">
+                    <div id="step-details-panel" class="bg-white p-6 rounded-lg border border-gray-200 shadow-md min-h-[200px] transition-all">
+                        <h3 class="font-bold text-lg mb-2" id="details-title">Click a step to see details</h3>
+                        <p class="text-gray-600" id="details-description">Details about the selected process step will appear here.</p>
+                        <div id="details-bottleneck" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-800 hidden">
+                            <strong class="font-semibold">Potential Bottleneck:</strong>
+                            <p id="bottleneck-text" class="text-sm mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="package" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">What's in the Stipend Package?</h2>
+                <p class="text-lg text-gray-600 mt-2">The program provides a comprehensive set of allowances to cover a medical student's core expenses. Here is the breakdown for each semester.</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center md:text-left">
+                        <h3 class="text-2xl font-semibold mb-4">Allowances per Semester (Years 1-4)</h3>
+                        <p class="text-gray-600 mb-6">The stipend is a full package covering living subsidies, lodging, books, and more. Hover over the chart sections to see the value of each allowance.</p>
+                        <div class="flex justify-center md:justify-start space-x-8">
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">PER SEMESTER</p>
+                                <p class="text-3xl font-bold text-blue-600" id="semester-total">₱0</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">PER ACADEMIC YEAR</p>
+                                <p class="text-3xl font-bold text-green-600" id="year-total">₱0</p>
+                            </div>
+                        </div>
+                         <p class="text-xs text-gray-500 mt-6">*Note: Does not include tuition/fees (paid directly to UPCM), internship funds, board review fees, or insurance premiums.</p>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="allowanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gates" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">The Administrative Gates</h2>
+                <p class="text-lg text-gray-600 mt-2">Two critical documentary processes bookend the stipend cycle: requesting funds and liquidating them. Both require meticulous attention to detail.</p>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-gray-200 shadow-lg">
+                <div class="mb-6 border-b border-gray-200">
+                    <nav class="flex space-x-2 bg-gray-100 p-1 rounded-lg" id="tabs-container" aria-label="Tabs">
+                    </nav>
+                </div>
+                <div id="tabs-content-container">
+                </div>
+            </div>
+        </section>
+
+        <section id="bottlenecks" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Anatomy of a Delay: Identifying the Bottlenecks</h2>
+                <p class="text-lg text-gray-600 mt-2">The program is plagued by chronic delays that transform support into reimbursement. Here are the core systemic issues identified in the report and conversations.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-semibold text-lg mb-2">Fund Transfer & Budget Lags</h3>
+                    <p class="text-gray-600">The process often stalls before it begins. CHED claims funds from the national level are unavailable or have been "reverted." This fundamental budget uncertainty makes timely processing impossible.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-red-300 bg-red-50">
+                    <h3 class="font-semibold text-lg mb-2 text-red-800">The Vicious Cycle of Liquidation</h3>
+                    <p class="text-red-700">This is a critical flaw. A new semester's funds will NOT be released until the previous semester's are liquidated. A delay in one cycle guarantees a delay in the next, creating a perpetual state of lateness.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-semibold text-lg mb-2">Fragile Batch Processing</h3>
+                    <p class="text-gray-600">A single error in one scholar's paperwork can halt the entire process for everyone. Worse, historical errors from a *different batch* (e.g. 2022 Form 5's) have been shown to derail funding for the current batch, a phenomenon of "cross-batch contamination."</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-semibold text-lg mb-2">Internal University Bureaucracy</h3>
+                    <p class="text-gray-600">Even after CHED releases funds, the disbursement voucher must navigate a maze of internal university offices for signatures. The coordinator noted the accounting office stalls the process with "paisa isa kasi ng hinihingi" (piecemeal requests).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendations" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Pathways to Improvement</h2>
+                <p class="text-lg text-gray-600 mt-2">Targeted recommendations for each key player to transform the pipeline from a reimbursement scheme into a true support system.</p>
+            </div>
+            <div id="recommendations-container" class="space-y-6">
+            </div>
+        </section>
+
+        <section id="faq" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">A New Scholar's Survival Guide: FAQs</h2>
+                <p class="text-lg text-gray-600 mt-2">Quick answers to common questions, based on the real-world experiences documented in the process.</p>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-4" id="faq-container">
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-4 text-center text-sm">
+            <p>This interactive application is an interpretation of the 'Stipend Pipeline' report, updated with data from scholar communications. It is intended for informational and educational purposes.</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const playersData = [
+        { id: 'scholar', name: 'The Scholar', icon: '🎓', description: 'The program beneficiary and initiator of several key administrative processes.', responsibilities: ['Submit complete and accurate application documents.', 'Sign a legally binding Scholarship Contract.', 'Maintain good academic standing.', 'Provide required documents each semester (e.g., proof of enrollment).', 'Acknowledge receipt of funds to enable university liquidation.'] },
+        { id: 'upcm', name: 'UPCM', icon: '🏛️', description: 'The partner university, acting as a filter, facilitator, and financial intermediary. The operational burden often falls on a single scholarship coordinator, who navigates the bureaucracy and bears immense administrative and emotional labor.', responsibilities: ['Screen applicants and endorse them to CHEDRO.', 'Prepare and submit consolidated Billing Statements for all scholars.', 'Receive lump-sum fund transfer from CHEDRO.', 'Disburse allowances to individual scholars.', 'Compile and submit comprehensive Liquidation Reports to CHEDRO.'] },
+        { id: 'chedro', name: 'CHEDRO-NCR', icon: '🏢', description: 'The regional government authority responsible for implementation, validation, and monitoring.', responsibilities: ['Execute a Memorandum of Agreement (MOA) with UPCM.', 'Validate and approve scholar lists from the university.', 'Issue the official Notice of Award (NOA) to scholars.', 'Process UPCM\'s billing and transfer funds.', 'Review and approve UPCM\'s Liquidation Reports.'] },
+        { id: 'chedco', name: 'CHED-CO', icon: '🌐', description: 'The national body responsible for policy, final validation, and initial budget allocation.', responsibilities: ['Conduct final validation of all scholars nationwide.', 'Allocate the program budget to CHED Regional Offices.', 'Issue the annual "Call for Application" to start the cycle.', 'Develop and disseminate official program guidelines.'] }
+    ];
+
+    const swimlaneData = [
+        { lane: 'chedco', steps: [ { id: 'step1', title: 'Validate Master List', description: 'The CHED Central Office (OSDS) validates the master list of all scholars from all regions against the national database.' }, { id: 'step2', title: 'Recommend Fund Release', description: 'OSDS recommends the fund release to the finance service (AFMS).' }, { id: 'step3', title: 'Transfer Funds to Region', description: 'The central finance service (AFMS) processes and transfers bulk funds to the regional office (CHEDRO-NCR).', bottleneck: true, bottleneck_text: 'Government inter-agency fund transfers are inherently slow, subject to multiple layers of approval, and dependent on budget availability. CHED has previously claimed funds were "reverted" or not yet released from the national level.' } ] },
+        { lane: 'upcm', steps: [ { id: 'step4', title: 'Prepare Billing Package', description: 'UPCM prepares a consolidated billing package, including certifications of enrollment for all scholars.' }, { id: 'step5', title: 'Submit Request to CHEDRO', description: 'The complete, signed billing package is formally submitted to CHEDRO-NCR.' } ] },
+        { lane: 'chedro', steps: [ { id: 'step6', title: 'Validate Billing', description: 'CHEDRO\'s finance unit meticulously validates UPCM\'s submission. Any error in one scholar\'s documents can halt the entire process.', bottleneck: true, bottleneck_text: 'A single error can invalidate the entire batch submission. Worse, historical errors from prior batches have been used to halt funding for current batches (e.g. Batch 2\'s 2022 Form 5 issues delaying Batch 3).' }, { id: 'step7', title: 'Transfer Funds to UPCM', description: 'Once validated, and if funds from CHED-CO are available, CHEDRO transfers the lump-sum grant to UPCM, typically via check.' } ] },
+        { lane: 'upcm', steps: [ { id: 'step8', title: 'Internal University Processing', description: 'UPCM Accounting receives the check and begins a multi-stage internal process to issue a disbursement voucher (T.O.), which requires signatures from the Dean, Accounting, Budget, OVCAF, and Chancellor.', bottleneck: true, bottleneck_text: 'This internal journey is a major delay. The coordinator noted the accounting office stalls the process with piecemeal requests: "paisa isa kasi ng hinihingi".' }, { id: 'step9', title: 'Release Allowance to Scholar', description: 'The allowance is finally released to the scholar via direct deposit, often months after the semester has ended.' }, { id: 'step10', title: 'Acknowledge Receipt & Liquidate', description: 'The scholar signs a payroll to acknowledge receipt. This act is critical, as UPCM cannot begin the liquidation process for the next semester\'s funding until this is complete.', bottleneck: true, bottleneck_text: 'The entire next funding cycle is gated by the successful liquidation of the previous one. The coordinator stated: "Inaantay ko marelease ang 1st sem nyo kasi need ung payroll at COE."' } ] }
+    ];
+
+    const financialData = {
+        labels: ['Living Subsidy', 'Lodging', 'Book', 'Clothing', 'Miscellaneous', 'Transportation'],
+        data: [30000, 30000, 13000, 3500, 6000, 6000],
+        backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#6366F1'],
+    };
+
+    const tabsData = [
+        { id: 'request', title: 'Fund Request', description: 'Before a stipend can be released, the university must submit a formal billing package to CHEDRO with these documents.', items: [ { title: 'Valid Memorandum of Agreement (MOA)', detail: 'A notarized agreement between CHEDRO and UPCM must be on file.'}, { title: 'Billing Statement (Form No. 7)', detail: 'The official, consolidated request for funds for all scholars for the semester.'}, { title: 'Certification of Enrollment (Form 5)', detail: 'Signed by the registrar, proving all listed scholars are actively enrolled and showing full tuition assessment.'}, { title: 'Certification of No Other Scholarship', detail: 'To ensure no violation of rules against holding multiple government scholarships.'} ] },
+        { id: 'liquidation', title: 'Liquidation Report', description: 'Within 30 days of receiving funds, the university must submit this report. Failure to do so *will* delay the next semester\'s stipend.', items: [ { title: 'Original Official Receipt (OR)', detail: 'The OR issued by UPCM to CHEDRO upon receiving the grant.'}, { title: 'Copy of School ID', detail: 'A clear copy of the front and back of each scholar\'s ID.'}, { title: 'Individual Certificate of Registration (Form 5)', detail: 'A copy of the official registration form for each scholar for that semester.'}, { title: 'Proof of Allowance Receipt (Signed Payroll)', detail: 'The most critical part: evidence (Form No. 9) that each scholar received their money.'} ] }
+    ];
+
+    const recommendationsData = [
+        { target: 'CHED', recommendations: [ { title: 'Automate the Pipeline', detail: 'Develop a digital portal for document submission and status tracking to reduce manual errors and increase transparency.' }, { title: 'Decouple Payments & Isolate Errors', detail: 'Abandon the fragile batch-processing model. Process funds for scholars with correct paperwork and isolate historical errors so they don\'t affect current batches.' }, { title: 'Establish & Enforce Service Level Agreements (SLAs)', detail: 'Set and publish clear processing deadlines for each step (e.g., 15 days to validate billing) to increase accountability.' }, { title: 'Pilot Advance Funding', detail: 'For trusted universities, release a portion of funds at the start of the semester to bridge the gap for students.' } ] },
+        { target: 'UPCM', recommendations: [ { title: 'Appoint a Dedicated MSRS Program Administrator', detail: 'A single, full-time point person is needed to manage the process, ensure expertise, and reduce the immense administrative and emotional labor.' }, { title: 'Streamline Internal Workflows', detail: 'Conduct an internal audit of the voucher process to eliminate bottlenecks between the accounting, budget, and executive offices.' }, { title: 'Communicate Proactively and Transparently', detail: 'Establish a reliable channel (e.g., a simple website) to provide regular status updates to scholars, even if it\'s to report a delay.' } ] },
+        { target: 'MSRS Scholars', recommendations: [ { title: 'Engage Collectively and Formally', detail: 'Use student organizations or a dedicated representative to liaise formally with the university administration for more effective monitoring and feedback.' }, { title: 'Ensure Personal Document Readiness', detail: 'Submit all personal documents promptly and accurately, ensuring Form 5 reflects "full tuition," to prevent being the source of a batch delay.' } ] }
+    ];
+
+    const faqData = [
+        { question: "What documents do I actually need each semester?", answer: "For the 2nd semester request, the coordinator confirmed these requirements as of June 19, 2025: <br><ul class='list-disc list-inside mt-2 space-y-1'><li><b>Billing Statement:</b> You get this from the SRO or ISKOLAR portal and must have it verified by the SRO.</li><li><b>Form 5 (Certificate of Registration):</b> Your individual registration form. Make sure it shows FULL TUITION with no discounts.</li><li><b>True Copy of Grades (TCG) & Certificate of Enrollment (COE):</b> The university requests these consolidated documents, but you must pay for them (e.g., PHP 100). Note: The COE is a consolidated list of scholars, different from your individual Form 5.</li><li><b>Copy of ID & DBP ATM:</b> The coordinator should have these on file from your first submission.</li></ul>" },
+        { question: "Can I also have a SLAS scholarship?", answer: "No. The MSRS scholarship requires the university to bill CHED for your full tuition. If you are under the SLAS (Socialized Learning and Assistance System), your tuition is already discounted. You must withdraw your SLAS application to be eligible for MSRS." },
+        { question: "Realistically, when will I get my money?", answer: "Do not expect timely payment. Based on the 2023-2024 experience, the first semester stipend (for Aug-Dec) was released in July of the next year, and the second semester stipend was released in October. The program functions as a retroactive reimbursement system. You MUST have personal funds to cover your expenses." },
+        { question: "What is the return service obligation?", answer: "For every one year of scholarship, you must render one year of service in a government public health office or hospital after passing the Physician Licensure Exam. This is a legally binding contract." },
+        { question: "What about the PhilHealth / GSIS Insurance?", answer: "This is a separate, often confusing process. CHED requires its own set of documents for PhilHealth enrollment (Registration Form, ID, Birth Certificate) and has given changing instructions (e.g., asking for an original Birth Certificate after previously allowing photocopies), causing further delays and frustration for scholars." }
+    ];
+
+    function initPlayers() {
+        const grid = document.getElementById('players-grid');
+        grid.innerHTML = playersData.map(player => `
+            <div class="player-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1">
+                <div class="flex items-center text-2xl font-bold mb-3">
+                    <span class="text-3xl mr-4">${player.icon}</span>
+                    <span>${player.name}</span>
+                </div>
+                <p class="text-gray-600 mb-4">${player.description}</p>
+                <div class="details hidden text-sm text-gray-700 mt-4 pt-4 border-t border-gray-200">
+                    <h4 class="font-semibold mb-2">Key Responsibilities:</h4>
+                    <ul class="list-disc list-inside space-y-1">${player.responsibilities.map(r => `<li>${r}</li>`).join('')}</ul>
+                </div>
+            </div>`).join('');
+        grid.addEventListener('click', e => {
+            const card = e.target.closest('.player-card');
+            if (card) {
+                card.querySelector('.details').classList.toggle('hidden');
+                card.classList.toggle('bg-blue-50');
+            }
+        });
+    }
+    
+    function initSwimlane() {
+        const diagram = document.getElementById('swimlane-diagram');
+        const detailsTitle = document.getElementById('details-title');
+        const detailsDescription = document.getElementById('details-description');
+        const detailsBottleneck = document.getElementById('details-bottleneck');
+        const bottleneckText = document.getElementById('bottleneck-text');
+
+        let laneHTML = {};
+        playersData.forEach(p => { laneHTML[p.id] = `<div class="swimlane"><div class="flex items-center mb-6"><span class="text-2xl mr-3">${p.icon}</span><h3 class="font-bold text-lg">${p.name}</h3></div><div class="space-y-4">`; });
+        
+        let allSteps = [];
+        swimlaneData.forEach(lane => {
+            lane.steps.forEach(step => {
+                allSteps.push(step);
+                const isBottleneckClass = step.bottleneck ? 'is-bottleneck' : '';
+                laneHTML[lane.lane] += `<div id="${step.id}" class="swimlane-step ${isBottleneckClass}" data-step-id="${step.id}"><p class="font-semibold text-sm pointer-events-none">${step.title}</p></div>`;
+            });
+        });
+
+        Object.keys(laneHTML).forEach(key => { diagram.innerHTML += laneHTML[key] + '</div></div>'; });
+
+        diagram.addEventListener('click', e => {
+            const stepEl = e.target.closest('.swimlane-step');
+            if (!stepEl) return;
+            const stepId = stepEl.dataset.stepId;
+            const stepData = allSteps.find(s => s.id === stepId);
+            document.querySelectorAll('.swimlane-step').forEach(el => el.classList.remove('is-active'));
+            stepEl.classList.add('is-active');
+            detailsTitle.textContent = stepData.title;
+            detailsDescription.textContent = stepData.description;
+            if (stepData.bottleneck) {
+                bottleneckText.innerHTML = stepData.bottleneck_text;
+                detailsBottleneck.classList.remove('hidden');
+            } else {
+                detailsBottleneck.classList.add('hidden');
+            }
+        });
+    }
+
+    function initFinancials() {
+        const ctx = document.getElementById('allowanceChart').getContext('2d');
+        const semesterTotalEl = document.getElementById('semester-total');
+        const yearTotalEl = document.getElementById('year-total');
+        const totalSemester = financialData.data.reduce((a, b) => a + b, 0);
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: { labels: financialData.labels, datasets: [{ label: 'Allowance Breakdown', data: financialData.data, backgroundColor: financialData.backgroundColor, borderWidth: 2, borderColor: '#F8F7F4' }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 12 } } }, tooltip: { callbacks: { label: function(c) { return `${c.label}: ${new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(c.parsed)}`; } } } }, cutout: '60%' }
+        });
+        const animateValue = (el, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                el.textContent = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 0 }).format(Math.floor(progress * (end - start) + start));
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        };
+        animateValue(semesterTotalEl, 0, totalSemester, 1500);
+        animateValue(yearTotalEl, 0, totalSemester * 2, 1500);
+    }
+    
+    function initTabs() {
+        const tabsContainer = document.getElementById('tabs-container');
+        const contentContainer = document.getElementById('tabs-content-container');
+        tabsContainer.innerHTML = tabsData.map((tab, i) => `<button class="tab-button ${i === 0 ? 'active' : ''}" data-tab="${tab.id}">${tab.title}</button>`).join('');
+        contentContainer.innerHTML = tabsData.map((tab, i) => `
+            <div id="${tab.id}" class="tab-content ${i === 0 ? 'active' : ''}">
+                <p class="text-gray-600 mb-6">${tab.description}</p>
+                <ul class="space-y-3">${tab.items.map(item => `<li class="flex items-start"><span class="flex-shrink-0 h-6 w-6 flex items-center justify-center bg-green-100 text-green-800 rounded-full mr-3 text-sm font-bold">✓</span><div><p class="font-semibold">${item.title}</p><p class="text-sm text-gray-500">${item.detail}</p></div></li>`).join('')}</ul>
+            </div>`).join('');
+        tabsContainer.addEventListener('click', e => {
+            if (e.target.matches('.tab-button')) {
+                const tabId = e.target.dataset.tab;
+                tabsContainer.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                contentContainer.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+            }
+        });
+    }
+
+    function initAccordions(containerId) {
+        const container = document.getElementById(containerId);
+        container.addEventListener('click', e => {
+            const button = e.target.closest('button');
+            if(button) {
+                const content = button.nextElementSibling;
+                const arrow = button.querySelector('.faq-arrow, .details-arrow');
+                content.classList.toggle('hidden');
+                arrow?.classList.toggle('open');
+            }
+        });
+    }
+
+    function initRecommendations() {
+        const container = document.getElementById('recommendations-container');
+        container.innerHTML = recommendationsData.map(group => `
+            <div class="recommendation-group">
+                <button class="w-full text-left p-4 bg-white border border-gray-200 rounded-lg shadow-sm flex justify-between items-center transition hover:bg-gray-50">
+                    <h3 class="text-xl font-semibold">${group.target}</h3>
+                    <span class="transform transition-transform text-2xl text-gray-500 details-arrow">▼</span>
+                </button>
+                <div class="hidden details-content bg-white border border-t-0 border-gray-200 rounded-b-lg p-6">
+                    <ul class="space-y-4">${group.recommendations.map(rec => `<li><h4 class="font-semibold text-md">${rec.title}</h4><p class="text-gray-600 text-sm">${rec.detail}</p></li>`).join('')}</ul>
+                </div>
+            </div>`).join('');
+    }
+
+    function initFaqs() {
+        const container = document.getElementById('faq-container');
+        container.innerHTML = faqData.map(faq => `
+            <div class="faq-item border border-gray-200 rounded-lg bg-white shadow-sm">
+                <button class="w-full flex justify-between items-center text-left p-4">
+                    <h4 class="font-semibold text-md">${faq.question}</h4>
+                    <span class="faq-arrow text-gray-500 text-xl">▼</span>
+                </button>
+                <div class="hidden faq-answer p-4 border-t border-gray-200 text-gray-600 leading-relaxed">
+                    <p>${faq.answer}</p>
+                </div>
+            </div>`).join('');
+    }
+
+    function initNavScroll() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href').includes(entry.target.id));
+                    });
+                }
+            });
+        }, { rootMargin: '-50% 0px -50% 0px' });
+        sections.forEach(section => observer.observe(section));
+    }
+    
+    initPlayers();
+    initSwimlane();
+    initFinancials();
+    initTabs();
+    initRecommendations();
+    initFaqs();
+    initAccordions('recommendations-container');
+    initAccordions('faq-container');
+    initNavScroll();
+});
+</script>
+</body>
+</html>
