@@ -56,12 +56,12 @@
                 </button>
             </div>
             <nav id="main-nav" class="hidden lg:flex flex-col lg:flex-row lg:items-center lg:space-x-4 pb-3 lg:pb-0">
-                 <a data-target="home" class="main-nav-link active">Home</a>
-                 <a data-target="journey" class="main-nav-link">The Journey</a>
-                 <a data-target="requirements" class="main-nav-link">Requirements</a>
-                 <a data-target="players" class="main-nav-link">The Players</a>
-                 <a data-target="package" class="main-nav-link">The Package</a>
-                 <a data-target="faq" class="main-nav-link">FAQs</a>
+                 <a href="#home" class="main-nav-link active">Home</a>
+                 <a href="#journey" class="main-nav-link">The Journey</a>
+                 <a href="#requirements" class="main-nav-link">Requirements</a>
+                 <a href="#players" class="main-nav-link">The Players</a>
+                 <a href="#package" class="main-nav-link">The Package</a>
+                 <a href="#faq" class="main-nav-link">FAQs</a>
             </nav>
         </div>
     </header>
@@ -73,7 +73,7 @@
                 <div class="max-w-4xl mx-auto px-4">
                     <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-4" style="color: var(--up-maroon);">Navigating the Stipend Pipeline</h1>
                     <p class="text-lg md:text-xl text-gray-600">An interactive guide to the CHED-MSRS financial assistance process for UP College of Medicine scholars. Explore the process, understand the systemic delays, and see the path to improvement.</p>
-                     <button data-target="journey" class="nav-button mt-8 px-8 py-3 font-semibold rounded-lg shadow-md transition text-white" style="background-color: var(--up-green); hover:opacity-90;">Start the Journey &rarr;</button>
+                     <a href="#journey" class="nav-button inline-block mt-8 px-8 py-3 font-semibold rounded-lg shadow-md transition text-white" style="background-color: var(--up-green); hover:opacity-90;">Start the Journey &rarr;</a>
                 </div>
             </div>
         </section>
@@ -198,7 +198,7 @@
                     <p class="text-lg text-gray-600 mt-2">Quick answers to common questions, based on the real-world experiences documented in the process.</p>
                 </div>
                 <div class="max-w-3xl mx-auto space-y-4" id="faq-container"></div>
-                <div class="text-center mt-12">
+                 <div class="text-center mt-12 pt-8 border-t border-gray-200">
                     <a href="mailto:cddimalaluan@up.edu.ph?subject=MSRS Guide Suggestion" class="px-6 py-3 font-semibold rounded-lg shadow-md transition text-white" style="background-color: var(--up-maroon);">Have a suggestion to improve this guide? Message cddimalaluan@up.edu.ph</a>
                 </div>
             </div>
@@ -217,7 +217,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     const playersData = [
-        { id: 'scholar', name: 'The Scholar', icon: '�', description: 'The program beneficiary and initiator of several key administrative processes.', responsibilities: ['Submit complete and accurate application documents.', 'Sign a legally binding Scholarship Contract.', 'Maintain good academic standing.', 'Provide required documents each semester (e.g., proof of enrollment).', 'Acknowledge receipt of funds to enable university liquidation.'] },
+        { id: 'scholar', name: 'The Scholar', icon: '🎓', description: 'The program beneficiary and initiator of several key administrative processes.', responsibilities: ['Submit complete and accurate application documents.', 'Sign a legally binding Scholarship Contract.', 'Maintain good academic standing.', 'Provide required documents each semester (e.g., proof of enrollment).', 'Acknowledge receipt of funds to enable university liquidation.'] },
         { id: 'upcm', name: 'UPCM', icon: '🏛️', description: 'The partner university, acting as a filter, facilitator, and financial intermediary. The operational burden often falls on a single scholarship coordinator, who navigates the bureaucracy and bears immense administrative and emotional labor.', responsibilities: ['Screen applicants and endorse them to CHEDRO.', 'Prepare and submit consolidated Billing Statements for all scholars.', 'Receive lump-sum fund transfer from CHEDRO.', 'Disburse allowances to individual scholars.', 'Compile and submit comprehensive Liquidation Reports to CHEDRO.'] },
         { id: 'chedro', name: 'CHEDRO-NCR', icon: '🏢', description: 'The regional government authority responsible for implementation, validation, and monitoring.', responsibilities: ['Execute a Memorandum of Agreement (MOA) with UPCM.', 'Validate and approve scholar lists from the university.', 'Issue the official Notice of Award (NOA) to scholars.', 'Process UPCM\'s billing and transfer funds.', 'Review and approve UPCM\'s Liquidation Reports.'] },
         { id: 'chedco', name: 'CHED-CO', icon: '🌐', description: 'The national body responsible for policy, final validation, and initial budget allocation.', responsibilities: ['Conduct final validation of all scholars nationwide.', 'Allocate the program budget to CHED Regional Offices.', 'Issue the annual "Call for Application" to start the cycle.', 'Develop and disseminate official program guidelines.'] }
@@ -262,7 +262,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initFinancials() {
-        const ctx = document.getElementById('allowanceChart').getContext('2d');
+        const chartCanvas = document.getElementById('allowanceChart');
+        if (!chartCanvas) return;
+        const ctx = chartCanvas.getContext('2d');
         const semesterTotalEl = document.getElementById('semester-total');
         const yearTotalEl = document.getElementById('year-total');
         const totalSemester = financialData.data.reduce((a, b) => a + b, 0);
@@ -287,12 +289,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function initAccordions(containerId) {
         const container = document.getElementById(containerId);
+        if (!container) return;
         container.addEventListener('click', e => {
             const button = e.target.closest('button');
             if(button) {
                 const content = button.nextElementSibling;
                 const arrow = button.querySelector('.faq-arrow, .details-arrow');
-                content.classList.toggle('hidden');
+                content?.classList.toggle('hidden');
                 arrow?.classList.toggle('open');
             }
         });
@@ -300,6 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function initFaqs() {
         const container = document.getElementById('faq-container');
+        if (!container) return;
         container.innerHTML = faqData.map(faq => `
             <div class="faq-item bg-gray-50 border border-gray-200 rounded-lg">
                 <button class="w-full flex justify-between items-center text-left p-5">
@@ -319,18 +323,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('main > section');
 
     function showSection(targetId) {
+        if (!targetId) targetId = 'home';
+        
         sections.forEach(section => {
-            section.style.display = section.id === targetId ? 'block' : 'none';
+            section.classList.toggle('active', section.id === targetId);
         });
+
         navButtons.forEach(link => {
-            link.classList.toggle('active', link.dataset.target === targetId);
+            link.classList.toggle('active', link.getAttribute('href') === `#${targetId}`);
         });
-        window.scrollTo(0, 0);
+        
+        // This ensures the URL hash is updated without causing a page jump.
+        if(window.history.pushState) {
+            window.history.pushState(null, null, `#${targetId}`);
+        } else {
+            window.location.hash = `#${targetId}`;
+        }
     }
     
     mainNav.addEventListener('click', (e) => {
         if (e.target.matches('.main-nav-link')) {
-            showSection(e.target.dataset.target);
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href').substring(1);
+            showSection(targetId);
             if (window.innerWidth < 1024) {
                  mainNav.classList.add('hidden');
             }
@@ -338,22 +353,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelector('.nav-button')?.addEventListener('click', (e) => {
-        showSection(e.target.dataset.target);
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').substring(1);
+        showSection(targetId);
     });
 
     mobileMenuButton.addEventListener('click', () => {
         mainNav.classList.toggle('hidden');
     });
 
-    // Initialize all sections
+    // Handle back/forward browser buttons
+    window.addEventListener('popstate', () => {
+        const hash = window.location.hash.substring(1);
+        showSection(hash || 'home');
+    });
+
+    // Handle initial page load
+    const initialHash = window.location.hash.substring(1);
+    showSection(initialHash || 'home');
+
+    // Initialize all dynamic content
     initPlayers();
     initFinancials();
     initFaqs();
     initAccordions('players-grid');
     initAccordions('faq-container');
-
-    // Initially show home
-    showSection('home');
 });
 </script>
 </body>
