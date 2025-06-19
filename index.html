@@ -75,23 +75,33 @@
                     <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter my-4" style="color: var(--up-maroon);">The UPCM CHED MSRS Scholars Guide</h1>
                     <p class="text-lg text-gray-600">To help improve transparency and prevent confusion for current and future scholars, this comprehensive online guide consolidates all available information on the stipend process, requirements, and timelines. It is based on official documents and the collective experience of CHED-MSRS Batch 3, and we believe it is a valuable tool for all stakeholders.</p>
                 </div>
-                <div class="max-w-5xl mx-auto mt-12 px-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div class="bg-gray-50 p-6 rounded-lg border">
-                             <h3 class="font-bold text-lg" style="color: var(--up-green);">Visualize the Process</h3>
-                             <p class="text-sm text-gray-600 mt-1">Follow the step-by-step stipend journey from application to disbursement and see where the delays happen.</p>
+
+                <div class="max-w-5xl mx-auto mt-16 px-6">
+                    <div class="text-center mb-8">
+                         <h3 class="text-2xl font-bold" style="color: var(--up-green);">A Growing Community of Future Public Health Leaders</h3>
+                         <p class="text-md text-gray-600 mt-1 max-w-2xl mx-auto">With a total of 48 scholars across four batches, the MSRS community represents a significant and dedicated cohort within the UP College of Medicine, committed to fulfilling the "Doktor Para sa Bayan" mission.</p>
+                    </div>
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">10</p>
+                            <p class="text-sm font-semibold text-gray-600">Batch 1 Scholars</p>
                         </div>
-                         <div class="bg-gray-50 p-6 rounded-lg border">
-                             <h3 class="font-bold text-lg" style="color: var(--up-green);">Clarify Requirements</h3>
-                             <p class="text-sm text-gray-600 mt-1">Get a clear checklist of every document needed for onboarding, semester requests, and liquidation.</p>
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">12</p>
+                            <p class="text-sm font-semibold text-gray-600">Batch 2 Scholars</p>
                         </div>
-                         <div class="bg-gray-50 p-6 rounded-lg border">
-                             <h3 class="font-bold text-lg" style="color: var(--up-green);">Get Answers</h3>
-                             <p class="text-sm text-gray-600 mt-1">Find direct answers to the most common and urgent questions based on real-world experiences.</p>
+                         <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">22</p>
+                            <p class="text-sm font-semibold text-gray-600">Batch 3 Scholars</p>
+                        </div>
+                         <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">4</p>
+                            <p class="text-sm font-semibold text-gray-600">Batch 4 Scholars</p>
                         </div>
                     </div>
                 </div>
-                 <div class="text-center mt-12">
+
+                 <div class="text-center mt-16">
                      <a href="#journey" class="nav-button inline-block px-8 py-3 font-semibold rounded-lg shadow-md transition text-white" style="background-color: var(--up-green); hover:opacity-90;">Start the Journey &rarr;</a>
                  </div>
             </div>
@@ -101,7 +111,7 @@
              <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold" style="color: var(--up-green);">The Stipend Journey: Process & Timelines</h2>
-                    <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This table outlines the sequence of the stipend process, the party responsible for each step, and contrasts the ideal processing times with the actual timelines experienced by scholars.</p>
+                    <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This table outlines the sequence of the stipend process, the party responsible for each step, and contrasts the ideal processing times with the *actual* timelines experienced by scholars.</p>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse min-w-[800px]">
@@ -248,7 +258,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     const playersData = [
-        { id: 'scholar', name: 'The Scholar', icon: '🎓', description: 'The program beneficiary and initiator of several key administrative processes.', responsibilities: ['Submit complete and accurate application documents.', 'Sign a legally binding Scholarship Contract.', 'Maintain good academic standing.', 'Provide required documents each semester (e.g., proof of enrollment).', 'Acknowledge receipt of funds to enable university liquidation.'] },
+        { id: 'scholar', name: 'The Scholar', icon: '�', description: 'The program beneficiary and initiator of several key administrative processes.', responsibilities: ['Submit complete and accurate application documents.', 'Sign a legally binding Scholarship Contract.', 'Maintain good academic standing.', 'Provide required documents each semester (e.g., proof of enrollment).', 'Acknowledge receipt of funds to enable university liquidation.'] },
         { id: 'upcm', name: 'UPCM', icon: '🏛️', description: 'The partner university, acting as a filter, facilitator, and financial intermediary. The operational burden often falls on a single scholarship coordinator, who navigates the bureaucracy and bears immense administrative and emotional labor.', responsibilities: ['Screen applicants and endorse them to CHEDRO.', 'Prepare and submit consolidated Billing Statements for all scholars.', 'Receive lump-sum fund transfer from CHEDRO.', 'Disburse allowances to individual scholars.', 'Compile and submit comprehensive Liquidation Reports to CHEDRO.'] },
         { id: 'chedro', name: 'CHEDRO-NCR', icon: '🏢', description: 'The regional government authority responsible for implementation, validation, and monitoring.', responsibilities: ['Execute a Memorandum of Agreement (MOA) with UPCM.', 'Validate and approve scholar lists from the university.', 'Issue the official Notice of Award (NOA) to scholars.', 'Process UPCM\'s billing and transfer funds.', 'Review and approve UPCM\'s Liquidation Reports.'] },
         { id: 'chedco', name: 'CHED-CO', icon: '🌐', description: 'The national body responsible for policy, final validation, and initial budget allocation.', responsibilities: ['Conduct final validation of all scholars nationwide.', 'Allocate the program budget to CHED Regional Offices.', 'Issue the annual "Call for Application" to start the cycle.', 'Develop and disseminate official program guidelines.'] }
