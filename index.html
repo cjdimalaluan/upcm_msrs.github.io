@@ -6,22 +6,17 @@
     <title>Interactive Report: The CHED MSRS Stipend Pipeline</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leader-line-new@1.1.9/leader-line.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Academic Calm -->
     <!-- Application Structure Plan: The SPA is designed as a narrative journey through the stipend process, prioritizing user exploration over the report's linear structure. It begins with an introduction to the problem, identifies the 'Players' interactively, then visually maps the 'Stipend Journey' in a swimlane format which is the core interactive element. Subsequent sections provide deeper dives into the 'Financial Package', procedural 'Gates' (onboarding/liquidation), identified 'Bottlenecks', and 'Recommendations'. A final FAQ section addresses key scholar concerns. This thematic, task-oriented structure allows users to grasp the key actors and the flow, then drill down into specific areas of interest (e.g., "Why is it delayed?"), making complex information highly digestible. -->
-    <!-- Visualization & Content Choices: 1) Stakeholder Roles: Presented as clickable cards to avoid a wall of text. Goal: Inform/Organize. Method: HTML/CSS grid + JS. Interaction: Click to expand. Justification: Promotes focused exploration. 2) Process Flow: A custom HTML/CSS swimlane diagram. Goal: Change/Organize. Method: Tailwind Flexbox/Grid + JS. Interaction: Click on steps to highlight them and see details/bottlenecks in a side panel. Justification: A swimlane is the best visual metaphor for a multi-actor process. 3) Financial Data (Table 1): A donut chart. Goal: Compare/Inform. Method: Chart.js Canvas. Interaction: Hover for tooltips. Justification: More intuitive for showing proportions than a static table. 4) Document Requirements (Tables 2&3): Interactive tabbed checklists. Goal: Inform/Organize. Method: HTML/CSS lists within JS-controlled tabs. Justification: More scannable and less dense. All choices adhere to the NO SVG/Mermaid rule and support the user's journey. -->
+    <!-- Visualization & Content Choices: 1) Stakeholder Roles: Presented as clickable cards to avoid a wall of text. Goal: Inform/Organize. Method: HTML/CSS grid + JS. Interaction: Click to expand. Justification: Promotes focused exploration. 2) Process Flow: A custom HTML/CSS flowchart-style swimlane diagram. Goal: Change/Organize. Method: Tailwind Flexbox/Grid + JS. Interaction: Click on steps to highlight them and see details/bottlenecks in a side panel. Justification: A flowchart is the best visual metaphor for a multi-actor process with dependencies. 3) Financial Data (Table 1): A donut chart. Goal: Compare/Inform. Method: Chart.js Canvas. Interaction: Hover for tooltips. Justification: More intuitive for showing proportions than a static table. 4) Document Requirements (Tables 2&3): Interactive tabbed checklists. Goal: Inform/Organize. Method: HTML/CSS lists within JS-controlled tabs. Justification: More scannable and less dense. All choices adhere to the NO SVG/Mermaid rule and support the user's journey. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; color: #2d2d2d; }
-        .swimlane-container { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; }
-        @media (min-width: 1024px) { .swimlane-container { grid-template-columns: repeat(4, 1fr); } }
-        .swimlane { background-color: #FFFFFF; border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #E5E7EB; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-        .swimlane-step { border: 1px solid #D1D5DB; border-left: 5px solid #6B7280; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s ease; }
-        .swimlane-step.is-bottleneck { border-left-color: #EF4444; }
-        .swimlane-step.is-active { transform: scale(1.03); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); border-color: #3B82F6; border-left-color: #3B82F6; }
         .chart-container { position: relative; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
         .nav-link { padding: 0.5rem 1rem; border-radius: 9999px; transition: all 0.2s ease-in-out; font-weight: 500; }
         .nav-link:hover { background-color: #E5E7EB; }
@@ -32,6 +27,65 @@
         .tab-content.active { display: block; }
         .faq-arrow { transition: transform 0.3s ease; }
         .faq-arrow.open { transform: rotate(180deg); }
+
+        .swimlane-bg {
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 1rem 1rem;
+        }
+        .flowchart-node {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            border: 1px solid;
+        }
+        .flowchart-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        .node-scholar { background-color: #fff7ed; border-color: #fb923c; color: #c2410c; }
+        .node-upcm { background-color: #f5f3ff; border-color: #a78bfa; color: #5b21b6; }
+        .node-chedro { background-color: #eff6ff; border-color: #60a5fa; color: #1e40af; }
+        .node-chedco { background-color: #f0fdf4; border-color: #4ade80; color: #15803d; }
+        
+        .node-diamond {
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .node-diamond:hover {
+             transform: scale(1.05);
+        }
+        .node-diamond-scholar { background-color: #fed7aa; }
+        .node-diamond-upcm { background-color: #ddd6fe; }
+        .node-diamond-chedro { background-color: #bfdbfe; }
+        .node-diamond-chedco { background-color: #bbf7d0; }
+
+        .flowchart-node.is-active {
+            border-width: 2px;
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+        .node-diamond.is-active {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -72,11 +126,20 @@
         <section id="journey" class="mb-16 md:mb-24 scroll-mt-20">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold">The Stipend Journey: A Visual Workflow</h2>
-                <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This swimlane diagram maps the step-by-step process of stipend disbursement, from national budget allocation to the scholar's bank account. Click on any step to see more details and identify the bottlenecks.</p>
+                <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This flowchart maps the step-by-step process of stipend disbursement, with arrows showing the flow of actions and dependencies. Click on any step to see more details and identify the bottlenecks.</p>
             </div>
             <div class="lg:flex gap-8">
-                <div class="w-full lg:w-3/4">
-                    <div class="swimlane-container" id="swimlane-diagram">
+                <div class="w-full lg:w-3/4 overflow-x-auto">
+                    <div class="swimlane-bg p-8 rounded-lg border border-gray-200 bg-white shadow-inner relative" style="min-width: 1200px; height: 1100px;">
+                        <div class="grid grid-cols-4 gap-x-8 h-full" id="flowchart-grid">
+                            <!-- Swimlane Headers -->
+                            <div class="text-center font-bold text-orange-600 bg-orange-100 py-2 rounded-t-lg">SCHOLAR</div>
+                            <div class="text-center font-bold text-purple-600 bg-purple-100 py-2 rounded-t-lg">UPCM</div>
+                            <div class="text-center font-bold text-blue-600 bg-blue-100 py-2 rounded-t-lg">CHEDRO-NCR</div>
+                            <div class="text-center font-bold text-green-600 bg-green-100 py-2 rounded-t-lg">CHED-CO</div>
+                            
+                            <!-- Flowchart nodes will be injected here by JS -->
+                        </div>
                     </div>
                 </div>
                 <div class="w-full lg:w-1/4 mt-8 lg:mt-0 sticky top-24 self-start">
@@ -145,16 +208,16 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-lg border border-gray-200">
-                    <h3 class="font-semibold text-lg mb-2">Fund Transfer & Budget Lags</h3>
-                    <p class="text-gray-600">The process often stalls before it begins. CHED claims funds from the national level are unavailable or have been "reverted." This fundamental budget uncertainty makes timely processing impossible.</p>
+                    <h3 class="font-semibold text-lg mb-2">Incomplete & Incorrect Liquidation</h3>
+                    <p class="text-gray-600">A primary cause of delay, as identified in the June 16 meeting. UPCM has submitted incomplete liquidation proof (missing a "Transfer Order") and incorrect Form 5s showing tuition discounts, which violates MSRS rules.</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg border border-red-300 bg-red-50">
                     <h3 class="font-semibold text-lg mb-2 text-red-800">The Vicious Cycle of Liquidation</h3>
-                    <p class="text-red-700">This is a critical flaw. A new semester's funds will NOT be released until the previous semester's are liquidated. A delay in one cycle guarantees a delay in the next, creating a perpetual state of lateness.</p>
+                    <p class="text-red-700">This is a critical flaw. A new semester's funds will NOT be released until the previous semester's are liquidated. As UPCM's liquidation is flawed, all subsequent funding is frozen.</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg border border-gray-200">
                     <h3 class="font-semibold text-lg mb-2">Fragile Batch Processing</h3>
-                    <p class="text-gray-600">A single error in one scholar's paperwork can halt the entire process for everyone. Worse, historical errors from a *different batch* (e.g. 2022 Form 5's) have been shown to derail funding for the current batch, a phenomenon of "cross-batch contamination."</p>
+                    <p class="text-gray-600">A single error in one scholar's paperwork can halt the entire process for everyone. Worse, historical errors from a *different batch* have been shown to derail funding for a current batch, a phenomenon of "cross-batch contamination."</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg border border-gray-200">
                     <h3 class="font-semibold text-lg mb-2">Internal University Bureaucracy</h3>
@@ -199,13 +262,26 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'chedco', name: 'CHED-CO', icon: '🌐', description: 'The national body responsible for policy, final validation, and initial budget allocation.', responsibilities: ['Conduct final validation of all scholars nationwide.', 'Allocate the program budget to CHED Regional Offices.', 'Issue the annual "Call for Application" to start the cycle.', 'Develop and disseminate official program guidelines.'] }
     ];
 
-    const swimlaneData = [
-        { lane: 'scholar', steps: [ { id: 's_step1', title: 'Submit Onboarding Docs', description: 'Scholar submits signed Notice of Award (NOA) and 5 copies of the contract, all with wet signatures. Scholar must also withdraw from other conflicting scholarships (e.g., SLAS).'}, { id: 's_step2', title: 'Set Up Accounts', description: 'Scholar opens a DBP account and submits account number and PhilHealth number to the coordinator.', bottleneck: true, bottleneck_text: 'DBP may require a Form 5 (proof of enrollment) to open an account, but scholars can\'t get a Form 5 until tuition is paid, which the stipend is for, creating a catch-22.'}, { id: 's_step3', title: 'Receive Stipend', description: 'After months of processing by other actors, the stipend is finally deposited into the scholar\'s DBP account.'}, { id: 's_step4', title: 'Acknowledge & Liquidate', description: 'Scholar MUST physically go to the university office to sign a payroll. This is a critical requirement for the university to liquidate the funds.', bottleneck: true, bottleneck_text: 'The university cannot start the billing process for the NEXT semester until this physical signature is obtained, creating a direct delay for future stipends.'} ] },
-        { lane: 'upcm', steps: [ { id: 'u_step1', title: 'Prepare Billing Package', description: 'After scholars submit contracts, the UPCM coordinator prepares a consolidated billing package, including a Certificate of Enrollment (COE) for all scholars.' }, { id: 'u_step2', title: 'Submit Request to CHEDRO', description: 'The complete, signed billing package is formally submitted to CHEDRO-NCR.' }, { id: 'u_step3', title: 'Internal University Processing', description: 'After receiving the check from CHEDRO, UPCM Accounting begins a multi-stage internal process to issue a disbursement voucher (T.O.), which requires signatures from the Dean, Accounting, Budget, OVCAF, and Chancellor.', bottleneck: true, bottleneck_text: 'This internal journey is a major delay. The coordinator noted the accounting office stalls the process with piecemeal requests: "paisa isa kasi ng hinihingi".' } ] },
-        { lane: 'chedro', steps: [ { id: 'r_step1', title: 'Validate Billing', description: 'CHEDRO\'s finance unit meticulously validates UPCM\'s submission. Any error in one scholar\'s documents can halt the entire process.', bottleneck: true, bottleneck_text: 'A single error can invalidate the entire batch submission. Worse, historical errors from prior batches have been used to halt funding for current batches (e.g. Batch 2\'s 2022 Form 5 issues delaying Batch 3).' }, { id: 'r_step2', title: 'Transfer Funds to UPCM', description: 'Once validated, and if funds from CHED-CO are available, CHEDRO transfers the lump-sum grant to UPCM, typically via check.' } ] },
-        { lane: 'chedco', steps: [ { id: 'c_step1', title: 'Validate Master List', description: 'The CHED Central Office (OSDS) validates the master list of all scholars from all regions against the national database.' }, { id: 'c_step2', title: 'Recommend Fund Release', description: 'OSDS recommends the fund release to the finance service (AFMS).' }, { id: 'c_step3', title: 'Transfer Funds to Region', description: 'The central finance service (AFMS) processes and transfers bulk funds to the regional office (CHEDRO-NCR).', bottleneck: true, bottleneck_text: 'Government inter-agency fund transfers are inherently slow, subject to multiple layers of approval, and dependent on budget availability. CHED has previously claimed funds were "reverted" or not yet released from the national level.' } ] }
-    ];
+    const flowchartData = [
+        { id: 's_step1', lane: 1, y: 100, type: 'node', text: 'Submit Onboarding Docs', actor: 'scholar', description: 'Scholar submits signed Notice of Award (NOA) and 5 copies of the contract, all with wet signatures. Scholar must also withdraw from other conflicting scholarships (e.g., SLAS).', next: 's_step2'},
+        { id: 's_step2', lane: 1, y: 250, type: 'node', text: 'Set Up DBP Account', actor: 'scholar', description: 'Scholar opens a DBP account and submits account number and PhilHealth number to the coordinator.', bottleneck: true, bottleneck_text: 'DBP may require a Form 5 (proof of enrollment) to open an account, but scholars can\'t get a Form 5 until tuition is paid, which the stipend is for, creating a catch-22.', next: 'u_step1'},
+        
+        { id: 'u_step1', lane: 2, y: 250, type: 'node', text: 'Prepare Billing Package', actor: 'upcm', description: 'After scholars submit contracts, the UPCM coordinator prepares a consolidated billing package, including a Certificate of Enrollment (COE) for all scholars.', next: 'r_step1' },
+        
+        { id: 'c_step1', lane: 4, y: 250, type: 'node', text: 'Allocate Funds to Region', actor: 'chedco', description: 'The CHED Central Office processes and transfers bulk funds to the regional office (CHEDRO-NCR).', bottleneck: true, bottleneck_text: 'Government inter-agency fund transfers are inherently slow, subject to multiple layers of approval, and dependent on budget availability. CHED has previously claimed funds were "reverted" or not yet released from the national level.', next: 'r_step1'},
 
+        { id: 'r_step1', lane: 3, y: 400, type: 'node', text: 'Validate Billing', actor: 'chedro', description: 'CHEDRO\'s finance unit meticulously validates UPCM\'s submission against available funds.', next: 'r_decision1' },
+        { id: 'r_decision1', lane: 3, y: 550, type: 'diamond', text: 'Docs OK?', actor: 'chedro', description: 'CHEDRO checks for completeness and accuracy. Any error in one scholar\'s documents can halt the entire process.', next: [ {condition: 'Yes', target: 'r_step2'}, {condition: 'No', target: 'u_step1_rework'} ] },
+        { id: 'u_step1_rework', lane: 2, y: 550, type: 'node', text: 'Rework & Resubmit Billing', actor: 'upcm', description: 'If CHEDRO finds an error, UPCM must correct the entire billing package and resubmit, restarting the validation process.', bottleneck: true, bottleneck_text: 'A single error can invalidate the entire batch submission. As of the June 16 meeting, issues included incorrect Form 5s (with discounts) and confusion over INTARMED year levels.', next: 'r_step1' },
+
+        { id: 'r_step2', lane: 3, y: 700, type: 'node', text: 'Transfer Funds to UPCM', actor: 'chedro', description: 'Once validated, CHEDRO transfers the lump-sum grant to UPCM, typically via check.', next: 'u_step2' },
+
+        { id: 'u_step2', lane: 2, y: 800, type: 'node', text: 'Internal University Processing', actor: 'upcm', description: 'UPCM Accounting receives the check and begins a multi-stage internal process to issue a disbursement voucher (T.O.), which requires signatures from the Dean, Accounting, Budget, OVCAF, and Chancellor.', bottleneck: true, bottleneck_text: 'This internal journey is a major delay. The coordinator noted the accounting office stalls the process with piecemeal requests: "paisa isa kasi ng hinihingi".', next: 's_step3' },
+
+        { id: 's_step3', lane: 1, y: 800, type: 'node', text: 'Receive Stipend', actor: 'scholar', description: 'After months of processing by other actors, the stipend is finally deposited into the scholar\'s DBP account.', next: 's_step4'},
+        { id: 's_step4', lane: 1, y: 950, type: 'node', text: 'Acknowledge & Liquidate', actor: 'scholar', description: 'Scholar MUST physically go to the university office to sign a payroll. This is a critical requirement for the university to liquidate the funds.', bottleneck: true, bottleneck_text: 'The university cannot start the billing process for the NEXT semester until this physical signature is obtained. The June 16 meeting revealed UPCM was also failing to submit a required "Transfer Order" as proof of payment.'}
+    ];
+    
     const financialData = {
         labels: ['Living Subsidy', 'Lodging', 'Book', 'Clothing', 'Miscellaneous', 'Transportation'],
         data: [30000, 30000, 13000, 3500, 6000, 6000],
@@ -224,11 +300,11 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const faqData = [
-        { question: "What documents do I actually need each semester?", answer: "For the 2nd semester request, the coordinator confirmed these requirements as of June 19, 2025: <br><ul class='list-disc list-inside mt-2 space-y-1'><li><b>Billing Statement:</b> You get this from the SRO or ISKOLAR portal and must have it verified by the SRO.</li><li><b>Form 5 (Certificate of Registration):</b> Your individual registration form. Make sure it shows FULL TUITION with no discounts.</li><li><b>True Copy of Grades (TCG) & Certificate of Enrollment (COE):</b> The university requests these consolidated documents, but you must pay for them (e.g., PHP 100). Note: The COE is a consolidated list of scholars, different from your individual Form 5.</li><li><b>Copy of ID & DBP ATM:</b> The coordinator should have these on file from your first submission.</li></ul>" },
-        { question: "Can I also have a SLAS scholarship?", answer: "No. The MSRS scholarship requires the university to bill CHED for your full tuition. If you are under the SLAS (Socialized Learning and Assistance System), your tuition is already discounted. You must withdraw your SLAS application to be eligible for MSRS." },
-        { question: "Realistically, when will I get my money?", answer: "Do not expect timely payment. Based on the 2023-2024 experience, the first semester stipend (for Aug-Dec) was released in July of the next year, and the second semester stipend was released in October. The program functions as a retroactive reimbursement system. You MUST have personal funds to cover your expenses." },
-        { question: "What is the return service obligation?", answer: "For every one year of scholarship, you must render one year of service in a government public health office or hospital after passing the Physician Licensure Exam. This is a legally binding contract." },
-        { question: "What about the PhilHealth / GSIS Insurance?", answer: "This is a separate, often confusing process. CHED requires its own set of documents for PhilHealth enrollment (Registration Form, ID, Birth Certificate) and has given changing instructions (e.g., asking for an original Birth Certificate after previously allowing photocopies), causing further delays and frustration for scholars." }
+        { question: "What was the outcome of the June 16th meeting with CHED?", answer: "The meeting identified the main reason for the current delay: UPCM submitted incomplete/incorrect liquidation documents. Specifically, some Form 5s had tuition discounts, and a required 'Transfer Order' (proof of payment to students) was missing. <br><br><b>Resolution:</b> UPCM has until <b>June 23</b> to submit all corrected documents. If they comply, CHEDRO commits to providing the payment vouchers to UP by <b>June 30</b>." },
+        { question: "What's the status of the 2nd semester (AY 24-25) stipend?", answer: "CHED follows a strict policy: the 2nd semester stipend cannot be released until the 1st semester's funds are fully and correctly liquidated. While CHED is preparing the vouchers for the 2nd semester, the process is completely frozen until UPCM resolves the current liquidation issues." },
+        { question: "What is the issue with PhilHealth and GSIS?", answer: "<b>PhilHealth:</b> The delay is due to confusion over how to classify students ('contributors'). CHED is waiting for a quotation from PhilHealth before they can pay the contributions. Students need to fill out a KPP form. <br><br><b>GSIS:</b> CHED is still in talks with GSIS to finalize the insurance coverage. No action is needed from students at this time." },
+        { question: "What happens after I graduate? (Return Service)", answer: "This is still being finalized. The meeting confirmed that CHED is in talks with the Department of Health (DOH) to clarify the specifics of the Return Service Obligation (RSA). Scholars should wait for an official orientation for details." },
+        { question: "Are summer electives covered by the scholarship?", answer: "Most likely not, if it is an additional elective taken outside the normal two-semester curriculum. If it's an elective from the regular curriculum that you are just taking in the summer, the answer is unclear. CHED NCR will coordinate with their central office on this." }
     ];
 
     function initPlayers() {
@@ -254,44 +330,94 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    function initSwimlane() {
-        const diagram = document.getElementById('swimlane-diagram');
+    function initFlowchart() {
+        const grid = document.getElementById('flowchart-grid');
         const detailsTitle = document.getElementById('details-title');
         const detailsDescription = document.getElementById('details-description');
         const detailsBottleneck = document.getElementById('details-bottleneck');
         const bottleneckText = document.getElementById('bottleneck-text');
+        let lines = [];
 
-        let laneHTML = {};
-        playersData.forEach(p => { laneHTML[p.id] = `<div class="swimlane"><div class="flex items-center mb-6"><span class="text-2xl mr-3">${p.icon}</span><h3 class="font-bold text-lg">${p.name}</h3></div><div class="space-y-4">`; });
-        
-        let allSteps = [];
-        swimlaneData.forEach(lane => {
-            lane.steps.forEach(step => {
-                allSteps.push(step);
-                const isBottleneckClass = step.bottleneck ? 'is-bottleneck' : '';
-                laneHTML[lane.lane] += `<div id="${step.id}" class="swimlane-step ${isBottleneckClass}" data-step-id="${step.id}"><p class="font-semibold text-sm pointer-events-none">${step.title}</p></div>`;
-            });
+        // Render nodes
+        flowchartData.forEach(node => {
+            const nodeEl = document.createElement('div');
+            nodeEl.id = node.id;
+            nodeEl.innerHTML = `<span>${node.text}</span>`;
+            nodeEl.style.gridColumn = node.lane;
+            nodeEl.style.position = 'absolute';
+            nodeEl.style.top = `${node.y}px`;
+            
+            if (node.type === 'diamond') {
+                nodeEl.className = `node-diamond node-diamond-${node.actor}`;
+                nodeEl.style.left = '50%';
+                nodeEl.style.transform = 'translateX(-50%)';
+            } else {
+                nodeEl.className = `flowchart-node node-${node.actor}`;
+                nodeEl.style.left = '50%';
+                nodeEl.style.transform = 'translateX(-50%)';
+                nodeEl.style.width = '80%';
+            }
+            grid.appendChild(nodeEl);
         });
 
-        Object.keys(laneHTML).forEach(key => { diagram.innerHTML += laneHTML[key] + '</div></div>'; });
+        // Draw lines
+        function drawLines() {
+            lines.forEach(line => line.remove());
+            lines = [];
+            flowchartData.forEach(node => {
+                if (node.next) {
+                    if (Array.isArray(node.next)) {
+                        node.next.forEach(conn => {
+                            const line = new LeaderLine(
+                                document.getElementById(node.id),
+                                document.getElementById(conn.target),
+                                { color: '#6b7280', size: 3, path: 'fluid', endPlug: 'arrow1' }
+                            );
+                            if (conn.condition) {
+                                line.middleLabel = LeaderLine.pathLabel(conn.condition, {color: '#4b5563', fontWeight: 'bold'});
+                            }
+                            lines.push(line);
+                        });
+                    } else {
+                         const line = new LeaderLine(
+                            document.getElementById(node.id),
+                            document.getElementById(node.next),
+                            { color: '#6b7280', size: 3, path: 'fluid', endPlug: 'arrow1' }
+                        );
+                        lines.push(line);
+                    }
+                }
+            });
+        }
+        
+        // Initial draw
+        setTimeout(drawLines, 100);
 
-        diagram.addEventListener('click', e => {
-            const stepEl = e.target.closest('.swimlane-step');
-            if (!stepEl) return;
-            const stepId = stepEl.dataset.stepId;
-            const stepData = allSteps.find(s => s.id === stepId);
-            document.querySelectorAll('.swimlane-step').forEach(el => el.classList.remove('is-active'));
-            stepEl.classList.add('is-active');
-            detailsTitle.textContent = stepData.title;
-            detailsDescription.textContent = stepData.description;
-            if (stepData.bottleneck) {
-                bottleneckText.innerHTML = stepData.bottleneck_text;
+        // Redraw on resize
+        new ResizeObserver(drawLines).observe(grid);
+
+        // Click handler
+        grid.addEventListener('click', e => {
+            const nodeEl = e.target.closest('.flowchart-node, .node-diamond');
+            if (!nodeEl) return;
+            const nodeId = nodeEl.id;
+            const nodeData = flowchartData.find(n => n.id === nodeId);
+            if (!nodeData) return;
+
+            document.querySelectorAll('.flowchart-node, .node-diamond').forEach(el => el.classList.remove('is-active'));
+            nodeEl.classList.add('is-active');
+
+            detailsTitle.textContent = nodeData.text;
+            detailsDescription.textContent = nodeData.description;
+            if (nodeData.bottleneck) {
+                bottleneckText.innerHTML = nodeData.bottleneck_text;
                 detailsBottleneck.classList.remove('hidden');
             } else {
                 detailsBottleneck.classList.add('hidden');
             }
         });
     }
+
 
     function initFinancials() {
         const ctx = document.getElementById('allowanceChart').getContext('2d');
@@ -394,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     initPlayers();
-    initSwimlane();
+    initFlowchart();
     initFinancials();
     initTabs();
     initRecommendations();
