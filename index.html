@@ -85,7 +85,7 @@
                     <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This table outlines the sequence of the stipend process, the party responsible for each step, and contrasts the ideal processing times with the *actual* timelines experienced by scholars.</p>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
                         <thead>
                             <tr>
                                 <th class="py-4 px-6 bg-gray-100 font-bold uppercase text-sm text-gray-600 border-b border-gray-200">Step</th>
@@ -107,7 +107,7 @@
                             <tr class="bg-red-50"><td class="py-4 px-6 border-b border-gray-200 font-bold">9</td><td class="py-4 px-6 border-b border-gray-200 font-bold">Process for next semester begins, but only after previous liquidation is approved by CHED.</td><td class="py-4 px-6 border-b border-gray-200 font-semibold">All Parties</td><td class="py-4 px-6 border-b border-gray-200">30 working days³</td><td class="py-4 px-6 border-b border-gray-200 font-bold text-red-700">Vicious Cycle Repeats</td></tr>
                         </tbody>
                     </table>
-                    <div class="text-xs text-gray-500 mt-4 px-6">
+                     <div class="text-xs text-gray-500 mt-4 px-6">
                         <p>¹ Based on UP Manila Citizen's Charter for processing of payments/vouchers.</p>
                         <p>² Based on RA 11032 (Anti-Red Tape Act) for simple (3 days), complex (7 days), and highly technical (20 days) government transactions.</p>
                         <p>³ Based on CHED-MSRS Operational Guidelines, Section VIII.B.1.</p>
@@ -338,6 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.toggle('active', link.getAttribute('href') === `#${targetId}`);
         });
         
+        // This ensures the URL hash is updated without causing a page jump.
         if(window.history.pushState) {
             window.history.pushState(null, null, `#${targetId}`);
         } else {
@@ -346,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     mainNav.addEventListener('click', (e) => {
-        if (e.target.matches('.main-nav-link')) {
+        if (e.target.matches('a')) {
             e.preventDefault();
             const targetId = e.target.getAttribute('href').substring(1);
             showSection(targetId);
