@@ -1,3 +1,7 @@
-# UPCM CHED MSRS Scholars Guide
+# 📚 UPCM MSRS Scholars Guide
 
-A multi-page responsive and accessible site hosted on GitHub Pages. Built with Tailwind CSS and optimized for performance and SEO.
+A multi-page, responsive, and accessible static website for CHED-MSRS scholars at the University of the Philippines College of Medicine. Built by scholars, for scholars.
+
+...
+
+(Use full version from earlier `README.md` response.)
