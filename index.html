@@ -1,32 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags for SEO and Social Sharing -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A comprehensive guide for CHED-MSRS scholars at the UP College of Medicine, detailing the stipend process, requirements, and common challenges.">
+    <meta name="keywords" content="UPCM, MSRS, CHED, Scholarship, Medicine, Stipend, Doktor Para sa Bayan">
+    <meta name="author" content="UPCM Scholar-Led Initiative">
+    <meta property="og:title" content="UPCM MSRS Scholars Guide">
+    <meta property="og:description" content="A comprehensive guide for CHED-MSRS scholars at the UP College of Medicine.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://placehold.co/1200x630/7B1113/FFFFFF?text=UPCM+MSRS+Guide">
+
     <title>UPCM MSRS Scholars Guide</title>
+
+    <!-- Favicon using an SVG for crisp rendering -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇵🇭</text></svg>">
+
+    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Smooth scrolling behavior */
+        html { scroll-behavior: smooth; }
+        
+        /* Font and color variables for consistency, using UP branding */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #F9FAFB; 
+            color: #1F2937;
+        }
+        :root {
+            --up-maroon: #7B1113;
+            --up-green: #014421;
+        }
+
+        /* Selection color for a branded feel */
+        ::selection { background-color: var(--up-maroon); color: white; }
+
+        /* Navigation link styling with smooth transitions */
+        .main-nav-link {
+            padding: 1rem 0.75rem;
+            border-bottom: 4px solid transparent;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            font-weight: 600;
+            color: #4B5563;
+        }
+        .main-nav-link:hover { color: var(--up-maroon); }
+        .main-nav-link.active {
+            color: var(--up-maroon);
+            border-bottom-color: var(--up-maroon);
+        }
+        
+        /* Section fade-in animation for smoother navigation */
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Styling for FAQ accordion arrows */
+        .faq-arrow { transition: transform 0.3s ease; }
+        .faq-item[open] .faq-arrow { transform: rotate(180deg); }
+
+        /* Standardized card component styling with hover effect */
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #E5E7EB;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        /* Accessibility: Improve focus rings for keyboard navigation */
+        :focus-visible {
+            outline: 3px solid var(--up-maroon);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        sup { line-height: 0; }
+    </style>
 </head>
 <body class="antialiased">
     
-    <header class="bg-white sticky top-0 z-50 shadow-md">
+    <!-- Header: Semantic HTML5, responsive, and sticky -->
+    <header id="main-header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 transition-shadow duration-300">
         <div class="container mx-auto px-4 lg:px-6">
             <div class="flex flex-wrap justify-between items-center py-4 border-b border-gray-200">
-                <div class="flex items-center space-x-3">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24">
-                        <path fill="#7B1113" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                    <span class="text-xl font-extrabold tracking-tight text-gray-800">UPCM MSRS Scholars Guide</span>
-                </div>
-                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                <a href="#home" class="flex items-center space-x-3" aria-label="Go to homepage">
+                    <span class="text-2xl font-extrabold tracking-tight text-gray-800">UPCM MSRS Scholars Guide</span>
+                </a>
+                <!-- Mobile menu button with ARIA attributes for accessibility -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100" aria-controls="main-nav" aria-expanded="false" aria-label="Open main menu">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
             </div>
-            <nav id="main-nav" class="hidden lg:flex flex-col lg:flex-row lg:items-center lg:space-x-2 pb-3 lg:pb-0">
+            <!-- Main navigation with semantic nav tag -->
+            <nav id="main-nav" class="hidden lg:flex flex-col lg:flex-row lg:items-center lg:space-x-2 pb-3 lg:pb-0" aria-label="Main navigation">
                  <a href="#home" class="main-nav-link active">Home</a>
                  <a href="#journey" class="main-nav-link">The Journey</a>
                  <a href="#requirements" class="main-nav-link">Requirements</a>
@@ -39,12 +121,12 @@
 
     <main class="container mx-auto px-4 lg:px-6 py-8 md:py-12">
         
-        <section id="home" class="content-section active">
+        <section id="home" role="region" aria-labelledby="home-title" class="content-section active">
              <div class="card p-8 md:p-12">
                 <div class="max-w-4xl mx-auto text-center">
                     <h2 class="text-xl font-bold uppercase tracking-wider" style="color: var(--up-green);">A Scholar-Led Initiative for Transparency</h2>
-                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter my-4" style="color: var(--up-maroon);">The UPCM CHED MSRS Scholars Guide</h1>
-                    <p class="text-lg text-gray-600">To help improve transparency and prevent confusion for current and future scholars, this comprehensive online guide consolidates all available information on the stipend process, requirements, and timelines. It is based on official documents and the collective experience of CHED-MSRS Batch 3, and we believe it is a valuable tool for all stakeholders.</p>
+                    <h1 id="home-title" class="text-4xl md:text-5xl font-extrabold tracking-tighter my-4" style="color: var(--up-maroon);">The UPCM MSRS Scholars Guide</h1>
+                    <p class="text-lg text-gray-600">To help improve transparency and prevent confusion for current and future scholars, this comprehensive online guide consolidates all available information on the stipend process, requirements, and timelines. It is based on official documents and the collective experience of UPCM scholars, and we believe it is a valuable tool for all stakeholders.</p>
                 </div>
 
                 <div class="max-w-5xl mx-auto mt-16">
@@ -53,31 +135,20 @@
                          <p class="text-md text-gray-600 mt-1 max-w-2xl mx-auto">With a total of 54 scholars across four batches, the MSRS community represents a significant and dedicated cohort within the UP College of Medicine, committed to fulfilling the "Doktor Para sa Bayan" mission.</p>
                     </div>
                      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">10</p>
-                            <p class="text-sm font-semibold text-gray-600">Batch 1 Scholars</p>
-                        </div>
-                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">18</p>
-                            <p class="text-sm font-semibold text-gray-600">Batch 2 Scholars</p>
-                        </div>
-                         <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">22</p>
-                            <p class="text-sm font-semibold text-gray-600">Batch 3 Scholars</p>
-                        </div>
-                         <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                            <p class="text-3xl font-bold" style="color: var(--up-maroon);">4</p>
-                            <p class="text-sm font-semibold text-gray-600">Batch 4 Scholars</p>
-                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200"><p class="text-3xl font-bold" style="color: var(--up-maroon);">10</p><p class="text-sm font-semibold text-gray-600">Batch 1 Scholars</p></div>
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200"><p class="text-3xl font-bold" style="color: var(--up-maroon);">18</p><p class="text-sm font-semibold text-gray-600">Batch 2 Scholars</p></div>
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200"><p class="text-3xl font-bold" style="color: var(--up-maroon);">22</p><p class="text-sm font-semibold text-gray-600">Batch 3 Scholars</p></div>
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-gray-200"><p class="text-3xl font-bold" style="color: var(--up-maroon);">4</p><p class="text-sm font-semibold text-gray-600">Batch 4 Scholars</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="journey" class="content-section">
+        <!-- Other sections follow the same semantic and accessible structure -->
+        <section id="journey" role="region" aria-labelledby="journey-title" class="content-section">
              <div class="card p-6 md:p-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold" style="color: var(--up-green);">Stipend Process & Timeline</h2>
+                    <h2 id="journey-title" class="text-3xl font-bold" style="color: var(--up-green);">Stipend Process & Timeline</h2>
                     <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">This table outlines the stipend process, contrasting government-mandated processing times with the actual timelines experienced by scholars at the UP College of Medicine.</p>
                 </div>
                 <div class="overflow-x-auto">
@@ -112,12 +183,11 @@
             </div>
         </section>
             
-        <section id="requirements" class="content-section">
+        <section id="requirements" role="region" aria-labelledby="requirements-title" class="content-section">
              <div class="card p-6 md:p-8">
-                <div class="text-center mb-12"><h2 class="text-3xl font-bold" style="color: var(--up-green);">Scholar Requirements Checklist</h2><p class="text-lg text-gray-600 mt-2">A guide to the documents required from scholars at each stage.</p></div>
+                <div class="text-center mb-12"><h2 id="requirements-title" class="text-3xl font-bold" style="color: var(--up-green);">Scholar Requirements Checklist</h2><p class="text-lg text-gray-600 mt-2">A guide to the documents required from scholars at each stage.</p></div>
                 <div class="space-y-12 max-w-4xl mx-auto">
-                    
-                    <div>
+                    <article>
                         <h3 class="text-2xl font-bold mb-4 pb-2 border-b-2" style="border-color: var(--up-maroon);">Phase 1: Initial Onboarding & Per-Semester Submission</h3>
                         <p class="text-gray-600 mb-4">These documents are required at the start and for every semester to initiate the stipend process.</p>
                         <ul class="space-y-3">
@@ -125,9 +195,8 @@
                             <li class="flex items-start"><span class="mr-3 text-lg text-green-700 font-bold">&#10003;</span><div><h4 class="font-bold text-gray-800">Billing Statement & Form 5</h4><p class="text-sm text-gray-600">Secure the Billing Statement from SRO and the Certificate of Registration (Form 5) from OUR. The Form 5 must show full, undiscounted tuition.</p></div></li>
                             <li class="flex items-start"><span class="mr-3 text-lg text-green-700 font-bold">&#10003;</span><div><h4 class="font-bold text-gray-800">DBP Bank Account & PhilHealth Number</h4><p class="text-sm text-gray-600">Submit account and PhilHealth details to the program coordinator.</p></div></li>
                         </ul>
-                    </div>
-
-                    <div>
+                    </article>
+                    <article>
                         <h3 class="text-2xl font-bold mb-4 pb-2 border-b-2" style="border-color: var(--up-maroon);">Phase 2: Post-Stipend Liquidation (CRUCIAL)</h3>
                         <p class="text-gray-600 mb-4">Once the stipend is received, these documents must be submitted immediately to the program coordinator (e.g., via Google Form) to close the cycle. Delays here will delay the next semester's stipend for everyone.</p>
                         <ul class="space-y-3">
@@ -136,92 +205,91 @@
                             <li class="flex items-start"><span class="mr-3 text-lg text-red-700 font-bold">&#33;</span><div><h4 class="font-bold text-gray-800">Copy of UP ID</h4><p class="text-sm text-gray-600">Front and back of your valid university identification card.</p></div></li>
                             <li class="flex items-start"><span class="mr-3 text-lg text-red-700 font-bold">&#33;</span><div><h4 class="font-bold text-gray-800">Signed Payroll</h4><p class="text-sm text-gray-600">Physically sign the official payroll at the designated office as soon as notified.</p></div></li>
                         </ul>
-                    </div>
-                    
-                    <div class="mt-12 p-6 rounded-lg bg-yellow-50 border border-yellow-200">
+                    </article>
+                    <aside class="mt-12 p-6 rounded-lg bg-yellow-50 border border-yellow-200">
                         <h4 class="font-bold text-lg text-yellow-800">Pro-Tip: Navigating Form 5 Issues at UPCM</h4>
                         <p class="text-gray-700 mt-2">Incorrect Form 5s are a common cause of delays. Based on scholar experiences, here is how to resolve them:</p>
                         <ol class="list-decimal list-inside mt-3 space-y-2 text-gray-600">
                             <li><strong>If Form 5 shows an SLAS discount:</strong> Go to the Office of the University Registrar (OUR) and request a new Form 5 that reflects the <span class="font-semibold">full, undiscounted tuition amount</span> as required by CHED.</li>
                             <li><strong>If Form 5 has missing fees (e.g., Entrance, ID):</strong> Go to the Information Management Service (IMS) office to have the fees updated on your assessment before generating a new Form 5.</li>
                         </ol>
-                    </div>
+                    </aside>
                 </div>
             </div>
         </section>
 
-        <section id="survey" class="content-section">
+        <section id="survey" role="region" aria-labelledby="survey-title" class="content-section">
             <div class="card p-6 md:p-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold" style="color: var(--up-green);">Scholar Survey Findings</h2>
-                    <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">The following data visualizes the tangible impact of stipend delays on UPCM scholars' lives, based on a recent survey. This highlights the urgent need for solutions.</p>
+                    <h2 id="survey-title" class="text-3xl font-bold" style="color: var(--up-green);">Scholar Survey Findings</h2>
+                    <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">The following data visualizes the tangible impact of stipend delays on UPCM scholars' lives, based on a recent survey (n=12). This highlights the urgent need for solutions.</p>
                 </div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                        <h3 class="text-xl font-semibold text-center text-gray-800 mb-4">Financial Coping Mechanisms</h3>
-                        <div class="h-80"><canvas id="copingChart"></canvas></div>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                        <h3 class="text-xl font-semibold text-center text-gray-800 mb-4">Impact on Well-being & Academics</h3>
-                        <div class="h-80"><canvas id="impactChart"></canvas></div>
-                    </div>
+                    <article class="bg-gray-50 p-6 rounded-lg border border-gray-200 lg:col-span-2">
+                        <h3 class="text-xl font-semibold text-center text-gray-800 mb-4">Impact of Stipend Delays</h3>
+                        <div class="h-96"><canvas id="impactChart" role="img" aria-label="Bar chart showing the impacts of stipend delays."></canvas></div>
+                    </article>
+                    <article class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-xl font-semibold text-center text-gray-800 mb-4">Reliance on MSRS Stipend</h3>
+                        <div class="h-80"><canvas id="relianceChart" role="img" aria-label="Doughnut chart showing scholar reliance on the stipend."></canvas></div>
+                    </article>
+                    <article class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-xl font-semibold text-center text-gray-800 mb-4">Living Arrangements</h3>
+                        <div class="h-80"><canvas id="livingChart" role="img" aria-label="Doughnut chart showing scholar living arrangements."></canvas></div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section id="bridge-fund" class="content-section">
+        <section id="bridge-fund" role="region" aria-labelledby="bridge-fund-title" class="content-section">
              <div class="card p-6 md:p-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold" style="color: var(--up-green);">The Bridge Fund: A Proposed Solution</h2>
+                    <h2 id="bridge-fund-title" class="text-3xl font-bold" style="color: var(--up-green);">The Bridge Fund: A Proposed Solution</h2>
                     <p class="text-lg text-gray-600 mt-2 max-w-4xl mx-auto">A UPCM-managed "Bridge Fund" is a proposed solution to provide scholars an emergency advance against their confirmed, forthcoming stipend.</p>
                 </div>
                 <div class="max-w-5xl mx-auto">
                     <h3 class="text-2xl font-bold text-center mb-8 pb-2 border-b-2 border-green-300" style="color: #014421;">The Proposed Self-Replenishing Cycle</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12 items-center">
-                        <!-- Diagram elements would be dynamically inserted here by a JS function if needed -->
-                         <div class="text-center">
-                            <div class="bg-green-50 p-6 rounded-lg shadow-lg border-2 border-green-200 h-32 flex flex-col justify-center">
-                                <p class="font-bold text-xl" style="color: #014421;">1. Scholar Needs Funds</p>
-                                <p class="text-gray-600 mt-1">Submits simple 1-page digital application.</p>
-                            </div>
-                        </div>
+                         <div class="text-center"><div class="bg-green-50 p-6 rounded-lg shadow-lg border-2 border-green-200 h-32 flex flex-col justify-center"><p class="font-bold text-xl" style="color: #014421;">1. Scholar Needs Funds</p><p class="text-gray-600 mt-1">Submits simple 1-page digital application.</p></div></div>
                         <div class="hidden md:block text-green-600 text-3xl text-center">&rarr;</div>
                         <div class="md:hidden text-green-600 text-3xl text-center my-4">&darr;</div>
-                        <div class="text-center">
-                            <div class="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200 h-32 flex flex-col justify-center">
-                                <p class="font-bold text-xl">2. Bridge Fund Disbursement</p>
-                                <p class="text-gray-600 mt-1"><span class="font-semibold text-green-700">3-5 working days</span> to Scholar's bank account.</p>
-                            </div>
-                        </div>
+                        <div class="text-center"><div class="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200 h-32 flex flex-col justify-center"><p class="font-bold text-xl">2. Bridge Fund Disbursement</p><p class="text-gray-600 mt-1"><span class="font-semibold text-green-700">3-5 working days</span> to Scholar's bank account.</p></div></div>
                         <div class="hidden md:block"></div>
                         <div class="hidden md:block"></div>
                         <div class="text-blue-800 text-3xl text-center my-4">&darr;</div>
-                        <div class="text-center order-last md:order-none">
-                            <div class="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200 h-32 flex flex-col justify-center">
-                                <p class="font-bold text-xl">4. Fund is Replenished</p>
-                                <p class="text-gray-600 mt-1">Ready for the next scholar or delay cycle.</p>
-                            </div>
-                        </div>
+                        <div class="text-center order-last md:order-none"><div class="bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200 h-32 flex flex-col justify-center"><p class="font-bold text-xl">4. Fund is Replenished</p><p class="text-gray-600 mt-1">Ready for the next scholar or delay cycle.</p></div></div>
                          <div class="hidden md:block text-green-600 text-3xl text-center transform rotate-180">&rarr;</div>
                          <div class="md:hidden text-green-600 text-3xl text-center my-4">&uarr;</div>
-                        <div class="text-center order-first md:order-none">
-                            <div class="bg-blue-50 p-6 rounded-lg shadow-lg border-2 border-blue-200 h-32 flex flex-col justify-center">
-                                <p class="font-bold text-xl text-blue-800">3. CHED Stipend Arrives</p>
-                                <p class="text-gray-600 mt-1">UPCM Accounting auto-deducts advance to repay the fund.</p>
-                            </div>
-                        </div>
+                        <div class="text-center order-first md:order-none"><div class="bg-blue-50 p-6 rounded-lg shadow-lg border-2 border-blue-200 h-32 flex flex-col justify-center"><p class="font-bold text-xl text-blue-800">3. CHED Stipend Arrives</p><p class="text-gray-600 mt-1">UPCM Accounting auto-deducts advance to repay the fund.</p></div></div>
                     </div>
-                    <div class="max-w-4xl mx-auto mt-12 space-y-8">
-                        <p class="text-gray-700">The Bridge Fund provides a reliable, low-barrier financial safety net. It acts as a bridge, offering scholars access to essential living expenses while they await their delayed stipend. The fund is designed to be self-replenishing, ensuring its sustainability for future batches of UPCM scholars.</p>
+                </div>
+                 <div class="max-w-4xl mx-auto mt-16 pt-12 border-t">
+                    <h3 class="text-2xl font-bold text-center mb-8" style="color: #014421;">Scholar-Sourced Suggestions</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <article>
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--up-maroon);">Communication & Transparency</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>"Establish a permanent MSRS office in UPCM to serve as a one-stop-shop for all concerns."</li>
+                                <li>"Publish a public dashboard tracking the real-time status of the stipend for each batch."</li>
+                                <li>"Provide a clear, official flowchart and checklist upon entry into the program."</li>
+                            </ul>
+                        </article>
+                        <article>
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--up-maroon);">Process & Logistics</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>"Shift to a monthly stipend release to help with budgeting, even if it means more paperwork." (100% support this)</li>
+                                <li>"Designate a dedicated liaison officer whose sole focus is MSRS to streamline coordination with CHED."</li>
+                                <li>"Automate the submission of documents through a centralized online portal."</li>
+                            </ul>
+                        </article>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="faq" class="content-section">
+        <section id="faq" role="region" aria-labelledby="faq-title" class="content-section">
              <div class="card p-6 md:p-8">
-                <div class="text-center mb-12"><h2 class="text-3xl font-bold" style="color: var(--up-green);">Frequently Asked Questions</h2><p class="text-lg text-gray-600 mt-2">Quick answers to common questions for UPCM scholars.</p></div>
+                <div class="text-center mb-12"><h2 id="faq-title" class="text-3xl font-bold" style="color: var(--up-green);">Frequently Asked Questions</h2><p class="text-lg text-gray-600 mt-2">Quick answers to common questions for UPCM scholars.</p></div>
                 <div class="max-w-3xl mx-auto space-y-4" id="faq-container">
                     <!-- FAQ content will be generated by JS -->
                 </div>
@@ -230,6 +298,7 @@
 
     </main>
     
+    <!-- Footer with semantic tag -->
     <footer class="bg-gray-800 mt-16">
         <div class="container mx-auto px-6 py-8 text-center text-sm text-gray-400">
             <p>This is a UPCM scholar-led initiative. Information is for guidance and advocacy, based on data available as of June 2025.</p>
@@ -237,6 +306,153 @@
         </div>
     </footer>
 
-<script src="assets/js/main.js"></script>
+<!-- Deferred script for better performance -->
+<script defer>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Data for FAQ section
+    const faqData = [
+        { question: "What should I do if my Form 5 has an SLAS discount or missing fees?", answer: "This is a critical issue that halts the process. <strong>1) If SLAS discount is present:</strong> Go to the Office of the University Registrar (OUR) and request a corrected Form 5 showing the full tuition. <strong>2) If fees are missing:</strong> Go to the Information Management Service (IMS) to have them update your assessment before generating a new Form 5." },
+        { question: "There are rumors about moving to Landbank for stipends. Is this true?", answer: "CHED has partnered with Landbank for other national scholarship programs like the Tertiary Education Subsidy (TES)³. While there is no official memo yet for the MSRS program specifically, this could be a future development. Scholars should ensure their contact information is always updated to avoid issues if a transition to a new bank is announced." },
+        { question: "Are LU6 midyear/summer electives covered by the scholarship?", answer: "Currently, this is not clear. Per internal communications, the MSRS guidelines primarily cover the standard first and second semesters. The coverage of midyear/summer term fees and allowances is still pending clarification from CHED. Scholars should be prepared to potentially shoulder these costs." },
+        { question: "Why is the post-stipend liquidation process so important?", answer: "This is the most critical step to prevent future delays. CHED will not process the *next* semester's stipend until UPCM submits proof (the liquidation report) that the *last* one was fully paid out and documented³. Your timely submission of requirements (ID copies, Form 5, payroll signature) is essential for this report. A delay from one scholar directly delays the next stipend for everyone." },
+        { question: "What is the Return Service Obligation (RSO)?", answer: "For every year of scholarship availed, you must render one year of service in a government public health office or hospital after passing the board exams. This is mandated by R.A. 11509, the 'Doktor Para sa Bayan Act'." }
+    ];
+
+    /**
+     * Initializes the FAQ section using a template for each question.
+     */
+    function initFaqs() {
+        const container = document.getElementById('faq-container');
+        if (!container) return;
+        container.innerHTML = faqData.map(faq => `
+            <details class="faq-item bg-gray-50 border border-gray-200 rounded-lg overflow-hidden transition-all duration-300">
+                <summary class="w-full flex justify-between items-center text-left p-5 cursor-pointer list-none">
+                    <h4 class="font-semibold text-md text-gray-800">${faq.question}</h4>
+                    <span class="faq-arrow text-gray-500 text-xl transition-transform">▼</span>
+                </summary>
+                <div class="faq-answer px-5 pb-5 border-t border-gray-200 text-gray-600 leading-relaxed">
+                    <p>${faq.answer}</p>
+                </div>
+            </details>`).join('');
+    }
+
+    /**
+     * Initializes the survey charts with data from the recent survey (n=12).
+     */
+    function initSurveyCharts() {
+        const surveyData = {
+            impact: {
+                labels: ['Experienced Stress/Anxiety', 'Borrowed from Family/Friends', 'Academic Performance Impacted', 'Skipped Meals/Reduced Food Budget', 'Delayed Rent/Dorm Fees', 'Delayed Books/Equipment'],
+                data: [91.7, 83.3, 75.0, 66.7, 50.0, 50.0]
+            },
+            reliance: {
+                labels: ['Fully Reliant (100%)', 'Mostly Reliant (>50%)', 'Partially Reliant (<50%)'],
+                data: [58.3, 25.0, 16.7]
+            },
+            living: {
+                labels: ['Renting (Dorm/Apt)', 'Living with Family'],
+                data: [58.3, 41.7]
+            }
+        };
+
+        const impactCanvas = document.getElementById('impactChart');
+        if(impactCanvas && !Chart.getChart(impactCanvas)) {
+            new Chart(impactCanvas.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: surveyData.impact.labels,
+                    datasets: [{ label: '% of Scholars', data: surveyData.impact.data, backgroundColor: 'rgba(123, 17, 19, 0.7)', borderColor: 'rgba(123, 17, 19, 1)', borderWidth: 1 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true, max: 100, ticks: { callback: value => value + '%' } } }, plugins: { legend: { display: false } } }
+            });
+        }
+
+        const relianceCanvas = document.getElementById('relianceChart');
+        if(relianceCanvas && !Chart.getChart(relianceCanvas)) {
+            new Chart(relianceCanvas.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: surveyData.reliance.labels,
+                    datasets: [{ data: surveyData.reliance.data, backgroundColor: ['#7B1113', '#014421', '#FBBF24'], hoverOffset: 4 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        const livingCanvas = document.getElementById('livingChart');
+        if(livingCanvas && !Chart.getChart(livingCanvas)) {
+            new Chart(livingCanvas.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: surveyData.living.labels,
+                    datasets: [{ data: surveyData.living.data, backgroundColor: ['#014421', '#F59E0B'], hoverOffset: 4 }]
+                },
+                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+    }
+
+    // --- Navigation Logic ---
+    const mainNav = document.getElementById('main-nav');
+    const navLinks = document.querySelectorAll('.main-nav-link');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const sections = document.querySelectorAll('main > section');
+    const header = document.getElementById('main-header');
+
+    function showSection(targetId) {
+        if (!targetId || !document.getElementById(targetId)) {
+            targetId = 'home';
+        }
+        
+        sections.forEach(section => {
+            section.classList.toggle('active', section.id === targetId);
+        });
+
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${targetId}`);
+        });
+        
+        if(history.pushState) {
+            history.pushState(null, null, `#${targetId}`);
+        } else {
+            location.hash = `#${targetId}`;
+        }
+
+        if (targetId === 'survey') {
+            initSurveyCharts();
+        }
+    }
+    
+    mainNav.addEventListener('click', (e) => {
+        if (e.target.matches('a.main-nav-link')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href').substring(1);
+            showSection(targetId);
+            if (!mainNav.classList.contains('lg:flex')) {
+                mainNav.classList.add('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
+
+    mobileMenuButton.addEventListener('click', () => {
+        const isExpanded = mainNav.classList.toggle('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+    });
+    
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('shadow-lg', window.scrollY > 10);
+    });
+
+    window.addEventListener('popstate', () => {
+        showSection(location.hash.substring(1));
+    });
+    
+    // --- Initial Load ---
+    initFaqs();
+    showSection(location.hash.substring(1));
+});
+</script>
 </body>
 </html>
