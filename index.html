@@ -222,7 +222,8 @@
         
         /* Table styling with 3D Elevation */
         .table-container { 
-            overflow: visible; 
+            overflow-x: auto; /* MODIFIED: Changed 'visible' to 'auto' for mobile scrolling */
+            -webkit-overflow-scrolling: touch; /* MODIFIED: Added for smooth scrolling on iOS */
             border-radius: var(--radius-lg); 
             background: rgba(255,255,255,0.1); 
             padding: var(--spacing-xs);
