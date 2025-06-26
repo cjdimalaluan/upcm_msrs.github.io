@@ -283,6 +283,7 @@
         .text-center { text-align: center; }
         .mt-4 { margin-top: var(--spacing-lg); }
         .mt-5 { margin-top: var(--spacing-xl); }
+        .mb-0 { margin-bottom: 0 !important; }
         .d-grid { display: grid; }
         .d-flex { display: flex; }
         .flex-col { flex-direction: column; }
@@ -369,7 +370,7 @@
         .req-list li {
             display: flex;
             align-items: flex-start;
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
         }
         .req-list .icon {
             margin-right: var(--spacing-md);
@@ -382,7 +383,41 @@
         .pro-tip-card {
             background-color: rgba(251, 191, 36, 0.1);
             border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
         }
+        
+        /* Bridge Fund Flow Diagram */
+        .flow-diagram {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-rows: auto auto;
+            gap: var(--spacing-md) var(--spacing-xl);
+            align-items: center;
+            width: 100%;
+        }
+        .flow-step {
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            background: rgba(255,255,255,0.4);
+            border: 1px solid var(--glass-border);
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flow-arrow {
+            font-size: var(--font-size-4xl);
+            color: var(--up-forest-green);
+            font-weight: 200;
+        }
+        
+        .flow-arrow-right { grid-column: 2 / 3; grid-row: 1 / 2; }
+        .flow-arrow-down { grid-column: 3 / 4; grid-row: 2 / 3; transform: rotate(90deg); }
+        .flow-arrow-left { grid-column: 2 / 3; grid-row: 3 / 4; }
+        .flow-arrow-up { grid-column: 1 / 2; grid-row: 2 / 3; transform: rotate(-90deg); }
+
 
         /* --- Responsive Design --- */
         @media (max-width: 992px) {
@@ -412,7 +447,12 @@
           .grid-2, .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .grid-2, .grid-3, .grid-4, .flow-diagram { grid-template-columns: 1fr; }
+            .flow-arrow { transform: rotate(90deg) !important; margin: var(--spacing-md) 0;}
+            .flow-arrow-right { grid-column: 1; grid-row: 2; }
+            .flow-arrow-down { grid-column: 1; grid-row: 4; }
+            .flow-arrow-left { grid-column: 1; grid-row: 6; }
+            .flow-arrow-up { grid-column: 1; grid-row: 8; }
         }
     </style>
 </head>
@@ -467,25 +507,49 @@
 
             <section id="scholars" role="region" aria-labelledby="scholars-title" class="content-section">
                 <div class="card glass">
-                    <div class="card-header text-center">
-                        <h2 id="scholars-title" class="h2">The Scholars</h2>
-                        <p class="text-large">A data-driven look into the community, their challenges, and their reliance on the MSRS program.</p>
-                    </div>
-                    <div class="d-grid grid-3 gap-4">
-                        <div class="card glass">
-                            <h4 class="h4 text-center text-up-maroon">Reliance on Stipend</h4>
-                            <div style="min-height: 350px;" class="d-flex flex-col justify-center">
-                                <div id="relianceWaffleChart" class="waffle-container" role="img" aria-label="A waffle chart showing that 60% of scholars are fully reliant, 33% are mostly reliant, and 7% are partially reliant on the stipend."></div>
-                                <div id="relianceWaffleLegend" class="waffle-legend"></div>
+                    <div class="card-body">
+                        <div class="text-center" style="margin-bottom: var(--spacing-2xl); padding-bottom: var(--spacing-xl); border-bottom: 1px solid var(--glass-border);">
+                            <h3 class="h3 text-up-green">A Growing Community of Future Public Health Leaders</h3>
+                            <p>With a total of 54 scholars across four batches, the MSRS community represents a significant and dedicated cohort within the UP College of Medicine, committed to fulfilling the "Doktor Para sa Bayan" mission.</p>
+                            <div class="d-grid grid-4 gap-4 mt-4">
+                                <div class="card glass" style="padding: var(--spacing-md);">
+                                    <p class="h2 text-up-maroon mb-0">10</p>
+                                    <p class="text-small mb-0">Batch 1 Scholars</p>
+                                </div>
+                                <div class="card glass" style="padding: var(--spacing-md);">
+                                    <p class="h2 text-up-maroon mb-0">18</p>
+                                    <p class="text-small mb-0">Batch 2 Scholars</p>
+                                </div>
+                                <div class="card glass" style="padding: var(--spacing-md);">
+                                    <p class="h2 text-up-maroon mb-0">22</p>
+                                    <p class="text-small mb-0">Batch 3 Scholars</p>
+                                </div>
+                                <div class="card glass" style="padding: var(--spacing-md);">
+                                    <p class="h2 text-up-maroon mb-0">4</p>
+                                    <p class="text-small mb-0">Batch 4 Scholars</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="card glass">
-                            <h4 class="h4 text-center text-up-maroon">Financial & Academic Impact</h4>
-                            <div style="min-height: 350px;"><canvas id="impactChart" role="img" aria-label="Bar chart showing the impacts of stipend delays."></canvas></div>
+                        
+                        <div class="text-center mb-5">
+                            <h3 class="h3 text-up-green">Survey Findings (n=15)</h3>
                         </div>
-                        <div class="card glass">
-                            <h4 class="h4 text-center text-up-maroon">Primary Coping Mechanisms</h4>
-                            <div style="min-height: 350px;"><canvas id="copingChart" role="img" aria-label="Bar chart showing financial coping mechanisms."></canvas></div>
+                        <div class="d-grid grid-3 gap-4">
+                            <div class="card glass">
+                                <h4 class="h4 text-center text-up-maroon">Reliance on Stipend</h4>
+                                <div style="min-height: 350px;" class="d-flex flex-col justify-center">
+                                    <div id="relianceWaffleChart" class="waffle-container" role="img" aria-label="A waffle chart showing that 60% of scholars are fully reliant, 33% are mostly reliant, and 7% are partially reliant on the stipend."></div>
+                                    <div id="relianceWaffleLegend" class="waffle-legend"></div>
+                                </div>
+                            </div>
+                            <div class="card glass">
+                                <h4 class="h4 text-center text-up-maroon">Financial & Academic Impact</h4>
+                                <div style="min-height: 350px;"><canvas id="impactChart" role="img" aria-label="Bar chart showing the impacts of stipend delays."></canvas></div>
+                            </div>
+                            <div class="card glass">
+                                <h4 class="h4 text-center text-up-maroon">Primary Coping Mechanisms</h4>
+                                <div style="min-height: 350px;"><canvas id="copingChart" role="img" aria-label="Bar chart showing financial coping mechanisms."></canvas></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -529,26 +593,26 @@
                     <div class="card-body">
                         <div class="d-grid grid-2 gap-4">
                             <article>
-                                <h3 class="h3 text-up-maroon">Phase 1: Initial & Per-Semester Submission</h3>
+                                <h3 class="h3 text-up-green">Phase 1: Initial & Per-Semester Submission</h3>
                                 <p>These documents are required at the start and for every semester to initiate the stipend process.</p>
                                 <ul class="req-list">
-                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6" style="margin-bottom: 0;">Signed Notice of Award (NOA) & Scholarship Contract</h4><p class="text-small">The NOA and 5 copies of the contract must have wet signatures.</p></div></li>
-                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6" style="margin-bottom: 0;">Billing Statement & Form 5</h4><p class="text-small">Secure the Billing Statement from SRO and the Certificate of Registration (Form 5) from OUR. The Form 5 must show full, undiscounted tuition.</p></div></li>
-                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6" style="margin-bottom: 0;">DBP Bank Account & PhilHealth Number</h4><p class="text-small">Submit account and PhilHealth details to the program coordinator.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6 mb-0">Signed Notice of Award (NOA) & Scholarship Contract</h4><p class="text-small mb-0">The NOA and 5 copies of the contract must have wet signatures.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6 mb-0">Billing Statement & Form 5</h4><p class="text-small mb-0">Secure the Billing Statement from SRO and the Certificate of Registration (Form 5) from OUR. The Form 5 must show full, undiscounted tuition.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6 mb-0">DBP Bank Account & PhilHealth Number</h4><p class="text-small mb-0">Submit account and PhilHealth details to the program coordinator.</p></div></li>
                                 </ul>
                             </article>
                             <article>
-                                <h3 class="h3 text-up-maroon">Phase 2: Post-Stipend Liquidation (CRUCIAL)</h3>
+                                <h3 class="h3 text-up-green">Phase 2: Post-Stipend Liquidation (CRUCIAL)</h3>
                                 <p>Once the stipend is received, these documents must be submitted immediately to the program coordinator. Delays here will delay the next semester's stipend for everyone.</p>
                                 <ul class="req-list">
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6" style="margin-bottom: 0;">Copy of DBP ATM Card</h4><p class="text-small">Card numbers may be redacted for data privacy.</p></div></li>
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6" style="margin-bottom: 0;">Copy of Form 5</h4><p class="text-small">A hard or digital copy of your Certificate of Registration for the covered semester.</p></div></li>
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6" style="margin-bottom: 0;">Copy of UP ID</h4><p class="text-small">Front and back of your valid university identification card.</p></div></li>
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6" style="margin-bottom: 0;">Signed Payroll</h4><p class="text-small">Physically sign the official payroll at the designated office as soon as notified.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Copy of DBP ATM Card</h4><p class="text-small mb-0">Card numbers may be redacted for data privacy.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Copy of Form 5</h4><p class="text-small mb-0">A hard or digital copy of your Certificate of Registration for the covered semester.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Copy of UP ID</h4><p class="text-small mb-0">Front and back of your valid university identification card.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Signed Payroll</h4><p class="text-small mb-0">Physically sign the official payroll at the designated office as soon as notified.</p></div></li>
                                 </ul>
                             </article>
                         </div>
-                        <aside class="card pro-tip-card mt-5">
+                        <aside class="pro-tip-card mt-5">
                             <h4 class="h4" style="color: var(--up-maroon);">Pro-Tip: Navigating Form 5 Issues at UPCM</h4>
                             <p>Incorrect Form 5s are a common cause of delays. Based on scholar experiences, here is how to resolve them:</p>
                             <ol style="list-style-position: inside; padding-left: var(--spacing-sm);">
@@ -566,24 +630,62 @@
                         <h2 id="solutions-title" class="h2">Proposed Solutions</h2>
                         <p class="text-large">Based on survey data and scholar feedback, here are paths forward.</p>
                     </div>
-                    <div class="card glass">
-                        <h3 class="h3 text-center text-up-maroon">Proposal: A UPCM Bridge Fund</h3>
-                         <div class="d-grid grid-3 gap-4 mt-5 text-center" style="align-items: center;">
-                            <div><h4 class="h4">1. Scholar Applies</h4><p>Submits simple 1-page digital application.</p></div>
-                            <div class="h1 text-up-green">&rarr;</div>
-                            <div><h4 class="h4">2. Fund Disbursed</h4><p>3-5 working days to Scholar's bank account.</p></div>
-                         </div>
+                    <div class="card-body">
+                        <div class="card glass">
+                            <h3 class="h3 text-center text-up-green">The Bridge Fund: A Self-Replenishing Cycle</h3>
+                            <p class="text-center">A UPCM-managed "Bridge Fund" is a proposed solution to provide scholars an emergency advance against their confirmed, forthcoming stipend. It operates in a simple, four-step cycle.</p>
+                            <div class="flow-diagram mt-5">
+                                <div class="flow-step" style="grid-column: 1 / 2; grid-row: 1 / 2;">
+                                    <h4 class="h5 mb-0">1. Scholar Applies</h4><p class="text-small mb-0">When stipend is delayed, scholar submits a simple digital application for an advance.</p>
+                                </div>
+                                <div class="flow-arrow flow-arrow-right">&rarr;</div>
+                                <div class="flow-step" style="grid-column: 3 / 4; grid-row: 1 / 2;">
+                                    <h4 class="h5 mb-0">2. Fund Disbursed</h4><p class="text-small mb-0">UPCM releases the advance to the scholar's bank account within 3-5 working days.</p>
+                                </div>
+                                <div class="flow-arrow flow-arrow-down">&darr;</div>
+                                <div class="flow-step" style="grid-column: 3 / 4; grid-row: 3 / 4;">
+                                    <h4 class="h5 mb-0">3. Stipend Arrives</h4><p class="text-small mb-0">When the official CHED stipend arrives, the advanced amount is auto-deducted.</p>
+                                </div>
+                                <div class="flow-arrow flow-arrow-left">&larr;</div>
+                                <div class="flow-step" style="grid-column: 1 / 2; grid-row: 3 / 4;">
+                                    <h4 class="h5 mb-0">4. Fund Replenished</h4><p class="text-small mb-0">The deduction automatically repays the Bridge Fund, making it whole for the next cycle.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid grid-2 gap-4 mt-5">
+                           <div class="card glass">
+                               <h4 class="h4 text-center text-up-green">Preference: Monthly Release</h4>
+                               <div style="min-height: 250px;"><canvas id="stipendPreferenceChart"></canvas></div>
+                           </div>
+                           <div class="card glass">
+                               <h4 class="h4 text-center text-up-green">Impact of 'Bridge Fund' System</h4>
+                               <div style="min-height: 250px;"><canvas id="bridgeFundChart"></canvas></div>
+                           </div>
+                        </div>
+
+                        <div class="mt-5" style="padding-top: var(--spacing-xl); border-top: 1px solid var(--glass-border);">
+                            <h3 class="h3 text-center text-up-green">Scholar-Sourced Suggestions</h3>
+                            <div class="d-grid grid-2 gap-4">
+                                <article>
+                                    <h4 class="h4 text-up-maroon">Communication & Transparency</h4>
+                                    <ul class="req-list">
+                                        <li><span class="icon">&#9679;</span><div><p class="text-small mb-0">Establish a permanent MSRS office in UPCM to serve as a one-stop-shop for all concerns.</p></div></li>
+                                        <li><span class="icon">&#9679;</span><div><p class="text-small mb-0">Publish a public dashboard tracking the real-time status of the stipend for each batch.</p></div></li>
+                                        <li><span class="icon">&#9679;</span><div><p class="text-small mb-0">Provide constant updates regarding the status of the allowance processing.</p></div></li>
+                                    </ul>
+                                </article>
+                                <article>
+                                    <h4 class="h4 text-up-maroon">Process & Logistics</h4>
+                                    <ul class="req-list">
+                                        <li><span class="icon">&#9679;</span><div><p class="text-small mb-0">Designate a dedicated liaison officer whose sole focus is MSRS to streamline coordination with CHED.</p></div></li>
+                                        <li><span class="icon">&#9679;</span><div><p class="text-small mb-0">Automate the submission of documents through a centralized online portal.</p></div></li>
+                                        <li><span class="icon">&#9679;</span><div><p class="text-small mb-0">Do not delay the entire batch's submission if only a few scholars have pending requirements; submit in smaller groups.</p></div></li>
+                                    </ul>
+                                </article>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-grid grid-2 gap-4 mt-5">
-                       <div class="card glass">
-                           <h4 class="h4 text-center text-up-maroon">Preference: Monthly Release</h4>
-                           <div style="min-height: 250px;"><canvas id="stipendPreferenceChart"></canvas></div>
-                       </div>
-                       <div class="card glass">
-                           <h4 class="h4 text-center text-up-maroon">Impact of 'Bridge Fund' System</h4>
-                           <div style="min-height: 250px;"><canvas id="bridgeFundChart"></canvas></div>
-                       </div>
-                   </div>
                 </div>
             </section>
             
@@ -608,9 +710,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const faqData = [
         { question: "What should I do if my Form 5 has an SLAS discount or missing fees?", answer: "This is a critical issue that halts the process. <strong>1) If SLAS discount is present:</strong> Go to the Office of the University Registrar (OUR) and request a corrected Form 5 showing the full tuition. <strong>2) If fees are missing:</strong> Go to the Information Management Service (IMS) to have them update your assessment before generating a new Form 5." },
-        { question: "There are rumors about moving to Landbank for stipends. Is this true?", answer: "CHED has partnered with Landbank for other national scholarship programs like the Tertiary Education Subsidy (TES)³. While there is no official memo yet for the MSRS program specifically, this could be a future development. Scholars should ensure their contact information is always updated to avoid issues if a transition to a new bank is announced." },
+        { question: "There are rumors about moving to Landbank for stipends. Is this true?", answer: "CHED has partnered with Landbank for other national scholarship programs like the Tertiary Education Subsidy (TES). While there is no official memo yet for the MSRS program specifically, this could be a future development. Scholars should ensure their contact information is always updated to avoid issues if a transition to a new bank is announced." },
         { question: "Are LU6 midyear/summer electives covered by the scholarship?", answer: "Currently, this is not clear. Per internal communications, the MSRS guidelines primarily cover the standard first and second semesters. The coverage of midyear/summer term fees and allowances is still pending clarification from CHED. Scholars should be prepared to potentially shoulder these costs." },
-        { question: "Why is the post-stipend liquidation process so important?", answer: "This is the most critical step to prevent future delays. CHED will not process the *next* semester's stipend until UPCM submits proof (the liquidation report) that the *last* one was fully paid out and documented³. Your timely submission of requirements (ID copies, Form 5, payroll signature) is essential for this report. A delay from one scholar directly delays the next stipend for everyone." },
+        { question: "Why is the post-stipend liquidation process so important?", answer: "This is the most critical step to prevent future delays. CHED will not process the *next* semester's stipend until UPCM submits proof (the liquidation report) that the *last* one was fully paid out and documented. Your timely submission of requirements (ID copies, Form 5, payroll signature) is essential for this report. A delay from one scholar directly delays the next stipend for everyone." },
+        { question: "What is the Return Service Obligation (RSO)?", answer: "For every year of scholarship availed, you must render one year of service in a government public health office or hospital after passing the board exams. This is mandated by R.A. 11509, the 'Doktor Para sa Bayan Act'." },
+        { question: "Can I apply for other scholarships while under MSRS?", answer: "No. The MSRS contract explicitly states that scholars are not allowed to avail of any other government-funded or private scholarships simultaneously. This is to ensure there is no duplication of financial assistance for the same purpose." },
+        { question: "What happens if a scholar fails a subject?", answer: "According to the scholarship guidelines, a scholar must not have a failing grade in any subject to maintain the scholarship. A failing grade can be grounds for termination of the scholarship grant. It is crucial to maintain good academic standing." },
+        { question: "How is the 'book allowance' released?", answer: "The book allowance of PHP 10,000 per semester is typically included in the lump-sum stipend released to the scholar's bank account. It is not a separate payment. Therefore, its release is also subject to the same delays affecting the entire stipend."}
     ];
 
     function initFaqs() {
@@ -650,6 +756,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initSurveyCharts() {
+        const chartInstances = {};
+
+        function createOrUpdateChart(canvasId, config) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            if (chartInstances[canvasId]) {
+                chartInstances[canvasId].destroy();
+            }
+            chartInstances[canvasId] = new Chart(canvas.getContext('2d'), config);
+        }
+        
         const surveyData = {
             impact: { labels: ['Stress/Anxiety', 'Borrowed Money', 'Academic Impact', 'Skipped Meals', 'Delayed Rent', 'Delayed Equipment'], data: [93.3, 86.7, 73.3, 66.7, 46.7, 60.0] },
             coping: { labels: ['Borrowed from Family/Friends', 'Personal Savings', 'Part-time Work', 'Delayed Purchases'], data: [66.7, 20.0, 6.7, 6.7] },
@@ -668,10 +785,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         for (const [canvasId, config] of Object.entries(chartConfigs)) {
-            const canvas = document.getElementById(canvasId);
-            if (canvas && !Chart.getChart(canvas)) {
-                new Chart(canvas.getContext('2d'), config);
-            }
+           createOrUpdateChart(canvasId, config);
         }
     }
 
@@ -680,6 +794,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link, .nav-button');
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const sections = document.querySelectorAll('main .content-section');
+    let chartInitFlags = {};
 
     function showSection(targetId) {
         targetId = targetId.substring(1); // remove #
@@ -691,7 +806,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if(history.pushState) history.pushState(null, null, `#${targetId}`);
         else location.hash = `#${targetId}`;
         
-        if (targetId === 'scholars' || targetId === 'solutions') initSurveyCharts();
+        if ((targetId === 'scholars' || targetId === 'solutions') && !chartInitFlags[targetId]) {
+            initSurveyCharts();
+            chartInitFlags[targetId] = true;
+        }
     }
     
     navLinks.forEach(link => {
