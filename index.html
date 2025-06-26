@@ -146,7 +146,7 @@
             margin: 0 !important;
             transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin-top 0.4s ease-out;
         }
-        .req-list li:hover p {
+        .req-list li:hover p, .req-list li.is-active p {
             max-height: 120px;
             opacity: 1;
             margin-top: var(--spacing-xs) !important;
@@ -165,7 +165,22 @@
         /* START: MODAL STYLES */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: var(--spacing-lg); opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px 0 var(--glass-shadow-hover); border-radius: var(--radius-xl); padding: var(--spacing-xl); max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-content {
+            background: var(--white); /* MODAL FIX: Use solid white background for readability */
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid #ddd;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            border-radius: var(--radius-xl); 
+            padding: var(--spacing-xl); 
+            max-width: 800px; 
+            width: 100%; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            position: relative; 
+            transform: scale(0.95); 
+            transition: transform 0.3s ease; 
+        }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-close-btn { position: absolute; top: var(--spacing-md); right: var(--spacing-md); background: none; border: none; font-size: var(--font-size-2xl); color: var(--text-primary); cursor: pointer; line-height: 1; padding: var(--spacing-sm); }
         .modal-table { width: 100%; border-collapse: separate; border-spacing: 0 var(--spacing-lg); text-align: left; }
@@ -176,6 +191,7 @@
         .modal-table .th-program-b { background: var(--up-maroon); }
         .modal-table .feature-col { font-weight: 600; color: var(--text-primary); }
         .modal-table tbody tr:last-child td { border-bottom: none; }
+        .modal-content .table-container { padding: 0; background: transparent; } /* MODAL FIX: Remove padding and bg from container */
         /* END: MODAL STYLES */
 
         @media (min-width: 769px) {
@@ -192,15 +208,15 @@
         }
         @media (max-width: 768px) {
             :root {
-                /* NEW: Smaller, more compact font scale for mobile */
-                --font-size-base: 0.9rem; /* Approx 14.4px */
-                --font-size-sm: 0.8rem; /* Approx 12.8px */
-                --font-size-lg: 1.0rem; /* Approx 16px */
-                --font-size-xl: 1.15rem; /* Approx 18.4px */
-                --font-size-2xl: 1.3rem; /* Approx 20.8px */
-                --font-size-3xl: 1.5rem; /* Approx 24px */
-                --font-size-4xl: 1.75rem; /* Approx 28px */
-                --font-size-5xl: 2.25rem; /* Approx 36px */
+                /* Smaller, more compact font scale for mobile */
+                --font-size-base: 0.9rem;
+                --font-size-sm: 0.8rem;
+                --font-size-lg: 1.0rem;
+                --font-size-xl: 1.15rem;
+                --font-size-2xl: 1.3rem;
+                --font-size-3xl: 1.5rem;
+                --font-size-4xl: 1.75rem;
+                --font-size-5xl: 2.25rem;
             }
             main { padding-top: 90px; }
             .section { padding: var(--spacing-xl) 0; }
@@ -209,7 +225,7 @@
             .glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, 0.85); }
             .navbar.scrolled { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, 0.9); }
             
-            .req-list li { cursor: default; }
+            /* On mobile/touch, make descriptions always visible */
             .req-list li p {
                 max-height: 150px;
                 opacity: 1;
@@ -241,13 +257,14 @@
                 border-radius: var(--radius-lg);
                 padding: var(--spacing-sm);
                 margin-bottom: var(--spacing-md);
+                background-color: var(--white);
             }
             .modal-table td { padding: var(--spacing-sm) !important; border-radius: var(--radius-sm); border-bottom: none !important; }
             .modal-table .feature-col {
                 grid-area: title;
                 font-weight: 700;
                 text-align: center;
-                background: rgba(255,255,255,0.2);
+                background: rgba(0,0,0,0.05);
                 border-bottom: 2px solid var(--up-maroon);
             }
             .modal-table .program-a-col { grid-area: progA; background: rgba(1, 68, 33, 0.08); border: 1px solid rgba(1, 68, 33, 0.1);}
@@ -301,7 +318,7 @@
         <div class="container">
             <section id="home" role="region" aria-labelledby="home-title" class="content-section">
                 <div class="card glass text-center animate-on-scroll" style="padding: var(--spacing-2xl) var(--spacing-xl);">
-                    <h2 class="h5 text-up-green animate-on-scroll stagger-delay-1" style="text-transform: uppercase; letter-spacing: 1.5px;">A Scholar-Led Initiative for Transparency</h2>
+                    <h2 class="h5 text-up-green animate-on-scroll stagger-delay-1" style="text-transform: uppercase; letter-spacing: 1.5px;">A Scholar-Led Initiative for Systemic Change</h2>
                     <h1 id="home-title" class="h1 text-up-maroon animate-on-scroll stagger-delay-2 section-title" tabindex="-1">The UPCM MSRS Scholars Guide</h1>
                     <p class="text-large animate-on-scroll stagger-delay-3">This guide consolidates official data and the collective experience of UPCM scholars to demystify the stipend process, present evidence-based findings, and propose solutions.</p>
                     <div class="d-grid grid-4 gap-4 mt-5">
@@ -708,6 +725,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.target === modal) {
                 modal.classList.remove('active');
             }
+        });
+
+        // IPAD/TOUCH FIX for requirement descriptions
+        const reqItems = document.querySelectorAll('.req-list li');
+        reqItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                // Prevent interfering with links or buttons inside if any
+                if (e.target.closest('a')) return;
+
+                const currentlyActive = item.classList.contains('is-active');
+                
+                // Close all other items
+                reqItems.forEach(i => i.classList.remove('is-active'));
+
+                // If it wasn't active, make it active
+                if (!currentlyActive) {
+                    item.classList.add('is-active');
+                }
+            });
         });
     }
     
