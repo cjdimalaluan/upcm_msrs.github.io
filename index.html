@@ -222,8 +222,8 @@
         
         /* Table styling with 3D Elevation */
         .table-container { 
-            overflow-x: auto; /* MODIFIED: Changed 'visible' to 'auto' for mobile scrolling */
-            -webkit-overflow-scrolling: touch; /* MODIFIED: Added for smooth scrolling on iOS */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             border-radius: var(--radius-lg); 
             background: rgba(255,255,255,0.1); 
             padding: var(--spacing-xs);
@@ -355,6 +355,56 @@
             .bridge-fund-flow .flow-step { width: 100%; min-height: auto; }
             .flow-step:hover { min-height: auto; }
             .flow-step p, .req-list li .text-small { max-height: 150px; opacity: 1; margin-top: var(--spacing-xs); }
+
+            /* MODIFIED: Responsive Table Styles */
+            .table-container {
+                overflow-x: initial; /* Unset horizontal scrolling */
+                background: transparent;
+                padding: 0;
+            }
+            #stipend-table {
+                min-width: 100%; /* Override desktop min-width */
+                border-spacing: 0 var(--spacing-lg); /* Spacing between cards */
+            }
+            #stipend-table thead {
+                display: none; /* Hide the header on mobile */
+            }
+            #stipend-table tbody, #stipend-table tr, #stipend-table td {
+                display: block; /* Make table elements stack */
+            }
+            #stipend-table tr {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-lg);
+                padding: var(--spacing-md);
+                box-shadow: 0 4px 6px var(--glass-shadow);
+            }
+            /* Disable hover/elevation effect on touch devices */
+            #stipend-table tbody tr:hover, #stipend-table tbody tr.is-elevated {
+                transform: none;
+                box-shadow: 0 4px 6px var(--glass-shadow);
+            }
+            #stipend-table td {
+                text-align: right; /* Align content to the right */
+                position: relative;
+                padding-left: 40%; /* Make space for the label */
+                border-bottom: 1px solid var(--glass-border);
+                padding-top: var(--spacing-md);
+                padding-bottom: var(--spacing-md);
+            }
+            #stipend-table td:last-child {
+                border-bottom: 0;
+            }
+            #stipend-table td::before {
+                content: attr(data-label); /* Use the data-label attribute as content */
+                position: absolute;
+                left: 0;
+                width: 35%;
+                padding-right: var(--spacing-md);
+                text-align: left;
+                font-weight: 600;
+                color: var(--up-forest-green);
+            }
         }
     </style>
 </head>
@@ -477,7 +527,7 @@
                  <div class="card glass animate-on-scroll">
                     <div class="card-header text-center">
                         <h2 id="journey-title" class="h2 animate-on-scroll">Stipend Process</h2>
-                        <p class="text-large animate-on-scroll stagger-delay-1">This table outlines the stipend process. Hover over or tap a row to elevate it.</p>
+                        <p class="text-large animate-on-scroll stagger-delay-1">This table outlines the stipend process. On mobile, each step is shown as a separate card.</p>
                     </div>
                     <div class="table-container animate-on-scroll stagger-delay-2">
                         <table id="stipend-table">
@@ -487,15 +537,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="animate-on-scroll"><td>1</td><td>Submits onboarding documents (NOA, contract, Form 5, etc.).</td><td><strong>Scholar</strong></td><td>1-2 weeks</td><td>2-4 weeks</td></tr>
-                                <tr class="animate-on-scroll stagger-delay-1"><td>2</td><td>Prepares and submits consolidated billing package to CHEDRO.</td><td><strong>UPCM</strong></td><td>7 working days¹</td><td>2-4 weeks</td></tr>
-                                <tr class="animate-on-scroll stagger-delay-2" style="background: rgba(123, 17, 19, 0.05);"><td class="text-up-maroon">3</td><td class="text-up-maroon">Allocates funds to CHEDRO.</td><td class="text-up-maroon"><strong>CHED-CO</strong></td><td class="text-up-maroon">20 working days¹</td><td class="text-up-maroon" style="font-weight: bold;">Months (Major Bottleneck)</td></tr>
-                                <tr class="animate-on-scroll stagger-delay-3" style="background: rgba(123, 17, 19, 0.05);"><td class="text-up-maroon">4</td><td class="text-up-maroon">Validates UPCM's billing; re-submits if errors are found.</td><td class="text-up-maroon"><strong>CHEDRO / UPCM</strong></td><td class="text-up-maroon">7 working days¹</td><td class="text-up-maroon" style="font-weight: bold;">Months (Major Bottleneck)</td></tr>
-                                <tr class="animate-on-scroll stagger-delay-4"><td>5</td><td>Transfers lump-sum funds to UPCM.</td><td><strong>CHEDRO</strong></td><td>3 working days¹</td><td>1-2 weeks</td></tr>
-                                <tr class="animate-on-scroll stagger-delay-5"><td>6</td><td>Processes internal disbursement voucher.</td><td><strong>UPCM</strong></td><td>5-7 working days²</td><td style="font-weight: bold;" class="text-up-maroon">Weeks to Months</td></tr>
-                                <tr class="animate-on-scroll stagger-delay-6"><td>7</td><td>Receives stipend in bank account.</td><td><strong>Scholar</strong></td><td>Immediate</td><td style="font-weight: bold;" class="text-up-maroon">Total Delay: 9-17 Months</td></tr>
-                                <tr class="animate-on-scroll" style="transition-delay: 0.7s;"><td>8</td><td>Submits liquidation documents to UPCM.</td><td><strong>Scholar</strong></td><td>1 week</td><td>1-4 weeks</td></tr>
-                                <tr class="animate-on-scroll" style="transition-delay: 0.8s; background: rgba(123, 17, 19, 0.1);"><td class="text-up-maroon" style="font-weight: bold;">9</td><td class="text-up-maroon" style="font-weight: bold;">Process for next semester begins, but only after UPCM's previous liquidation is approved by CHED.</td><td class="text-up-maroon" style="font-weight: bold;">All Parties</td><td class="text-up-maroon" style="font-weight: bold;">30 working days³</td><td class="text-up-maroon" style="font-weight: bold;">Vicious Cycle Repeats</td></tr>
+                                <tr class="animate-on-scroll"><td data-label="Step">1</td><td data-label="Action">Submits onboarding documents (NOA, contract, Form 5, etc.).</td><td data-label="Responsible Party"><strong>Scholar</strong></td><td data-label="Mandated Duration">1-2 weeks</td><td data-label="Experienced Duration">2-4 weeks</td></tr>
+                                <tr class="animate-on-scroll stagger-delay-1"><td data-label="Step">2</td><td data-label="Action">Prepares and submits consolidated billing package to CHEDRO.</td><td data-label="Responsible Party"><strong>UPCM</strong></td><td data-label="Mandated Duration">7 working days¹</td><td data-label="Experienced Duration">2-4 weeks</td></tr>
+                                <tr class="animate-on-scroll stagger-delay-2" style="background: rgba(123, 17, 19, 0.05);"><td data-label="Step" class="text-up-maroon">3</td><td data-label="Action" class="text-up-maroon">Allocates funds to CHEDRO.</td><td data-label="Responsible Party" class="text-up-maroon"><strong>CHED-CO</strong></td><td data-label="Mandated Duration" class="text-up-maroon">20 working days¹</td><td data-label="Experienced Duration" class="text-up-maroon" style="font-weight: bold;">Months (Major Bottleneck)</td></tr>
+                                <tr class="animate-on-scroll stagger-delay-3" style="background: rgba(123, 17, 19, 0.05);"><td data-label="Step" class="text-up-maroon">4</td><td data-label="Action" class="text-up-maroon">Validates UPCM's billing; re-submits if errors are found.</td><td data-label="Responsible Party" class="text-up-maroon"><strong>CHEDRO / UPCM</strong></td><td data-label="Mandated Duration" class="text-up-maroon">7 working days¹</td><td data-label="Experienced Duration" class="text-up-maroon" style="font-weight: bold;">Months (Major Bottleneck)</td></tr>
+                                <tr class="animate-on-scroll stagger-delay-4"><td data-label="Step">5</td><td data-label="Action">Transfers lump-sum funds to UPCM.</td><td data-label="Responsible Party"><strong>CHEDRO</strong></td><td data-label="Mandated Duration">3 working days¹</td><td data-label="Experienced Duration">1-2 weeks</td></tr>
+                                <tr class="animate-on-scroll stagger-delay-5"><td data-label="Step">6</td><td data-label="Action">Processes internal disbursement voucher.</td><td data-label="Responsible Party"><strong>UPCM</strong></td><td data-label="Mandated Duration">5-7 working days²</td><td data-label="Experienced Duration" style="font-weight: bold;" class="text-up-maroon">Weeks to Months</td></tr>
+                                <tr class="animate-on-scroll stagger-delay-6"><td data-label="Step">7</td><td data-label="Action">Receives stipend in bank account.</td><td data-label="Responsible Party"><strong>Scholar</strong></td><td data-label="Mandated Duration">Immediate</td><td data-label="Experienced Duration" style="font-weight: bold;" class="text-up-maroon">Total Delay: 9-17 Months</td></tr>
+                                <tr class="animate-on-scroll" style="transition-delay: 0.7s;"><td data-label="Step">8</td><td data-label="Action">Submits liquidation documents to UPCM.</td><td data-label="Responsible Party"><strong>Scholar</strong></td><td data-label="Mandated Duration">1 week</td><td data-label="Experienced Duration">1-4 weeks</td></tr>
+                                <tr class="animate-on-scroll" style="transition-delay: 0.8s; background: rgba(123, 17, 19, 0.1);"><td data-label="Step" class="text-up-maroon" style="font-weight: bold;">9</td><td data-label="Action" class="text-up-maroon" style="font-weight: bold;">Process for next semester begins, but only after UPCM's previous liquidation is approved by CHED.</td><td data-label="Responsible Party" class="text-up-maroon" style="font-weight: bold;">All Parties</td><td data-label="Mandated Duration" class="text-up-maroon" style="font-weight: bold;">30 working days³</td><td data-label="Experienced Duration" class="text-up-maroon" style="font-weight: bold;">Vicious Cycle Repeats</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -662,23 +712,25 @@ document.addEventListener('DOMContentLoaded', function() {
         tableRows.forEach(row => {
             row.addEventListener('touchstart', (e) => {
                 e.preventDefault(); 
-                if (elevatedRow && elevatedRow !== row) {
-                    elevatedRow.classList.remove('is-elevated');
-                }
-                if (row.classList.contains('is-elevated')) {
-                    row.classList.remove('is-elevated');
-                    elevatedRow = null;
-                    clearTimeout(timeoutId);
-                } else {
-                    row.classList.add('is-elevated');
-                    elevatedRow = row;
-                    clearTimeout(timeoutId);
-                    timeoutId = setTimeout(() => {
+                if (window.innerWidth > 768) { // Only run elevation on desktop
+                    if (elevatedRow && elevatedRow !== row) {
+                        elevatedRow.classList.remove('is-elevated');
+                    }
+                    if (row.classList.contains('is-elevated')) {
                         row.classList.remove('is-elevated');
-                        if (elevatedRow === row) {
-                            elevatedRow = null;
-                        }
-                    }, 2000);
+                        elevatedRow = null;
+                        clearTimeout(timeoutId);
+                    } else {
+                        row.classList.add('is-elevated');
+                        elevatedRow = row;
+                        clearTimeout(timeoutId);
+                        timeoutId = setTimeout(() => {
+                            row.classList.remove('is-elevated');
+                            if (elevatedRow === row) {
+                                elevatedRow = null;
+                            }
+                        }, 2000);
+                    }
                 }
             }, { passive: false });
         });
