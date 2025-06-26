@@ -191,9 +191,20 @@
           .grid-2, .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-            :root { --font-size-base: 0.95rem; --font-size-lg: 1.05rem; --font-size-xl: 1.15rem; --font-size-2xl: 1.35rem; --font-size-3xl: 1.6rem; --font-size-4xl: 1.85rem; --font-size-5xl: 2.5rem; }
-            main { padding-top: 100px; }
-            .section { padding: var(--spacing-2xl) 0; }
+            :root {
+                /* NEW: Smaller, more compact font scale for mobile */
+                --font-size-base: 0.9rem; /* Approx 14.4px */
+                --font-size-sm: 0.8rem; /* Approx 12.8px */
+                --font-size-lg: 1.0rem; /* Approx 16px */
+                --font-size-xl: 1.15rem; /* Approx 18.4px */
+                --font-size-2xl: 1.3rem; /* Approx 20.8px */
+                --font-size-3xl: 1.5rem; /* Approx 24px */
+                --font-size-4xl: 1.75rem; /* Approx 28px */
+                --font-size-5xl: 2.25rem; /* Approx 36px */
+            }
+            main { padding-top: 90px; }
+            .section { padding: var(--spacing-xl) 0; }
+            .card { padding: var(--spacing-lg); }
             .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
             .glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, 0.85); }
             .navbar.scrolled { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, 0.9); }
@@ -217,21 +228,21 @@
             #stipend-table td::before { content: attr(data-label); position: absolute; left: 0; width: 35%; padding-right: var(--spacing-md); text-align: left; font-weight: 600; color: var(--up-forest-green); }
 
             /* START: MOBILE MODAL FIXES */
-            .modal-overlay { padding: var(--spacing-md); }
-            .modal-content { padding: var(--spacing-lg); }
+            .modal-overlay { padding: var(--spacing-sm); }
+            .modal-content { padding: var(--spacing-md); }
             .modal-table thead { display: none; }
             .modal-table, .modal-table tbody { display: block; width: 100%; }
             .modal-table tr {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-areas: "title title" "progA progB";
-                gap: var(--spacing-md);
+                gap: var(--spacing-sm);
                 border: 1px solid var(--glass-border);
                 border-radius: var(--radius-lg);
-                padding: var(--spacing-md);
-                margin-bottom: var(--spacing-lg);
+                padding: var(--spacing-sm);
+                margin-bottom: var(--spacing-md);
             }
-            .modal-table td { padding: var(--spacing-md) !important; border-radius: var(--radius-sm); border-bottom: none !important; }
+            .modal-table td { padding: var(--spacing-sm) !important; border-radius: var(--radius-sm); border-bottom: none !important; }
             .modal-table .feature-col {
                 grid-area: title;
                 font-weight: 700;
@@ -241,13 +252,12 @@
             }
             .modal-table .program-a-col { grid-area: progA; background: rgba(1, 68, 33, 0.08); border: 1px solid rgba(1, 68, 33, 0.1);}
             .modal-table .program-b-col { grid-area: progB; background: rgba(123, 17, 19, 0.08); border: 1px solid rgba(123, 17, 19, 0.1); }
-            
             .modal-table .program-a-col::before,
             .modal-table .program-b-col::before {
                 display: block;
                 font-weight: 700;
-                margin-bottom: var(--spacing-md);
-                padding-bottom: var(--spacing-sm);
+                margin-bottom: var(--spacing-sm);
+                padding-bottom: var(--spacing-xs);
                 font-size: var(--font-size-sm);
             }
             .modal-table .program-a-col::before {
@@ -358,6 +368,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-grid grid-4 gap-4">
+                            <!-- Card 1 -->
                             <div class="card glass animate-on-scroll stagger-delay-1" style="margin-bottom: 0;">
                                 <h3 class="h4 text-up-green" style="border-bottom: 2px solid var(--up-forest-green); padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-lg);">Initial Onboarding</h3>
                                 <ul class="req-list">
@@ -367,6 +378,7 @@
                                     <li><span class="icon icon-check">&#10003;</span><div><h6>Withdrawal from other Scholarships</h6><p>Formally withdraw from any other government scholarships (e.g., SLAS).</p></div></li>
                                 </ul>
                             </div>
+                            <!-- Card 2 -->
                             <div class="card glass animate-on-scroll stagger-delay-2" style="margin-bottom: 0;">
                                 <h3 class="h4 text-up-green" style="border-bottom: 2px solid var(--up-forest-green); padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-lg);">Insurance (ASAP)</h3>
                                 <ul class="req-list">
@@ -374,6 +386,7 @@
                                     <li><span class="icon icon-alert">&#33;</span><div><h6>GSIS Insurance Enrollment</h6><p>Fill out and submit the official Google Form as soon as it is announced.</p></div></li>
                                 </ul>
                             </div>
+                            <!-- Card 3 -->
                             <div class="card glass animate-on-scroll stagger-delay-3" style="margin-bottom: 0;">
                                 <h3 class="h4 text-up-green" style="border-bottom: 2px solid var(--up-forest-green); padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-lg);">Per-Semester Request</h3>
                                 <ul class="req-list">
@@ -382,6 +395,7 @@
                                     <li><span class="icon icon-check">&#10003;</span><div><h6>TCG and COE Fees</h6><p>Scholars must pay the fee (e.g., ~₱100) for the batch's consolidated grade report.</p></div></li>
                                 </ul>
                             </div>
+                            <!-- Card 4 -->
                             <div class="card glass animate-on-scroll stagger-delay-4" style="margin-bottom: 0;">
                                  <h3 class="h4 text-up-green" style="border-bottom: 2px solid var(--up-forest-green); padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-lg);">Liquidation (CRUCIAL)</h3>
                                  <ul class="req-list">
@@ -498,6 +512,7 @@
         </div>
     </footer>
 
+    <!-- Comparison Modal -->
     <div id="comparison-modal" class="modal-overlay">
         <div class="modal-content animate-on-scroll">
             <button id="modal-close-button" class="modal-close-btn" aria-label="Close modal">&times;</button>
