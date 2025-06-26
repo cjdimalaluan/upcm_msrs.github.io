@@ -6,32 +6,40 @@
   --up-maroon: #7b1113;
   --up-green: #014421;
 }
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f9fafb;
   color: #1f2937;
   scroll-behavior: smooth;
 }
+
 ::selection {
   background-color: var(--up-maroon);
   color: white;
 }
+
 .main-nav-link {
   @apply px-3 py-2 font-semibold text-gray-600 border-b-4 border-transparent transition-colors duration-300;
 }
+
 .main-nav-link:hover {
   @apply text-[var(--up-maroon)];
 }
+
 .main-nav-link.active {
   @apply text-[var(--up-maroon)] border-[var(--up-maroon)];
 }
+
 .content-section {
   display: none;
 }
+
 .content-section.active {
   display: block;
   animation: fadeIn 0.5s ease-in-out;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -42,29 +50,37 @@ body {
     transform: translateY(0);
   }
 }
+
 .card {
   @apply bg-white rounded-xl border border-gray-200 shadow-sm transition-transform duration-300;
 }
+
 .card:hover {
   @apply shadow-lg -translate-y-1;
 }
+
 .faq-arrow {
   @apply transition-transform duration-300;
 }
+
 .faq-item[open] .faq-arrow {
   transform: rotate(180deg);
 }
+
 :focus-visible {
   outline: 3px solid var(--up-maroon);
   outline-offset: 2px;
   border-radius: 4px;
 }
+
 .protip-box {
   @apply mt-12 p-6 bg-yellow-50 border border-yellow-200 rounded-lg;
 }
+
 sup {
   line-height: 0;
 }
+
 .scroll-shadow::after {
   content: "";
   @apply absolute bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent pointer-events-none;
