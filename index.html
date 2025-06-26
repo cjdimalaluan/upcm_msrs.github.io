@@ -22,74 +22,30 @@
     <style>
         /* ===================================================================
            UNIVERSITY OF THE PHILIPPINES - GLASSMORPHISM DESIGN SYSTEM
-           Complete CSS Implementation
+           FINAL REFINED VERSION
            =================================================================== */
-
-        /* --- CSS Custom Properties (Variables) --- */
         :root {
-          /* UP Brand Colors */
           --up-maroon: #7B1113;
           --up-forest-green: #014421;
           --up-maroon-hover: #5a0c0e;
           --up-forest-green-hover: #012b17;
-          
-          /* Neutral Colors */
           --text-primary: #333333;
           --text-secondary: #666666;
           --text-light: #999999;
           --background-main: #F8F9FA;
           --white: #FFFFFF;
-          
-          /* Glassmorphism Colors */
           --glass-bg: rgba(255, 255, 255, 0.55);
           --glass-border: rgba(255, 255, 255, 0.25);
           --glass-shadow: rgba(31, 38, 135, 0.1);
           --glass-shadow-hover: rgba(123, 17, 19, 0.2);
-          
-          /* Typography Scale */
-          --font-size-xs: 0.75rem;    /* 12px */
-          --font-size-sm: 0.875rem;   /* 14px */
-          --font-size-base: 1rem;     /* 16px */
-          --font-size-lg: 1.125rem;   /* 18px */
-          --font-size-xl: 1.25rem;    /* 20px */
-          --font-size-2xl: 1.5rem;    /* 24px */
-          --font-size-3xl: 1.875rem;  /* 30px */
-          --font-size-4xl: 2.25rem;   /* 36px */
-          --font-size-5xl: 3rem;      /* 48px */
-          
-          /* Spacing Scale */
-          --spacing-xs: 0.25rem;   /* 4px */
-          --spacing-sm: 0.5rem;    /* 8px */
-          --spacing-md: 1rem;      /* 16px */
-          --spacing-lg: 1.5rem;    /* 24px */
-          --spacing-xl: 2rem;      /* 32px */
-          --spacing-2xl: 3rem;     /* 48px */
-          --spacing-3xl: 4rem;     /* 64px */
-          
-          /* Border Radius */
-          --radius-sm: 8px;
-          --radius-md: 12px;
-          --radius-lg: 16px;
-          --radius-xl: 24px;
-          
-          /* Transitions & Animations */
-          --transition-fast: 0.15s ease-in-out;
-          --transition-base: 0.3s ease-in-out;
-          --transition-slow: 0.5s ease-in-out;
+          --font-size-xs: 0.75rem; --font-size-sm: 0.875rem; --font-size-base: 1rem; --font-size-lg: 1.125rem; --font-size-xl: 1.25rem; --font-size-2xl: 1.5rem; --font-size-3xl: 1.875rem; --font-size-4xl: 2.25rem; --font-size-5xl: 3rem;
+          --spacing-xs: 0.25rem; --spacing-sm: 0.5rem; --spacing-md: 1rem; --spacing-lg: 1.5rem; --spacing-xl: 2rem; --spacing-2xl: 3rem; --spacing-3xl: 4rem;
+          --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px;
+          --transition-fast: 0.15s ease-in-out; --transition-base: 0.3s ease-in-out; --transition-slow: 0.5s ease-in-out;
           --animation-duration-medium: 0.6s;
         }
-
-        /* --- Global Styles & Reset --- */
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
           font-size: var(--font-size-base);
@@ -99,50 +55,38 @@
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
-        
-        /* --- Animation System --- */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px) scale(0.98);
             transition: opacity var(--animation-duration-medium) cubic-bezier(0.165, 0.84, 0.44, 1),
                         transform var(--animation-duration-medium) cubic-bezier(0.165, 0.84, 0.44, 1);
+            will-change: opacity, transform;
         }
-        .animate-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+        .stagger-delay-1 { transition-delay: 0.1s; } .stagger-delay-2 { transition-delay: 0.2s; } .stagger-delay-3 { transition-delay: 0.3s; }
+        .stagger-delay-4 { transition-delay: 0.4s; } .stagger-delay-5 { transition-delay: 0.5s; } .stagger-delay-6 { transition-delay: 0.6s; }
+        
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(20px); } }
+        .content-section { 
+            display: none;
+            animation: fadeIn 0.5s ease-in-out; 
         }
-        .stagger-delay-1 { transition-delay: 0.1s; }
-        .stagger-delay-2 { transition-delay: 0.2s; }
-        .stagger-delay-3 { transition-delay: 0.3s; }
-        .stagger-delay-4 { transition-delay: 0.4s; }
-        .stagger-delay-5 { transition-delay: 0.5s; }
-        .stagger-delay-6 { transition-delay: 0.6s; }
-        @media (prefers-reduced-motion: reduce) {
-            .animate-on-scroll { transition: opacity 0.01s; transform: none; }
-        }
-        .content-section { display: none; }
-        .content-section.active { display: block; animation: fadeIn 0.6s ease-in-out; }
+        .content-section.active { display: block; }
+        .content-section.is-hiding { animation: fadeOut 0.3s ease-in-out forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* --- Typography --- */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-on-scroll, .content-section, .content-section.is-hiding { 
+                transition: none; animation: none; opacity: 1; transform: none;
+            }
+        }
         h1, .h1 { font-size: var(--font-size-4xl); font-weight: 700; line-height: 1.2; margin-bottom: var(--spacing-lg); color: var(--text-primary); }
         h2, .h2 { font-size: var(--font-size-3xl); font-weight: 600; line-height: 1.3; margin-bottom: var(--spacing-md); color: var(--text-primary); }
         h3, .h3 { font-size: var(--font-size-2xl); font-weight: 600; line-height: 1.4; margin-bottom: var(--spacing-md); color: var(--text-primary); }
         h4, .h4 { font-size: var(--font-size-xl); font-weight: 600; line-height: 1.4; margin-bottom: var(--spacing-sm); color: var(--text-primary); }
-        h5, .h5 { font-size: var(--font-size-lg); font-weight: 500; line-height: 1.5; margin-bottom: var(--spacing-sm); color: var(--text-primary); }
-        h6, .h6 { font-size: var(--font-size-base); font-weight: 500; line-height: 1.5; margin-bottom: var(--spacing-sm); color: var(--text-primary); }
         p { margin-bottom: var(--spacing-md); color: var(--text-secondary); line-height: 1.7; }
-        ul { list-style: none; }
-        .text-large { font-size: var(--font-size-lg); }
-        .text-small { font-size: var(--font-size-sm); color: var(--text-secondary); }
-        .text-muted { color: var(--text-light); }
-        .text-up-maroon { color: var(--up-maroon); }
-        .text-up-green { color: var(--up-forest-green); }
-
-        /* --- Glassmorphism Base Classes --- */
         .glass {
           background: var(--glass-bg);
           backdrop-filter: blur(15px);
@@ -150,8 +94,6 @@
           border: 1px solid var(--glass-border);
           box-shadow: 0 8px 32px 0 var(--glass-shadow);
         }
-
-        /* --- Header & Navigation --- */
         .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: var(--transition-base); }
         .navbar { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: var(--spacing-md) var(--spacing-xl); border-radius: var(--radius-lg); margin-top: var(--spacing-md); transition: background-color var(--transition-base), backdrop-filter var(--transition-base), box-shadow var(--transition-base); }
         .navbar.scrolled { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 10px 35px 0 var(--glass-shadow); }
@@ -160,273 +102,107 @@
         .nav-link { color: var(--text-primary); text-decoration: none; font-weight: 500; font-size: var(--font-size-sm); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-sm); transition: var(--transition-base); position: relative; cursor: pointer; }
         .nav-link::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: var(--up-maroon); transition: width 0.3s ease-in-out; }
         .nav-link:hover::after, .nav-link.active::after { width: 50%; }
-        .nav-link:hover { color: var(--up-maroon); }
-        .nav-link.active { color: var(--up-maroon); font-weight: 600; }
+        .nav-link:hover, .nav-link.active { color: var(--up-maroon); }
+        .nav-link:focus-visible { outline: 2px solid var(--up-maroon); outline-offset: 2px; }
         .menu-toggle { display: none; flex-direction: column; cursor: pointer; background: none; border: none; padding: var(--spacing-sm); }
         .menu-toggle span { width: 25px; height: 3px; background-color: var(--text-primary); margin: 3px 0; transition: var(--transition-fast); border-radius: 2px; }
         .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
-
-        /* --- Cards & Content Containers --- */
-        .card { border-radius: var(--radius-xl); padding: var(--spacing-xl); margin-bottom: var(--spacing-xl); transition: transform var(--transition-base), box-shadow var(--transition-base); }
+        .card { border-radius: var(--radius-xl); padding: var(--spacing-xl); margin-bottom: var(--spacing-xl); transition: transform var(--transition-base), box-shadow var(--transition-base); will-change: transform, box-shadow; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px 0 var(--glass-shadow-hover); }
         .card-header { margin-bottom: var(--spacing-lg); padding-bottom: var(--spacing-md); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
         .card-header .h2, .card-header .h3, .card-header .h4 { color: var(--up-forest-green); }
-        .card-header p { color: var(--text-secondary); }
-
-        /* --- Buttons --- */
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-md); font-size: var(--font-size-base); font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: var(--transition-base); text-align: center; line-height: 1.4; }
-        .btn-content { display: flex; flex-direction: column; align-items: center; }
-        .btn-icon {
-            margin-bottom: var(--spacing-sm);
-            line-height: 1;
-            transition: transform 0.3s ease-in-out;
-            width: 48px; 
-            height: 48px;
-        }
-        .btn:hover .btn-icon { transform: rotate(-10deg) scale(1.1); }
-        .btn:hover { text-decoration: none; }
-        .btn-ghost { background-color: rgba(255, 255, 255, 0.1); color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .btn-ghost:hover { background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-        
-        /* --- Utility Classes --- */
+        .btn:focus-visible { outline: 2px solid var(--up-maroon); outline-offset: 4px; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--spacing-lg); }
         .section { padding: var(--spacing-3xl) 0; }
+        .section-title { scroll-margin-top: 120px; }
+        .section-title:focus { outline: none; }
         .text-center { text-align: center; }
-        .mt-4 { margin-top: var(--spacing-lg); }
-        .mt-5 { margin-top: var(--spacing-xl); }
-        .mb-0 { margin-bottom: 0 !important; }
-        .d-grid { display: grid; }
-        .gap-4 { gap: var(--spacing-lg); }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-
-        /* --- Component-Specific Styles --- */
-
-        /* Waffle Chart Styling */
-        .waffle-container { display: grid; grid-template-columns: repeat(10, 1fr); grid-gap: 4px; width: 100%; max-width: 320px; margin: 0 auto; }
-        .waffle-square { width: 100%; padding-bottom: 100%; border-radius: 3px; }
-        .waffle-legend { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
-        .legend-item { display: flex; align-items: center; gap: 0.5rem; }
-        .legend-color { width: 1rem; height: 1rem; border-radius: 0.25rem; }
-
-        /* FAQ Styling */
-        .faq-item { border-radius: var(--radius-md); background-color: rgba(255,255,255,0.7); border: 1px solid var(--glass-border); margin-bottom: var(--spacing-md); }
-        .faq-item summary { font-weight: 600; color: var(--text-primary); cursor: pointer; padding: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; list-style: none; }
-        .faq-item summary::-webkit-details-marker { display: none; }
-        .faq-item .faq-answer { padding: 0 var(--spacing-lg) var(--spacing-lg); color: var(--text-secondary); }
-        .faq-arrow { transition: transform 0.3s ease; }
-        .faq-item[open] .faq-arrow { transform: rotate(180deg); }
+        .d-grid { display: grid; } .gap-4 { gap: var(--spacing-lg); }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(3, 1fr); } .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .faq-item summary, .suggestion-accordion summary { font-weight: 600; cursor: pointer; padding: var(--spacing-lg); display: flex; justify-content: space-between; align-items: center; list-style: none; }
+        .faq-item summary:focus-visible { outline: 2px solid var(--up-forest-green); outline-offset: 2px; border-radius: var(--radius-md); }
+        .faq-arrow, .suggestion-arrow { transition: transform 0.3s ease; }
+        details[open] .faq-arrow, details[open] .suggestion-arrow { transform: rotate(180deg); }
+        tbody tr { transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+        tbody tr:hover { transform: scale(1.01); z-index: 10; background-color: rgba(255, 255, 255, 0.75); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); border-radius: var(--radius-sm); }
+        .suggestion-list { list-style-type: '✓'; padding-left: var(--spacing-lg); }
+        .suggestion-list li { padding-left: var(--spacing-sm); margin-bottom: var(--spacing-sm); color: var(--text-secondary); }
         
-        /* Table styling with 3D Elevation */
-        .table-container { 
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: var(--radius-lg); 
-            background: rgba(255,255,255,0.1); 
-            padding: var(--spacing-xs);
-            perspective: 1200px;
-        }
-        table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 900px; }
-        th, td { padding: var(--spacing-md); text-align: left; border-bottom: 1px solid var(--glass-border); }
-        thead th { font-weight: 600; color: var(--up-forest-green); }
-        tbody tr {
-            transform-style: preserve-3d;
-            will-change: transform, box-shadow;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        tbody tr.is-elevated,
-        tbody tr:hover {
-            transform: scale(1.02) translateZ(10px);
-            z-index: 10;
-            background-color: rgba(255, 255, 255, 0.75);
-            box-shadow: 0 0 2px 1px rgba(123, 17, 19, 0.3), 0 8px 25px rgba(0, 0, 0, 0.2);
-            border-radius: var(--radius-sm);
-        }
-        tbody tr.is-elevated td,
-        tbody tr:hover td {
-            color: var(--text-primary);
-        }
-        tbody tr.animate-on-scroll { opacity: 0; transform: translateX(-30px); }
-        tbody tr.animate-on-scroll.is-visible { opacity: 1; transform: translateX(0); }
-
-        /* Requirement List Styling */
-        .req-list { list-style: none; padding: 0; }
-        .req-list li { display: flex; align-items: flex-start; margin-bottom: var(--spacing-lg); cursor: pointer; }
-        .req-list li .icon { margin-right: var(--spacing-md); font-size: var(--font-size-xl); font-weight: bold; }
-        .req-list li .icon-check { color: var(--up-forest-green); }
-        .req-list li .icon-alert { color: var(--up-maroon); }
-        .req-list li .text-small { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; margin-bottom: 0 !important; transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin-top 0.4s ease-out; }
-        .req-list li:hover .text-small { max-height: 60px; opacity: 1; margin-top: var(--spacing-xs) !important; }
-
-        /* SVG Icon Styling */
-        .animated-svg {
-            stroke: var(--up-forest-green);
-            stroke-width: 2px;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-        }
-        .is-visible .animated-svg {
-            animation: svg-draw 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
-        }
-        @keyframes svg-draw {
-            to { stroke-dashoffset: 0; }
-        }
-
-        /* Suggestion Card */
-        .suggestion-card { padding: var(--spacing-lg); display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-        .suggestion-card .icon-container { color: var(--up-forest-green); margin-bottom: var(--spacing-md); width: 24px; height: 24px; }
-        .suggestion-card p { font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: 0; }
-        
-        .pro-tip-card { background-color: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: var(--radius-lg); padding: var(--spacing-lg); }
-        
-        /* Bridge Fund Flow Diagram */
-        .bridge-fund-flow { display: flex; align-items: stretch; justify-content: center; gap: var(--spacing-md); width: 100%; margin-top: var(--spacing-xl); }
-        .bridge-fund-flow .flow-step { flex: 1; border-radius: var(--radius-lg); padding: var(--spacing-lg); text-align: center; background: rgba(255,255,255,0.4); border: 1px solid var(--glass-border); display: flex; flex-direction: column; justify-content: center; min-height: 120px; transition: min-height 0.4s ease-out, background-color 0.3s ease; }
-        .bridge-fund-flow .flow-arrow { display: flex; align-items: center; justify-content: center; font-size: var(--font-size-3xl); color: var(--up-forest-green); flex-shrink: 0; }
-        .flow-step p { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin-top 0.4s ease-out; }
-        .flow-step:hover { min-height: 160px; background-color: rgba(255, 255, 255, 0.6); }
-        .flow-step:hover p { max-height: 150px; opacity: 1; margin-top: var(--spacing-sm); }
-
-        /* [NEW] Tooltip Styling */
-        .tooltip-trigger {
-            position: relative;
-            text-decoration: underline;
-            text-decoration-style: dotted;
-            cursor: help;
-        }
-        .tooltip-text {
-            visibility: hidden;
+        /* IMPROVEMENT: Re-implemented hover-to-reveal requirement details */
+        .req-list { list-style: none; padding: 0; } 
+        .req-list li { display: flex; align-items: flex-start; margin-bottom: var(--spacing-lg); cursor: pointer; } 
+        .req-list li .icon { margin-right: var(--spacing-md); font-size: var(--font-size-xl); font-weight: bold; line-height: 1.4; } 
+        .req-list li .icon-check { color: var(--up-forest-green); } 
+        .req-list li .icon-alert { color: var(--up-maroon); } 
+        .req-list li h6 { margin-bottom: var(--spacing-xs); font-weight: 600; }
+        .req-list li p { 
+            font-size: var(--font-size-sm); 
+            color: var(--text-secondary);
+            max-height: 0;
             opacity: 0;
-            width: 280px;
-            background-color: var(--up-forest-green);
-            color: var(--white);
-            text-align: center;
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            position: absolute;
-            z-index: 20;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -140px; /* Use half of the width to center */
-            transition: opacity 0.3s ease;
-            font-size: var(--font-size-sm);
-            font-weight: 400;
-            line-height: 1.5;
+            overflow: hidden;
+            margin: 0 !important;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin-top 0.4s ease-out;
         }
-        .tooltip-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: var(--up-forest-green) transparent transparent transparent;
-        }
-        .tooltip-trigger:hover .tooltip-text {
-            visibility: visible;
+        .req-list li:hover p {
+            max-height: 80px; /* Increased height for longer descriptions */
             opacity: 1;
+            margin-top: var(--spacing-xs) !important;
         }
 
-        /* Footer */
         #page-footer { background-color: rgba(0,0,0,0.05); text-align: center; padding: var(--spacing-xl) 0; margin-top: var(--spacing-xl); }
         #page-footer.footer-hidden { display: none !important; }
+        
+        .concise-workflow { display: flex; flex-direction: column; gap: var(--spacing-md); }
+        .workflow-item { display: flex; align-items: center; background: rgba(255,255,255,0.5); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
+        .workflow-number { flex-shrink: 0; background-color: var(--up-forest-green); color: var(--white); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: var(--font-size-xl); font-weight: 700; margin-right: var(--spacing-md); }
+        .workflow-content h6 { color: var(--up-maroon); margin-bottom: var(--spacing-xs); font-size: var(--font-size-lg); }
+        .workflow-content p { font-size: var(--font-size-sm); margin-bottom: 0; }
 
-        /* --- Responsive Design --- */
+        @media (min-width: 769px) {
+            .concise-workflow { flex-direction: row; align-items: stretch; justify-content: space-between; }
+            .workflow-item { flex-direction: column; text-align: center; padding: var(--spacing-lg); flex: 1; }
+            .workflow-number { margin-right: 0; margin-bottom: var(--spacing-md); }
+        }
+
         @media (max-width: 992px) {
           .nav-menu { position: absolute; top: 90%; left: var(--spacing-lg); right: var(--spacing-lg); background: var(--glass-bg); flex-direction: column; padding: var(--spacing-lg); gap: var(--spacing-md); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: var(--transition-base); border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px 0 var(--glass-shadow); }
           .nav-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
           .menu-toggle { display: flex; }
           .grid-2, .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
-
         @media (max-width: 768px) {
-            /* ================================================= */
-            /* [IMPROVEMENT] Mobile Typography & Spacing System  */
-            /* ================================================= */
-            :root {
-                /* Downscale fonts for mobile readability */
-                --font-size-base: 0.95rem;  /* 15.2px */
-                --font-size-lg: 1.05rem;   /* 16.8px */
-                --font-size-xl: 1.15rem;   /* 18.4px */
-                --font-size-2xl: 1.35rem;  /* 21.6px */
-                --font-size-3xl: 1.6rem;   /* 25.6px */
-                --font-size-4xl: 1.85rem;  /* 29.6px */
-                --font-size-5xl: 2.5rem;   /* 40px */
-            }
-            body { line-height: 1.55; }
-            main { padding-top: 100px; /* Reduced top padding */ }
-            .section { padding: var(--spacing-2xl) 0; /* Reduced section padding */ }
-            .card { padding: var(--spacing-lg); }
-            #home .text-large { font-size: var(--font-size-base); } /* Adjust hero text */
-            .logo { font-size: var(--font-size-base); }
-            /* ================================================= */
-
+            :root { --font-size-base: 0.95rem; --font-size-lg: 1.05rem; --font-size-xl: 1.15rem; --font-size-2xl: 1.35rem; --font-size-3xl: 1.6rem; --font-size-4xl: 1.85rem; --font-size-5xl: 2.5rem; }
+            main { padding-top: 100px; }
+            .section { padding: var(--spacing-2xl) 0; }
             .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-            .bridge-fund-flow { flex-direction: column; align-items: center; }
-            .bridge-fund-flow .flow-arrow { transform: rotate(90deg); margin: var(--spacing-xs) 0; }
-            .bridge-fund-flow .flow-step { width: 100%; min-height: auto; }
-            .flow-step:hover { min-height: auto; }
-            .flow-step p, .req-list li .text-small { max-height: 150px; opacity: 1; margin-top: var(--spacing-xs); }
+            .glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, 0.85); }
+            .navbar.scrolled { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, 0.9); }
+            
+            /* IMPROVEMENT: Disable hover effect on mobile and show details by default */
+            .req-list li { cursor: default; }
+            .req-list li p {
+                max-height: 150px;
+                opacity: 1;
+                margin-top: var(--spacing-xs) !important;
+                transition: none;
+            }
 
-            /* MODIFIED: Responsive Table Styles */
-            .table-container {
-                overflow-x: initial; /* Unset horizontal scrolling */
-                background: transparent;
-                padding: 0;
-            }
-            #stipend-table {
-                min-width: 100%; /* Override desktop min-width */
-                border-spacing: 0 var(--spacing-lg); /* Spacing between cards */
-            }
-            #stipend-table thead {
-                display: none; /* Hide the header on mobile */
-            }
-            #stipend-table tbody, #stipend-table tr, #stipend-table td {
-                display: block; /* Make table elements stack */
-            }
-            #stipend-table tr {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                border-radius: var(--radius-lg);
-                padding: var(--spacing-md);
-                box-shadow: 0 4px 6px var(--glass-shadow);
-            }
-            /* Disable hover/elevation effect on touch devices */
-            #stipend-table tbody tr:hover, #stipend-table tbody tr.is-elevated {
-                transform: none;
-                box-shadow: 0 4px 6px var(--glass-shadow);
-            }
-            #stipend-table td {
-                text-align: right; /* Align content to the right */
-                position: relative;
-                padding-left: 40%; /* Make space for the label */
-                border-bottom: 1px solid var(--glass-border);
-                padding-top: var(--spacing-md);
-                padding-bottom: var(--spacing-md);
-            }
-            #stipend-table td:last-child {
-                border-bottom: 0;
-            }
-            #stipend-table td::before {
-                content: attr(data-label); /* Use the data-label attribute as content */
-                position: absolute;
-                left: 0;
-                width: 35%;
-                padding-right: var(--spacing-md);
-                text-align: left;
-                font-weight: 600;
-                color: var(--up-forest-green);
-            }
+            .table-container { overflow-x: initial; background: transparent; padding: 0; }
+            #stipend-table { min-width: 100%; border-spacing: 0 var(--spacing-lg); }
+            #stipend-table thead { display: none; }
+            #stipend-table tbody, #stipend-table tr, #stipend-table td { display: block; }
+            #stipend-table tr { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--spacing-md); box-shadow: 0 4px 6px var(--glass-shadow); }
+            #stipend-table tbody tr:hover { transform: none; box-shadow: 0 4px 6px var(--glass-shadow); }
+            #stipend-table td { text-align: right; position: relative; padding-left: 40%; border-bottom: 1px solid var(--glass-border); padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
+            #stipend-table td:last-child { border-bottom: 0; }
+            #stipend-table td::before { content: attr(data-label); position: absolute; left: 0; width: 35%; padding-right: var(--spacing-md); text-align: left; font-weight: 600; color: var(--up-forest-green); }
         }
+        /* Abridged styles from original file for brevity */
+        ul { list-style: none; } .text-large { font-size: var(--font-size-lg); } .text-small { font-size: var(--font-size-sm); color: var(--text-secondary); } .text-muted { color: var(--text-light); } .text-up-maroon { color: var(--up-maroon); } .text-up-green { color: var(--up-forest-green); } h5, .h5 { font-size: var(--font-size-lg); font-weight: 500; line-height: 1.5; margin-bottom: var(--spacing-sm); color: var(--text-primary); } h6, .h6 { font-size: var(--font-size-base); font-weight: 500; line-height: 1.5; margin-bottom: var(--spacing-sm); color: var(--text-primary); } .card-header p { color: var(--text-secondary); } .btn-content { display: flex; flex-direction: column; align-items: center; } .btn-icon { margin-bottom: var(--spacing-sm); line-height: 1; transition: transform 0.3s ease-in-out; width: 48px; height: 48px; } .btn:hover .btn-icon { transform: rotate(-10deg) scale(1.1); } .btn:hover { text-decoration: none; } .btn-ghost { background-color: rgba(255, 255, 255, 0.1); color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.2); } .btn-ghost:hover { background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); } .mt-4 { margin-top: var(--spacing-lg); } .mt-5 { margin-top: var(--spacing-xl); } .mb-0 { margin-bottom: 0 !important; } .waffle-container { display: grid; grid-template-columns: repeat(10, 1fr); grid-gap: 4px; width: 100%; max-width: 320px; margin: 0 auto; } .waffle-square { width: 100%; padding-bottom: 100%; border-radius: 3px; } .waffle-legend { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; } .legend-item { display: flex; align-items: center; gap: 0.5rem; } .legend-color { width: 1rem; height: 1rem; border-radius: 0.25rem; } .faq-item, .suggestion-accordion details { border-radius: var(--radius-md); background-color: rgba(255,255,255,0.7); border: 1px solid var(--glass-border); margin-bottom: var(--spacing-md); } .faq-item summary::-webkit-details-marker, .suggestion-accordion summary::-webkit-details-marker { display: none; } .faq-item summary:hover, .suggestion-accordion summary:hover { background-color: rgba(255,255,255,0.9); } .faq-item .faq-answer { padding: 0 var(--spacing-lg) var(--spacing-lg); color: var(--text-secondary); } .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius-lg); background: rgba(255,255,255,0.1); padding: var(--spacing-xs); perspective: 1200px; } table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 900px; } th, td { padding: var(--spacing-md); text-align: left; border-bottom: 1px solid var(--glass-border); } thead th { font-weight: 600; color: var(--up-forest-green); } tbody tr:hover td { color: var(--text-primary); } tbody tr.animate-on-scroll { opacity: 0; transform: translateX(-30px); } tbody tr.animate-on-scroll.is-visible { opacity: 1; transform: translateX(0); } .animated-svg { stroke: var(--up-forest-green); stroke-width: 2px; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; } .is-visible .animated-svg { animation: svg-draw 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards; } @keyframes svg-draw { to { stroke-dashoffset: 0; } } .pro-tip-card { background-color: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: var(--radius-lg); padding: var(--spacing-lg); }
     </style>
 </head>
 <body class="antialiased">
@@ -455,41 +231,13 @@
             <section id="home" role="region" aria-labelledby="home-title" class="content-section">
                 <div class="card glass text-center animate-on-scroll" style="padding: var(--spacing-2xl) var(--spacing-xl);">
                     <h2 class="h5 text-up-green animate-on-scroll stagger-delay-1" style="text-transform: uppercase; letter-spacing: 1.5px;">A Scholar-Led Initiative for Transparency</h2>
-                    <h1 id="home-title" class="h1 text-up-maroon animate-on-scroll stagger-delay-2">The UPCM MSRS Scholars Guide</h1>
+                    <h1 id="home-title" class="h1 text-up-maroon animate-on-scroll stagger-delay-2 section-title" tabindex="-1">The UPCM MSRS Scholars Guide</h1>
                     <p class="text-large animate-on-scroll stagger-delay-3">This guide consolidates official data and the collective experience of UPCM scholars to demystify the stipend process, present evidence-based findings, and propose solutions.</p>
                     <div class="d-grid grid-4 gap-4 mt-5">
-                        <a href="#scholars" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-2">
-                            <div class="btn-content">
-                                <div class="btn-icon">
-                                    <svg class="animated-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                </div>
-                                <strong class="text-up-maroon">The Scholars</strong> <span class="text-small">Learn about the community</span>
-                            </div>
-                        </a>
-                        <a href="#journey" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-3">
-                             <div class="btn-content">
-                                <div class="btn-icon">
-                                    <svg class="animated-svg" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64M3.51 15A9 9 0 0 0 18.36 18.36"></path></svg>
-                                </div>
-                                <strong class="text-up-maroon">The Process</strong> <span class="text-small">Understand the timeline</span>
-                            </div>
-                        </a>
-                        <a href="#requirements" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-4">
-                             <div class="btn-content">
-                                <div class="btn-icon">
-                                    <svg class="animated-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                                </div>
-                                <strong class="text-up-maroon">The Requirements</strong> <span class="text-small">View the checklist</span>
-                            </div>
-                        </a>
-                        <a href="#solutions" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-5">
-                             <div class="btn-content">
-                                <div class="btn-icon">
-                                    <svg class="animated-svg" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
-                                </div>
-                                <strong class="text-up-maroon">The Solutions</strong> <span class="text-small">See proposed changes</span>
-                            </div>
-                        </a>
+                        <a href="#scholars" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-2"><div class="btn-content"><div class="btn-icon"><svg class="animated-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><strong class="text-up-maroon">The Scholars</strong> <span class="text-small">Learn about the community</span></div></a>
+                        <a href="#journey" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-3"><div class="btn-content"><div class="btn-icon"><svg class="animated-svg" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64M3.51 15A9 9 0 0 0 18.36 18.36"></path></svg></div><strong class="text-up-maroon">The Process</strong> <span class="text-small">Understand the timeline</span></div></a>
+                        <a href="#requirements" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-4"><div class="btn-content"><div class="btn-icon"><svg class="animated-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div><strong class="text-up-maroon">The Requirements</strong> <span class="text-small">View the checklist</span></div></a>
+                        <a href="#solutions" class="btn btn-ghost nav-button animate-on-scroll stagger-delay-5"><div class="btn-content"><div class="btn-icon"><svg class="animated-svg" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></div><strong class="text-up-maroon">The Solutions</strong> <span class="text-small">See proposed changes</span></div></a>
                     </div>
                 </div>
             </section>
@@ -498,47 +246,20 @@
                 <div class="card glass animate-on-scroll">
                      <div class="card-body">
                         <div class="text-center" style="margin-bottom: var(--spacing-2xl); padding-bottom: var(--spacing-xl); border-bottom: 1px solid var(--glass-border);">
-                            <h3 class="h3 text-up-green animate-on-scroll">A Growing Community of Future Public Health Leaders</h3>
+                            <h3 id="scholars-title" class="h3 text-up-green animate-on-scroll section-title" tabindex="-1">A Growing Community of Future Public Health Leaders</h3>
                             <p class="animate-on-scroll stagger-delay-1">With a total of 54 scholars across four batches, the MSRS community represents a significant and dedicated cohort within the UP College of Medicine, committed to fulfilling the "Doktor Para sa Bayan" mission.</p>
                             <div class="d-grid grid-4 gap-4 mt-4">
-                                <div class="card glass animate-on-scroll stagger-delay-2" style="padding: var(--spacing-md);">
-                                    <p class="h2 text-up-maroon mb-0 counter-value" data-goal="10">0</p>
-                                    <p class="text-small mb-0">Batch 1 Scholars</p>
-                                </div>
-                                <div class="card glass animate-on-scroll stagger-delay-3" style="padding: var(--spacing-md);">
-                                    <p class="h2 text-up-maroon mb-0 counter-value" data-goal="18">0</p>
-                                    <p class="text-small mb-0">Batch 2 Scholars</p>
-                                </div>
-                                <div class="card glass animate-on-scroll stagger-delay-4" style="padding: var(--spacing-md);">
-                                    <p class="h2 text-up-maroon mb-0 counter-value" data-goal="22">0</p>
-                                    <p class="text-small mb-0">Batch 3 Scholars</p>
-                                </div>
-                                <div class="card glass animate-on-scroll stagger-delay-5" style="padding: var(--spacing-md);">
-                                    <p class="h2 text-up-maroon mb-0 counter-value" data-goal="4">0</p>
-                                    <p class="text-small mb-0">Batch 4 Scholars</p>
-                                </div>
+                                <div class="card glass animate-on-scroll stagger-delay-2" style="padding: var(--spacing-md);"><p class="h2 text-up-maroon mb-0 counter-value" data-goal="10">0</p><p class="text-small mb-0">Batch 1 Scholars</p></div>
+                                <div class="card glass animate-on-scroll stagger-delay-3" style="padding: var(--spacing-md);"><p class="h2 text-up-maroon mb-0 counter-value" data-goal="18">0</p><p class="text-small mb-0">Batch 2 Scholars</p></div>
+                                <div class="card glass animate-on-scroll stagger-delay-4" style="padding: var(--spacing-md);"><p class="h2 text-up-maroon mb-0 counter-value" data-goal="22">0</p><p class="text-small mb-0">Batch 3 Scholars</p></div>
+                                <div class="card glass animate-on-scroll stagger-delay-5" style="padding: var(--spacing-md);"><p class="h2 text-up-maroon mb-0 counter-value" data-goal="4">0</p><p class="text-small mb-0">Batch 4 Scholars</p></div>
                             </div>
                         </div>
-                        
-                        <div class="text-center mb-5 animate-on-scroll">
-                            <h3 class="h3 text-up-green">Survey Findings (n=15)</h3>
-                        </div>
+                        <div class="text-center mb-5 animate-on-scroll"><h3 class="h3 text-up-green">Scholar Experience & Survey Findings</h3></div>
                         <div class="d-grid grid-3 gap-4">
-                            <div class="card glass animate-on-scroll stagger-delay-1">
-                                <h4 class="h4 text-center text-up-maroon">Reliance on Stipend</h4>
-                                <div style="min-height: 350px;" class="d-flex flex-col justify-center">
-                                    <div id="relianceWaffleChart" class="waffle-container" role="img" aria-label="A waffle chart showing that 60% of scholars are fully reliant, 33% are mostly reliant, and 7% are partially reliant on the stipend."></div>
-                                    <div id="relianceWaffleLegend" class="waffle-legend"></div>
-                                </div>
-                            </div>
-                            <div class="card glass animate-on-scroll stagger-delay-2">
-                                <h4 class="h4 text-center text-up-maroon">Financial & Academic Impact</h4>
-                                <div style="min-height: 350px;"><canvas id="impactChart" role="img" aria-label="Bar chart showing the impacts of stipend delays."></canvas></div>
-                            </div>
-                            <div class="card glass animate-on-scroll stagger-delay-3">
-                                <h4 class="h4 text-center text-up-maroon">Primary Coping Mechanisms</h4>
-                                <div style="min-height: 350px;"><canvas id="copingChart" role="img" aria-label="Bar chart showing financial coping mechanisms."></canvas></div>
-                            </div>
+                            <div class="card glass animate-on-scroll stagger-delay-1"><h4 class="h4 text-center text-up-maroon">Overwhelming Reliance on Stipend</h4><div style="min-height: 350px;" class="d-flex flex-col justify-center"><div id="relianceWaffleChart" class="waffle-container" role="img" aria-label="A waffle chart showing that 97% of scholars are fully or mostly reliant on the stipend."></div><div id="relianceWaffleLegend" class="waffle-legend"></div></div></div>
+                            <div class="card glass animate-on-scroll stagger-delay-2"><h4 class="h4 text-center text-up-maroon">Severe Consequences of Delays</h4><div style="min-height: 350px;"><canvas id="impactChart" role="img" aria-label="Doughnut chart showing the severe consequences of stipend delays."></canvas></div></div>
+                            <div class="card glass animate-on-scroll stagger-delay-3"><h4 class="h4 text-center text-up-maroon">Primary Coping Mechanisms</h4><div style="min-height: 350px; text-align: left; padding: var(--spacing-md);"><ul class="suggestion-list" style="list-style-position: inside; padding-left: 0;"><li class="animate-on-scroll stagger-delay-1"><strong>Borrowing Money:</strong> The most common strategy, with 82% borrowing from family/friends and 24% taking formal loans.</li><li class="animate-on-scroll stagger-delay-2"><strong>Strict Budgeting:</strong> Forced to "significantly cut back on expenses" and delay buying required uniforms, books, and equipment.</li><li class="animate-on-scroll stagger-delay-3"><strong>Reducing Food Intake:</strong> Many scholars (55%) explicitly skip meals to save money, with one stating, "I do not eat breakfast to save my allowance."</li><li class="animate-on-scroll stagger-delay-4"><strong>Seeking Additional Income:</strong> Several scholars have had to find part-time jobs while enrolled in a demanding medical program.</li></ul></div></div>
                         </div>
                     </div>
                 </div>
@@ -546,17 +267,10 @@
             
             <section id="journey" role="region" aria-labelledby="journey-title" class="content-section">
                  <div class="card glass animate-on-scroll">
-                    <div class="card-header text-center">
-                        <h2 id="journey-title" class="h2 animate-on-scroll">Stipend Process</h2>
-                        <p class="text-large animate-on-scroll stagger-delay-1">This table outlines the stipend process.</p>
-                    </div>
+                    <div class="card-header text-center"><h2 id="journey-title" class="h2 animate-on-scroll section-title" tabindex="-1">Stipend Process</h2><p class="text-large animate-on-scroll stagger-delay-1">This table outlines the current, highly sequential stipend process.</p></div>
                     <div class="table-container animate-on-scroll stagger-delay-2">
                         <table id="stipend-table">
-                            <thead>
-                                <tr>
-                                    <th>Step</th><th>Action</th><th>Responsible Party</th><th>Mandated Duration</th><th>Experienced Duration</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Step</th><th>Action</th><th>Responsible Party</th><th>Mandated Duration</th><th>Experienced Duration</th></tr></thead>
                             <tbody>
                                 <tr class="animate-on-scroll"><td data-label="Step">1</td><td data-label="Action">Submits onboarding documents (NOA, contract, Form 5, etc.).</td><td data-label="Responsible Party"><strong>Scholar</strong></td><td data-label="Mandated Duration">1-2 weeks</td><td data-label="Experienced Duration">2-4 weeks</td></tr>
                                 <tr class="animate-on-scroll stagger-delay-1"><td data-label="Step">2</td><td data-label="Action">Prepares and submits consolidated billing package to CHEDRO.</td><td data-label="Responsible Party"><strong>UPCM</strong></td><td data-label="Mandated Duration">7 working days¹</td><td data-label="Experienced Duration">2-4 weeks</td></tr>
@@ -570,120 +284,142 @@
                             </tbody>
                         </table>
                     </div>
-                    <footer class="mt-4 text-small text-muted animate-on-scroll">
-                        <p>¹ R.A. 11032, "Ease of Doing Business Act." | ² UP Manila Citizen's Charter. | ³ R.A. 11509, "Doktor Para sa Bayan Act" IRR.</p>
-                    </footer>
-                </div>
+                    <footer class="mt-4 text-small text-muted animate-on-scroll"><p>¹ R.A. 11032, "Ease of Doing Business Act." | ² UP Manila Citizen's Charter. | ³ R.A. 11509, "Doktor Para sa Bayan Act" IRR.</p></footer>
+                 </div>
             </section>
-
+            
             <section id="requirements" role="region" aria-labelledby="requirements-title" class="content-section">
                  <div class="card glass animate-on-scroll">
                     <div class="card-header text-center">
-                        <h2 id="requirements-title" class="h2 animate-on-scroll">Scholar Requirements Checklist</h2>
-                        <p class="text-large animate-on-scroll stagger-delay-1">A guide to the documents required from scholars at each stage.</p>
+                        <h2 id="requirements-title" class="h2 animate-on-scroll section-title" tabindex="-1">Scholar Requirements Checklist</h2>
+                        <p class="text-large animate-on-scroll stagger-delay-1">Hover over items for details on desktop. Based on Batch 3's experience.</p>
                     </div>
                     <div class="card-body">
                         <div class="d-grid grid-2 gap-4">
-                            <article class="animate-on-scroll stagger-delay-2">
-                                <h3 class="h3 text-up-green">Phase 1: Initial & Per-Semester Submission</h3>
-                                <p>Hover over items for details.</p>
+                            <article class="animate-on-scroll stagger-delay-1">
+                                <h3 class="h3 text-up-green">Phase 1: Initial Onboarding</h3>
                                 <ul class="req-list">
-                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6 mb-0">Signed Notice of Award (NOA) & Scholarship Contract</h4><p class="text-small">The NOA and 5 copies of the contract must have wet signatures.</p></div></li>
-                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6 mb-0">Billing Statement & Form 5</h4><p class="text-small">Secure the Billing Statement from SRO and the Certificate of Registration (Form 5) from OUR. The Form 5 must show full, undiscounted tuition.</p></div></li>
-                                    <li><span class="icon icon-check">&#10003;</span><div><h4 class="h6 mb-0">DBP Bank Account & PhilHealth Number</h4><p class="text-small">Submit account and PhilHealth details to the program coordinator.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>Signed Notice of Award (NOA)</h6><p>Must be submitted with a wet (ink) signature.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>Scholarship Contract</h6><p>Submit 5 copies, printed on A4 paper, all with wet signatures.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>Bank Account & PhilHealth Number</h6><p>Submit DBP account and PhilHealth details to the coordinator.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>Withdrawal from other Scholarships</h6><p>Formally withdraw from any other government scholarships (e.g., SLAS).</p></div></li>
+                                </ul>
+                            </article>
+                            <article class="animate-on-scroll stagger-delay-2">
+                                <h3 class="h3 text-up-green">Phase 2: Insurance (ASAP)</h3>
+                                <ul class="req-list">
+                                    <li><span class="icon icon-alert">&#33;</span><div><h6>PhilHealth KPP Form</h6><p>Submit a hard copy with a wet signature to the coordinator as soon as requested.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h6>GSIS Insurance Enrollment</h6><p>Fill out and submit the official Google Form as soon as it is announced.</p></div></li>
                                 </ul>
                             </article>
                             <article class="animate-on-scroll stagger-delay-3">
-                                <h3 class="h3 text-up-green">Phase 2: Post-Stipend Liquidation (CRUCIAL)</h3>
-                                <p>Hover over items for details.</p>
+                                <h3 class="h3 text-up-green">Phase 3: Per-Semester Request</h3>
                                 <ul class="req-list">
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Copy of DBP ATM Card</h4><p class="text-small">Card numbers may be redacted for data privacy.</p></div></li>
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Copy of Form 5</h4><p class="text-small">A hard or digital copy of your Certificate of Registration for the covered semester.</p></div></li>
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Copy of UP ID</h4><p class="text-small">Front and back of your valid university identification card.</p></div></li>
-                                    <li><span class="icon icon-alert">&#33;</span><div><h4 class="h6 mb-0">Signed Payroll</h4><p class="text-small">Physically sign the official payroll at the designated office as soon as notified.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>Billing Statement</h6><p>Generate from the ISKOLAR portal and have it verified by the SRO.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>Form 5 (Certificate of Registration)</h6><p>Must show the FULL tuition amount with NO discounts listed.</p></div></li>
+                                    <li><span class="icon icon-check">&#10003;</span><div><h6>TCG and COE Fees</h6><p>Scholars must pay the fee (e.g., ~₱100) for the batch's consolidated grade report.</p></div></li>
+                                </ul>
+                            </article>
+                            <article class="animate-on-scroll stagger-delay-4">
+                                <h3 class="h3 text-up-green">Phase 4: Liquidation (CRUCIAL)</h3>
+                                <ul class="req-list">
+                                    <li><span class="icon icon-alert">&#33;</span><div><h6>Copy of DBP ATM Card</h6><p>A clear copy is needed. Card numbers may be redacted for data privacy.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h6>Copy of Form 5</h6><p>A hard or digital copy of the Certificate of Registration for the covered semester.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h6>Copy of UP ID</h6><p>Front and back of your valid university identification card.</p></div></li>
+                                    <li><span class="icon icon-alert">&#33;</span><div><h6>Sign the Payroll</h6><p>Physically sign at the designated office after receiving the stipend. This is required for the next semester's process to begin.</p></div></li>
                                 </ul>
                             </article>
                         </div>
-                        <aside class="pro-tip-card mt-5 animate-on-scroll stagger-delay-4">
-                            <h4 class="h4" style="color: var(--up-maroon);">Pro-Tip: Navigating Form 5 Issues at UPCM</h4>
-                            <p>Incorrect Form 5s are a common cause of delays. Based on scholar experiences, here is how to resolve them:</p>
-                            <ol style="list-style-position: inside; padding-left: var(--spacing-sm);">
-                                <li><strong>If Form 5 shows an SLAS discount:</strong> Go to the Office of the University Registrar (OUR) and request a new Form 5 that reflects the <span style="font-weight: 600;">full, undiscounted tuition amount</span> as required by CHED.</li>
-                                <li><strong>If Form 5 has missing fees (e.g., Entrance, ID):</strong> Go to the Information Management Service (IMS) office to have the fees updated on your assessment before generating a new Form 5.</li>
-                            </ol>
+                        <aside class="pro-tip-card mt-5 animate-on-scroll stagger-delay-5">
+                            <h4 class="h4" style="color: var(--up-maroon);">Pro-Tip: Use a Requirement Tracker</h4>
+                            <p class="mb-0">Batch 3 successfully used a shared spreadsheet (like Google Sheets) to track each scholar's submission status. This creates transparency and allows student representatives to quickly identify who is missing a document, which is crucial since one person can delay the entire batch. <strong>We highly recommend all batches adopt a similar system to improve coordination and accountability.</strong></p>
                         </aside>
                     </div>
                 </div>
             </section>
-
             <section id="solutions" role="region" aria-labelledby="solutions-title" class="content-section">
                 <div class="card glass animate-on-scroll">
-                    <div class="card-header text-center">
-                        <h2 id="solutions-title" class="h2 animate-on-scroll">Proposed Solutions</h2>
-                        <p class="text-large animate-on-scroll stagger-delay-1">Based on survey data and scholar feedback, here are paths forward.</p>
-                    </div>
+                    <div class="card-header text-center"><h2 id="solutions-title" class="h2 animate-on-scroll section-title" tabindex="-1">Proposed Solutions</h2><p class="text-large animate-on-scroll stagger-delay-1">Based on survey data and direct scholar feedback, here are paths forward.</p></div>
                     <div class="card-body">
-                        <div class="card glass animate-on-scroll stagger-delay-2">
-                            <h3 class="h3 text-center text-up-green">
-                                <span class="tooltip-trigger">
-                                    The Bridge Fund
-                                    <span class="tooltip-text">A short-term fund to cover scholars' expenses while waiting for the official stipend, which is then replenished upon receipt of the stipend.</span>
-                                </span>
-                                : A Self-Replenishing Cycle
-                            </h3>
-                            <p class="text-center">Hover over a step for details.</p>
-                            <div class="bridge-fund-flow">
-                                <div class="flow-step"><h4 class="h5 mb-0">1. Scholar Applies</h4><p class="text-small mb-0">When stipend is delayed, scholar submits a simple digital application for an advance.</p></div>
-                                <div class="flow-arrow">&rarr;</div>
-                                <div class="flow-step"><h4 class="h5 mb-0">2. Fund Disbursed</h4><p class="text-small mb-0">UPCM releases the advance to the scholar's bank account within 3-5 working days.</p></div>
-                                <div class="flow-arrow">&rarr;</div>
-                                <div class="flow-step"><h4 class="h5 mb-0">3. Stipend Arrives</h4><p class="text-small mb-0">When the official CHED stipend arrives, the advanced amount is auto-deducted.</p></div>
-                                <div class="flow-arrow">&rarr;</div>
-                                <div class="flow-step"><h4 class="h5 mb-0">4. Fund Replenished</h4><p class="text-small mb-0">The deduction automatically repays the Bridge Fund, making it whole for the next cycle.</p></div>
+                        
+                        <div class="animate-on-scroll">
+                            <h3 class="h3 text-center text-up-green">Key Scholar Recommendations</h3>
+                            <div class="d-grid grid-2 gap-4 mt-4">
+                                <div class="card glass animate-on-scroll stagger-delay-1">
+                                    <h4 class="h4 text-up-maroon">1. Improve Process Efficiency</h4>
+                                    <ul class="suggestion-list">
+                                        <li>Process applications individually or by batch, not for the entire group at once.</li>
+                                        <li>Establish and adhere to a strict schedule for every step of the process.</li>
+                                        <li>Begin processing 3 months before classes to ensure timely receipt.</li>
+                                    </ul>
+                                </div>
+                                <div class="card glass animate-on-scroll stagger-delay-2">
+                                    <h4 class="h4 text-up-maroon">2. Increase Transparency</h4>
+                                    <ul class="suggestion-list">
+                                        <li>Create an accessible status tracker or flowchart for scholars.</li>
+                                        <li>Provide constant, clear, and specific updates (no vague statements).</li>
+                                        <li>Designate a point person per batch for easier communication.</li>
+                                    </ul>
+                                </div>
+                                <div class="card glass animate-on-scroll stagger-delay-3">
+                                     <h4 class="h4 text-up-maroon">3. Bypass Bureaucracy</h4>
+                                     <ul class="suggestion-list">
+                                        <li>Enable direct deposit from CHED to scholars' bank accounts.</li>
+                                        <li>Evaluate and change the disbursing bank if it would expedite the process.</li>
+                                    </ul>
+                                </div>
+                                <div class="card glass animate-on-scroll stagger-delay-4">
+                                     <h4 class="h4 text-up-maroon">4. Enhance Institutional Support</h4>
+                                     <ul class="suggestion-list">
+                                        <li>Provide clear instructions, requirements, and deadlines well in advance.</li>
+                                        <li>The university must offer interest-free loans as an official stop-gap measure.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card glass animate-on-scroll stagger-delay-5 mt-5" style="background-color: rgba(1, 68, 33, 0.05);">
+                            <div class="card-header" style="border-bottom: 1px solid rgba(1, 68, 33, 0.2);"><h3 class="h3 text-center text-up-green">Specific Proposal: The MSRS Advance Program</h3></div>
+                            <div class="card-body">
+                                <p class="text-center text-secondary mt-4">As part of enhancing institutional support, this program would provide a low-friction bridge fund. It is an <strong>advance</strong>, not a loan, built on the scholar's existing contract. Here is the simplified workflow:</p>
+                                <div class="concise-workflow mt-4">
+                                    <div class="workflow-item">
+                                        <div class="workflow-number">1</div>
+                                        <div class="workflow-content">
+                                            <h6>Onboarding & Activation</h6>
+                                            <p>Scholar signs MSRS contract and a one-time Advance Agreement to enroll.</p>
+                                        </div>
+                                    </div>
+                                    <div class="workflow-item">
+                                        <div class="workflow-number">2</div>
+                                        <div class="workflow-content">
+                                            <h6>Monthly Advance</h6>
+                                            <p>The university releases a fixed, predictable advance to the scholar each month.</p>
+                                        </div>
+                                    </div>
+                                    <div class="workflow-item">
+                                        <div class="workflow-number">3</div>
+                                        <div class="workflow-content">
+                                            <h6>Stipend Arrival & Repayment</h6>
+                                            <p>When the CHED stipend arrives, the scholar repays the advanced amount to replenish the fund.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="d-grid grid-2 gap-4 mt-5">
-                           <div class="card glass animate-on-scroll stagger-delay-1"><h4 class="h4 text-center text-up-green">Preference: Monthly Release</h4><div style="min-height: 250px;"><canvas id="stipendPreferenceChart"></canvas></div></div>
-                           <div class="card glass animate-on-scroll stagger-delay-2"><h4 class="h4 text-center text-up-green">Impact of 'Bridge Fund' System</h4><div style="min-height: 250px;"><canvas id="bridgeFundChart"></canvas></div></div>
+                           <div class="card glass animate-on-scroll stagger-delay-6"><h4 class="h4 text-center text-up-green">Stipend Release Preference</h4><div style="min-height: 250px;"><canvas id="stipendPreferenceChart"></canvas></div></div>
+                           <div class="card glass animate-on-scroll stagger-delay-6"><h4 class="h4 text-center text-up-green">Perceived Effectiveness of a Bridge Fund</h4><div style="min-height: 250px;"><canvas id="bridgeFundChart"></canvas></div></div>
                         </div>
 
-                        <div class="mt-5 animate-on-scroll" style="padding-top: var(--spacing-xl); border-top: 1px solid var(--glass-border);">
-                            <h3 class="h3 text-center text-up-green">Additional Suggestions</h3>
-                            <div class="d-grid grid-3 gap-4">
-                                <div class="card glass suggestion-card animate-on-scroll stagger-delay-1">
-                                    <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
-                                    <h4 class="h6 text-up-maroon mb-0">Permanent MSRS Office</h4><p>Establish a one-stop-shop office in UPCM for all MSRS concerns.</p>
-                                </div>
-                                <div class="card glass suggestion-card animate-on-scroll stagger-delay-2">
-                                    <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
-                                    <h4 class="h6 text-up-maroon mb-0">Public Tracking Dashboard</h4><p>Publish a dashboard tracking the real-time stipend status for each batch.</p>
-                                </div>
-                                <div class="card glass suggestion-card animate-on-scroll stagger-delay-3">
-                                    <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></div>
-                                    <h4 class="h6 text-up-maroon mb-0">Constant Updates</h4><p>Provide proactive, constant updates on the status of allowance processing.</p>
-                                </div>
-                                <div class="card glass suggestion-card animate-on-scroll stagger-delay-4">
-                                     <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-                                    <h4 class="h6 text-up-maroon mb-0">Dedicated Liaison Officer</h4><p>Designate an MSRS-focused liaison to streamline coordination with CHED.</p>
-                                </div>
-                                <div class="card glass suggestion-card animate-on-scroll stagger-delay-5">
-                                    <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg></div>
-                                    <h4 class="h6 text-up-maroon mb-0">Online Document Portal</h4><p>Automate document submission through a centralized online portal.</p>
-                                </div>
-                                <div class="card glass suggestion-card animate-on-scroll stagger-delay-6">
-                                    <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8 17l-5.02-5.02L8 7M16 7l5.02 5.02L16 17"></path></svg></div>
-                                    <h4 class="h6 text-up-maroon mb-0">Partial Batch Submission</h4><p>Submit documents for compliant scholars without waiting for the entire batch.</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
             
             <section id="faq" role="region" aria-labelledby="faq-title" class="content-section">
                 <div class="card glass animate-on-scroll">
-                   <div class="card-header text-center"><h2 id="faq-title" class="h2">Frequently Asked Questions</h2><p class="text-large">Quick answers to common questions for UPCM scholars.</p></div>
+                   <div class="card-header text-center"><h2 id="faq-title" class="h2 section-title" tabindex="-1">Frequently Asked Questions</h2><p class="text-large">Quick answers to common questions for UPCM scholars.</p></div>
                    <div id="faq-container"></div>
                 </div>
            </section>
@@ -700,64 +436,7 @@
 <script defer>
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Scroll Animation System ---
-    const animationObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-    const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
-    elementsToAnimate.forEach(el => animationObserver.observe(el));
-
-    // --- Dynamic Navbar on Scroll ---
-    const navbar = document.getElementById('main-nav-bar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // --- Touch-to-Elevate for Table Rows ---
-    const stipendTable = document.getElementById('stipend-table');
-    if (stipendTable) {
-        const tableRows = stipendTable.querySelectorAll('tbody tr');
-        let elevatedRow = null;
-        let timeoutId = null;
-
-        tableRows.forEach(row => {
-            row.addEventListener('touchstart', (e) => {
-                e.preventDefault(); 
-                if (window.innerWidth > 768) { // Only run elevation on desktop
-                    if (elevatedRow && elevatedRow !== row) {
-                        elevatedRow.classList.remove('is-elevated');
-                    }
-                    if (row.classList.contains('is-elevated')) {
-                        row.classList.remove('is-elevated');
-                        elevatedRow = null;
-                        clearTimeout(timeoutId);
-                    } else {
-                        row.classList.add('is-elevated');
-                        elevatedRow = row;
-                        clearTimeout(timeoutId);
-                        timeoutId = setTimeout(() => {
-                            row.classList.remove('is-elevated');
-                            if (elevatedRow === row) {
-                                elevatedRow = null;
-                            }
-                        }, 2000);
-                    }
-                }
-            }, { passive: false });
-        });
-    }
-
-    const faqData = [
+    const FAQ_DATA = [
         { question: "What should I do if my Form 5 has an SLAS discount or missing fees?", answer: "This is a critical issue that halts the process. <strong>1) If SLAS discount is present:</strong> Go to the Office of the University Registrar (OUR) and request a corrected Form 5 showing the full tuition. <strong>2) If fees are missing:</strong> Go to the Information Management Service (IMS) to have them update your assessment before generating a new Form 5." },
         { question: "There are rumors about moving to Landbank for stipends. Is this true?", answer: "CHED has partnered with Landbank for other national scholarship programs like the Tertiary Education Subsidy (TES). While there is no official memo yet for the MSRS program specifically, this could be a future development. Scholars should ensure their contact information is always updated to avoid issues if a transition to a new bank is announced." },
         { question: "Are LU6 midyear/summer electives covered by the scholarship?", answer: "Currently, this is not clear. Per internal communications, the MSRS guidelines primarily cover the standard first and second semesters. The coverage of midyear/summer term fees and allowances is still pending clarification from CHED. Scholars should be prepared to potentially shoulder these costs." },
@@ -768,10 +447,22 @@ document.addEventListener('DOMContentLoaded', function() {
         { question: "How is the 'book allowance' released?", answer: "The book allowance of PHP 10,000 per semester is typically included in the lump-sum stipend released to the scholar's bank account. It is not a separate payment. Therefore, its release is also subject to the same delays affecting the entire stipend."}
     ];
 
+    const chartInstances = {};
+    const chartInitFlags = {};
+    let activeSectionId = null;
+
+    const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
     function initFaqs() {
         const container = document.getElementById('faq-container');
         if (!container) return;
-        container.innerHTML = faqData.map((faq, index) => `
+        container.innerHTML = FAQ_DATA.map((faq, index) => `
             <details class="faq-item animate-on-scroll" style="transition-delay: ${index * 0.1}s;">
                 <summary>
                     <span>${faq.question}</span>
@@ -779,9 +470,91 @@ document.addEventListener('DOMContentLoaded', function() {
                 </summary>
                 <div class="faq-answer"><p>${faq.answer}</p></div>
             </details>`).join('');
-        document.querySelectorAll('#faq-container .animate-on-scroll').forEach(el => animationObserver.observe(el));
     }
 
+    function showSection(targetId, isInitialLoad = false) {
+        const cleanTargetId = targetId.startsWith('#') ? targetId.substring(1) : 'home';
+        const newSection = document.getElementById(cleanTargetId);
+
+        if (!newSection || cleanTargetId === activeSectionId) return;
+
+        const oldSection = activeSectionId ? document.getElementById(activeSectionId) : null;
+        const transitionDuration = isInitialLoad ? 0 : 300;
+
+        if (oldSection) {
+            oldSection.classList.add('is-hiding');
+        }
+
+        setTimeout(() => {
+            if (oldSection) {
+                oldSection.classList.remove('active', 'is-hiding');
+            }
+            
+            newSection.classList.add('active');
+            activeSectionId = cleanTargetId;
+
+            document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
+                const linkHrefId = (link.getAttribute('href') || '').substring(1);
+                link.classList.toggle('active', linkHrefId === cleanTargetId);
+            });
+            
+            document.getElementById('page-footer').classList.toggle('footer-hidden', cleanTargetId === 'home');
+            
+            if (!isInitialLoad) {
+                const newTitle = newSection.querySelector('.section-title');
+                if(newTitle) newTitle.focus({ preventScroll: true });
+            }
+
+            if(history.pushState) history.pushState(null, null, `#${cleanTargetId}`);
+            else location.hash = `#${cleanTargetId}`;
+            
+            if (['scholars', 'solutions'].includes(cleanTargetId)) {
+                initSurveyCharts(cleanTargetId);
+            }
+        }, transitionDuration);
+    }
+    
+    function setupEventListeners() {
+        const navbar = document.getElementById('main-nav-bar');
+        window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+
+        document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                showSection(targetId);
+                document.getElementById('main-nav-menu').classList.remove('active');
+                document.getElementById('mobile-menu-button').classList.remove('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        mobileMenuButton.addEventListener('click', () => {
+            document.getElementById('main-nav-menu').classList.toggle('active');
+            mobileMenuButton.classList.toggle('active');
+        });
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const goal = parseInt(target.dataset.goal, 10);
+                    let startTime = null;
+                    const step = (timestamp) => {
+                        if (!startTime) startTime = timestamp;
+                        const progress = Math.min((timestamp - startTime) / 1500, 1);
+                        target.innerText = Math.floor(progress * goal);
+                        if (progress < 1) window.requestAnimationFrame(step);
+                    };
+                    window.requestAnimationFrame(step);
+                    observer.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.counter-value').forEach(el => counterObserver.observe(el));
+    }
+    
     function createWaffleChart(containerId, legendContainerId, data) {
         const container = document.getElementById(containerId);
         const legendContainer = document.getElementById(legendContainerId);
@@ -793,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
             legendItem.className = 'legend-item';
             legendItem.innerHTML = `<div class="legend-color" style="background-color: ${item.color};"></div><span class="text-small">${item.label} (${item.value}%)</span>`;
             legendContainer.appendChild(legendItem);
-            const numSquares = Math.round((item.value / total) * total);
+            const numSquares = Math.round((item.value / 100) * total);
             for (let i = 0; i < numSquares; i++) {
                 if (coloredSquares < total) {
                     squaresHtml += `<div class="waffle-square" style="background-color: ${item.color};" title="${item.label}"></div>`;
@@ -805,13 +578,8 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = squaresHtml;
     }
 
-    const chartInstances = {};
-
     function initSurveyCharts(sectionId) {
-        if (chartInitFlags[sectionId]) { 
-            Object.values(chartInstances).forEach(chart => { if(chart) chart.update(); });
-            return;
-        }
+        if (chartInitFlags[sectionId]) return;
 
         function createOrUpdateChart(canvasId, config) {
             const canvas = document.getElementById(canvasId);
@@ -822,103 +590,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const surveyData = {
-            impact: { labels: ['Stress/Anxiety', 'Borrowed Money', 'Academic Impact', 'Skipped Meals', 'Delayed Rent', 'Delayed Equipment'], data: [93.3, 86.7, 73.3, 66.7, 46.7, 60.0] },
-            coping: { labels: ['Borrowed from Family/Friends', 'Personal Savings', 'Part-time Work', 'Delayed Purchases'], data: [66.7, 20.0, 6.7, 6.7] },
-            reliance: [ { label: 'Fully Reliant', value: 60, color: '#7B1113'}, { label: 'Mostly Reliant', value: 33, color: '#014421'}, { label: 'Partially Reliant', value: 7, color: '#FBBF24'} ],
-            stipendPreference: { labels: ['Prefer Monthly Release', 'Per-Semester is Fine'], data: [60, 40] },
-            bridgeFund: { labels: ['Rating of 5 (Very Effective)', 'Rating of 4'], data: [93.3, 6.7] }
+            impact: { labels: ['Borrowed Money', 'Stress/Anxiety', 'Skipped Meals', 'Delayed Equipment', 'Delayed Rent', 'Academic Impact', 'Took Formal Loan', 'Sold Belongings'], data: [82, 70, 55, 52, 45, 42, 24, 18] },
+            reliance: [ { label: 'Fully Reliant (100%)', value: 45, color: '#7B1113'}, { label: 'Mostly Reliant (>50%)', value: 52, color: '#014421'}, { label: 'Partially Reliant (<50%)', value: 3, color: '#FBBF24'} ],
+            stipendPreference: { labels: ['Prefer Semesterly (On-Time)', 'Prefer Monthly'], data: [73, 24] },
+            bridgeFund: { labels: ['Very Effective (5/5)', 'Effective (4/5)', 'Neutral (3/5)', 'Ineffective (1-2/5)'], data: [33, 24, 21, 21] }
         };
 
         if (sectionId === 'scholars') {
             createWaffleChart('relianceWaffleChart', 'relianceWaffleLegend', surveyData.reliance);
-            createOrUpdateChart('impactChart', { type: 'bar', data: { labels: surveyData.impact.labels, datasets: [{ data: surveyData.impact.data, backgroundColor: 'rgba(123, 17, 19, 0.8)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100, ticks: { callback: value => value + '%' }}}} });
-            createOrUpdateChart('copingChart', { type: 'bar', data: { labels: surveyData.coping.labels, datasets: [{ data: surveyData.coping.data, backgroundColor: 'rgba(1, 68, 33, 0.8)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100, ticks: { callback: value => value + '%' }}}} });
+            createOrUpdateChart('impactChart', {
+                type: 'doughnut',
+                data: { labels: surveyData.impact.labels, datasets: [{ label: '% of Respondents', data: surveyData.impact.data, backgroundColor: ['#7B1113', '#5a0c0e', '#014421', '#012b17', '#FBBF24', '#B45309', '#6B7280', '#374151'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: true, position: 'bottom'}}}
+            });
         } else if (sectionId === 'solutions') {
-            createOrUpdateChart('stipendPreferenceChart', { type: 'bar', data: { labels: surveyData.stipendPreference.labels, datasets: [{ data: surveyData.stipendPreference.data, backgroundColor: ['rgba(1, 68, 33, 0.8)', 'rgba(200, 200, 200, 0.8)'] }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100, ticks: { callback: value => value + '%' }}}} });
-            createOrUpdateChart('bridgeFundChart', { type: 'bar', data: { labels: [''], datasets: [{ label: 'Rating of 5', data: [surveyData.bridgeFund.data[0]], backgroundColor: 'rgba(1, 68, 33, 0.8)' }, { label: 'Rating of 4', data: [surveyData.bridgeFund.data[1]], backgroundColor: 'rgba(123, 17, 19, 0.5)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, max: 100, ticks: { callback: value => value + '%' } }, y: { stacked: true }}, plugins: { legend: { position: 'bottom', display: true }} }});
+            createOrUpdateChart('stipendPreferenceChart', {
+                type: 'pie',
+                data: { labels: surveyData.stipendPreference.labels, datasets: [{ data: surveyData.stipendPreference.data, backgroundColor: ['rgba(1, 68, 33, 0.8)', 'rgba(200, 200, 200, 0.8)'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: true, position: 'bottom'}}}
+            });
+            createOrUpdateChart('bridgeFundChart', {
+                type: 'pie',
+                data: { labels: surveyData.bridgeFund.labels, datasets: [{ data: surveyData.bridgeFund.data, backgroundColor: ['#014421', '#2E8B57', '#FBBF24', '#7B1113'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', display: true }} }
+            });
         }
         
         chartInitFlags[sectionId] = true;
     }
 
-    const navMenu = document.getElementById('main-nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link, .nav-button');
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const sections = document.querySelectorAll('main .content-section');
-    const footer = document.getElementById('page-footer');
-    let chartInitFlags = {};
-
-    function showSection(targetId) {
-        let cleanTargetId = targetId.substring(1);
-        if (!cleanTargetId || !document.getElementById(cleanTargetId)) cleanTargetId = 'home';
-        
-        footer.classList.toggle('footer-hidden', cleanTargetId === 'home');
-
-        sections.forEach(section => section.classList.toggle('active', section.id === cleanTargetId));
-        
-        document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
-            const linkHrefId = link.getAttribute('href').substring(1);
-            link.classList.toggle('active', linkHrefId === cleanTargetId);
-        });
-        
-        if(history.pushState) history.pushState(null, null, `#${cleanTargetId}`);
-        else location.hash = `#${cleanTargetId}`;
-        
-        if ( (cleanTargetId === 'scholars' || cleanTargetId === 'solutions') ) {
-             setTimeout(() => {
-                if(document.getElementById(cleanTargetId).classList.contains('active')) {
-                   initSurveyCharts(cleanTargetId);
-                }
-             }, 100);
-        }
+    function main() {
+        initFaqs();
+        document.querySelectorAll('.animate-on-scroll').forEach(el => animationObserver.observe(el));
+        setupEventListeners();
+        const initialSection = location.hash || '#home';
+        showSection(initialSection, true);
     }
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            showSection(targetId);
-            navMenu.classList.remove('active');
-            mobileMenuButton.classList.remove('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    });
 
-    mobileMenuButton.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        mobileMenuButton.classList.toggle('active');
-    });
-
-    const counterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = entry.target;
-                target.innerText = '0';
-                const goal = parseInt(target.dataset.goal, 10);
-                let current = 0;
-                const duration = 1500;
-                const frameDuration = 1000 / 60;
-                const totalFrames = Math.round(duration / frameDuration);
-                const increment = goal / totalFrames;
-                const updateCounter = () => {
-                    current += increment;
-                    if (current >= goal) {
-                        target.innerText = goal;
-                    } else {
-                        target.innerText = Math.ceil(current);
-                        requestAnimationFrame(updateCounter);
-                    }
-                };
-                requestAnimationFrame(updateCounter);
-                observer.unobserve(target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('.counter-value').forEach(el => counterObserver.observe(el));
-    
-    initFaqs();
-    showSection(location.hash || '#home');
+    main();
 });
 </script>
 </body>
