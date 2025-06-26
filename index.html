@@ -182,8 +182,8 @@
             margin-bottom: var(--spacing-sm);
             line-height: 1;
             transition: transform 0.3s ease-in-out;
-            width: 48px; /* Consistent sizing for SVG */
-            height: 48px; /* Consistent sizing for SVG */
+            width: 48px; 
+            height: 48px;
         }
         .btn:hover .btn-icon { transform: rotate(-10deg) scale(1.1); }
         .btn:hover { text-decoration: none; }
@@ -248,7 +248,7 @@
         }
         tbody tr.is-elevated td,
         tbody tr:hover td {
-            color: var(--text-primary); /* Text brightening */
+            color: var(--text-primary);
         }
         tbody tr.animate-on-scroll { opacity: 0; transform: translateX(-30px); }
         tbody tr.animate-on-scroll.is-visible { opacity: 1; transform: translateX(0); }
@@ -260,7 +260,7 @@
         .req-list li .icon-check { color: var(--up-forest-green); }
         .req-list li .icon-alert { color: var(--up-maroon); }
         .req-list li .text-small { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; margin-bottom: 0 !important; transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin-top 0.4s ease-out; }
-        .req-list li:hover .text-small { max-height: 50px; opacity: 1; margin-top: var(--spacing-xs) !important; }
+        .req-list li:hover .text-small { max-height: 60px; opacity: 1; margin-top: var(--spacing-xs) !important; }
 
         /* SVG Icon Styling */
         .animated-svg {
@@ -273,7 +273,7 @@
             stroke-dashoffset: 1000;
         }
         .is-visible .animated-svg {
-            animation: svg-draw 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards; /* Added delay to start after card animates in */
+            animation: svg-draw 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
         }
         @keyframes svg-draw {
             to { stroke-dashoffset: 0; }
@@ -292,7 +292,48 @@
         .bridge-fund-flow .flow-arrow { display: flex; align-items: center; justify-content: center; font-size: var(--font-size-3xl); color: var(--up-forest-green); flex-shrink: 0; }
         .flow-step p { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; transition: max-height 0.4s ease-out, opacity 0.3s ease-in, margin-top 0.4s ease-out; }
         .flow-step:hover { min-height: 160px; background-color: rgba(255, 255, 255, 0.6); }
-        .flow-step:hover p { max-height: 100px; opacity: 1; margin-top: var(--spacing-sm); }
+        .flow-step:hover p { max-height: 150px; opacity: 1; margin-top: var(--spacing-sm); }
+
+        /* [NEW] Tooltip Styling */
+        .tooltip-trigger {
+            position: relative;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            cursor: help;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            width: 280px;
+            background-color: var(--up-forest-green);
+            color: var(--white);
+            text-align: center;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            position: absolute;
+            z-index: 20;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px; /* Use half of the width to center */
+            transition: opacity 0.3s ease;
+            font-size: var(--font-size-sm);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--up-forest-green) transparent transparent transparent;
+        }
+        .tooltip-trigger:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
 
         /* Footer */
         #page-footer { background-color: rgba(0,0,0,0.05); text-align: center; padding: var(--spacing-xl) 0; margin-top: var(--spacing-xl); }
@@ -312,7 +353,7 @@
             .bridge-fund-flow .flow-arrow { transform: rotate(90deg); margin: var(--spacing-xs) 0; }
             .bridge-fund-flow .flow-step { width: 100%; min-height: auto; }
             .flow-step:hover { min-height: auto; }
-            .flow-step p, .req-list li .text-small { max-height: 100px; opacity: 1; margin-top: var(--spacing-xs); }
+            .flow-step p, .req-list li .text-small { max-height: 150px; opacity: 1; margin-top: var(--spacing-xs); }
         }
     </style>
 </head>
@@ -511,7 +552,13 @@
                     </div>
                     <div class="card-body">
                         <div class="card glass animate-on-scroll stagger-delay-2">
-                            <h3 class="h3 text-center text-up-green">The Bridge Fund: A Self-Replenishing Cycle</h3>
+                            <h3 class="h3 text-center text-up-green">
+                                <span class="tooltip-trigger">
+                                    The Bridge Fund
+                                    <span class="tooltip-text">A short-term fund to cover scholars' expenses while waiting for the official stipend, which is then replenished upon receipt of the stipend.</span>
+                                </span>
+                                : A Self-Replenishing Cycle
+                            </h3>
                             <p class="text-center">Hover over a step for details.</p>
                             <div class="bridge-fund-flow">
                                 <div class="flow-step"><h4 class="h5 mb-0">1. Scholar Applies</h4><p class="text-small mb-0">When stipend is delayed, scholar submits a simple digital application for an advance.</p></div>
@@ -530,7 +577,7 @@
                         </div>
 
                         <div class="mt-5 animate-on-scroll" style="padding-top: var(--spacing-xl); border-top: 1px solid var(--glass-border);">
-                            <h3 class="h3 text-center text-up-green">Scholar-Sourced Suggestions</h3>
+                            <h3 class="h3 text-center text-up-green">Additional Suggestions</h3>
                             <div class="d-grid grid-3 gap-4">
                                 <div class="card glass suggestion-card animate-on-scroll stagger-delay-1">
                                     <div class="icon-container"><svg class="animated-svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
