@@ -29,15 +29,125 @@
 <body class="font-inter antialiased bg-gray-50 text-gray-800">
   <!-- Header -->
   <header id="main-header" class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow transition-shadow">
-    <!-- Navbar loaded dynamically -->
+    <div class="container mx-auto px-4 lg:px-6 py-4 flex justify-between items-center">
+      <a href="#home" class="text-2xl font-extrabold tracking-tight text-gray-800">UPCM MSRS Guide</a>
+      <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100" aria-controls="main-nav" aria-expanded="false" aria-label="Open main menu">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </button>
+    </div>
+    <nav id="main-nav" class="hidden lg:flex flex-col lg:flex-row lg:items-center lg:space-x-4 px-4 pb-4 lg:pb-0" aria-label="Main navigation">
+      <a href="#home" class="main-nav-link active">Home</a>
+      <a href="#journey" class="main-nav-link">The Journey</a>
+      <a href="#requirements" class="main-nav-link">Requirements</a>
+      <a href="#survey" class="main-nav-link">Survey Findings</a>
+      <a href="#bridge-fund" class="main-nav-link">A Solution</a>
+      <a href="#faq" class="main-nav-link">FAQs</a>
+    </nav>
   </header>
 
-  <!-- Main -->
   <main class="container mx-auto px-4 lg:px-6 py-8 md:py-12">
-    <!-- Sections loaded dynamically -->
+    <!-- ✅ START OF FULL CONTENT SECTIONS -->
+
+<section id="home" class="content-section active">
+  <h1 class="text-3xl font-bold mb-4">Welcome, MSRS Scholars!</h1>
+  <p class="text-lg mb-6">This guide is designed by fellow CHED-MSRS recipients from UPCM to help demystify the process of claiming your stipend and completing requirements.</p>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="card p-6">
+      <h2 class="text-xl font-semibold mb-2">About the Team</h2>
+      <p>This resource is prepared by UPCM scholars from LU3–LU5 (Batch 2022–2024) to assist incoming and current MSRS beneficiaries.</p>
+    </div>
+    <div class="card p-6">
+      <h2 class="text-xl font-semibold mb-2">Why This Guide?</h2>
+      <p>Many recipients encountered delays and confusion in the release of their MSRS stipend. This aims to clarify key steps, deadlines, and proposed solutions.</p>
+    </div>
+  </div>
+</section>
+
+<section id="journey" class="content-section">
+  <h2 class="text-2xl font-bold mb-4">The Journey: From Application to Disbursement</h2>
+  <p class="mb-4">This table shows the typical timeline based on actual MSRS processes from previous semesters.</p>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm text-left text-gray-700 border border-gray-200">
+      <thead class="bg-gray-100 text-gray-900">
+        <tr>
+          <th class="px-4 py-2 border">Phase</th>
+          <th class="px-4 py-2 border">Timeline*</th>
+          <th class="px-4 py-2 border">What Happens?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="px-4 py-2 border">1. Application/Verification</td><td class="px-4 py-2 border">Start of Sem (Aug/Jan)</td><td class="px-4 py-2 border">CHEDRO &amp; SRO confirm eligible applicants</td></tr>
+        <tr><td class="px-4 py-2 border">2. Encoding</td><td class="px-4 py-2 border">Weeks 2–4</td><td class="px-4 py-2 border">Encoding of details into CHED system</td></tr>
+        <tr><td class="px-4 py-2 border">3. Approval &amp; Budgeting</td><td class="px-4 py-2 border">Month 2–3</td><td class="px-4 py-2 border">CHED Central processes requests</td></tr>
+        <tr><td class="px-4 py-2 border">4. Disbursement</td><td class="px-4 py-2 border">~Month 4</td><td class="px-4 py-2 border">Funds downloaded to schools then scholars</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-xs mt-2">*Timelines are approximate based on AY 2022–2024 experiences.</p>
+</section>
+
+<section id="requirements" class="content-section">
+  <h2 class="text-2xl font-bold mb-4">Checklist: What You Need</h2>
+  <p class="mb-4">These are the essential requirements for stipend release.</p>
+  <div class="grid gap-6 md:grid-cols-2">
+    <div class="card p-6">
+      <h3 class="text-xl font-semibold mb-2">PHASE 1: Pre-Release</h3>
+      <ul class="list-disc list-inside text-sm">
+        <li>Form 5 (with correct amount)</li>
+        <li>Certificate of Enrollment (Registrar)</li>
+        <li>Duly accomplished CHED Form 1</li>
+        <li>Photocopy of School ID or gov’t-issued ID</li>
+      </ul>
+    </div>
+    <div class="card p-6">
+      <h3 class="text-xl font-semibold mb-2">PHASE 2: Post-Release (Liquidation)</h3>
+      <ul class="list-disc list-inside text-sm">
+        <li>Duly signed CHED Form 2 (Acknowledgment)</li>
+        <li>Proof of disbursement (bank statement)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="protip-box text-sm mt-6">
+    <strong>TIP:</strong> Scan all documents and save a digital copy (PDF or JPEG). Double check school and CHED deadlines.
+  </div>
+</section>
+
+<section id="survey" class="content-section">
+  <h2 class="text-2xl font-bold mb-4">MSRS Impact Survey (n=12)</h2>
+  <p class="mb-6 text-gray-600">In April 2024, 12 CHED MSRS scholars from UPCM shared how the stipend affects their daily life.</p>
+  <div class="grid gap-6 md:grid-cols-3">
+    <div class="card p-4">
+      <canvas id="impactChart" class="w-full h-64"></canvas>
+    </div>
+    <div class="card p-4">
+      <canvas id="relianceChart" class="w-full h-64"></canvas>
+    </div>
+    <div class="card p-4">
+      <canvas id="livingChart" class="w-full h-64"></canvas>
+    </div>
+  </div>
+</section>
+
+<section id="bridge-fund" class="content-section">
+  <h2 class="text-2xl font-bold mb-4">A Scholar-Proposed Solution</h2>
+  <p class="mb-4">Some scholars propose a bridge fund that temporarily covers MSRS needs during processing delays.</p>
+  <ol class="list-decimal list-inside space-y-2 text-sm">
+    <li>Form a core team and consult UPCM admin.</li>
+    <li>Design fund disbursement protocols (e.g. based on need).</li>
+    <li>Propose guidelines (e.g. limit amount per scholar).</li>
+    <li>Partner with UPCM alumni or orgs for seed funding.</li>
+    <li>Ensure liquidation tracking and transparency.</li>
+  </ol>
+  <p class="text-xs mt-4">This guide does not endorse or solicit donations. It merely illustrates peer-led solutions.</p>
+</section>
+
+<section id="faq" class="content-section">
+  <h2 class="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
+  <div id="faq-container" class="space-y-4"></div>
+</section>
+    <!-- ✅ I will continue this in the next message due to length limits -->
   </main>
 
-  <!-- Footer -->
   <footer class="bg-gray-800 text-gray-400 text-sm text-center py-6">
     <p class="mb-1">This is a scholar-led initiative. Information as of June 2025.</p>
     <p>Maintained by CJ Lorenz Dimalaluan | Not an official UPCM/CHED publication.</p>
