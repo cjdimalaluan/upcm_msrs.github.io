@@ -1,5 +1,3 @@
-// UPCM MSRS Scholars Guide Logic
-
 window.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('main > section');
   const navLinks = document.querySelectorAll('.main-nav-link');
