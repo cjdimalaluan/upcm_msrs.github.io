@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Tags for SEO, Accessibility, and Social Sharing -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A comprehensive guide for CHED-MSRS scholars at the UP College of Medicine, detailing the stipend process, requirements, and common challenges.">
@@ -12,20 +11,14 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://placehold.co/1200x630/7B1113/FFFFFF?text=UPCM+MSRS+Guide">
 
-    <title>UPCM MSRS Scholars Guide - Redesign</title>
+    <title>UPCM MSRS Scholars Guide</title> <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
 
-    <!-- Favicon using an SVG for crisp rendering -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
-
-    <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Embedded Custom CSS from the new Design System -->
     <style>
         /* ===================================================================
            UNIVERSITY OF THE PHILIPPINES - GLASSMORPHISM DESIGN SYSTEM
@@ -418,7 +411,6 @@
         .flow-arrow-left { grid-column: 2 / 3; grid-row: 3 / 4; }
         .flow-arrow-up { grid-column: 1 / 2; grid-row: 2 / 3; transform: rotate(-90deg); }
 
-
         /* --- Responsive Design --- */
         @media (max-width: 992px) {
           .nav-menu {
@@ -460,8 +452,7 @@
     
     <header class="header">
         <nav id="main-nav-bar" class="navbar glass">
-            <a href="#home" class="logo nav-button">UPCM MSRS Guide</a>
-            <ul id="main-nav-menu" class="nav-menu">
+            <a href="#home" class="logo nav-button">UPCM MSRS Scholars Guide</a> <ul id="main-nav-menu" class="nav-menu">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#scholars" class="nav-link">Scholars</a></li>
                 <li><a href="#journey" class="nav-link">Process</a></li>
@@ -507,7 +498,7 @@
 
             <section id="scholars" role="region" aria-labelledby="scholars-title" class="content-section">
                 <div class="card glass">
-                    <div class="card-body">
+                     <div class="card-body">
                         <div class="text-center" style="margin-bottom: var(--spacing-2xl); padding-bottom: var(--spacing-xl); border-bottom: 1px solid var(--glass-border);">
                             <h3 class="h3 text-up-green">A Growing Community of Future Public Health Leaders</h3>
                             <p>With a total of 54 scholars across four batches, the MSRS community represents a significant and dedicated cohort within the UP College of Medicine, committed to fulfilling the "Doktor Para sa Bayan" mission.</p>
@@ -755,14 +746,18 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = squaresHtml;
     }
 
-    function initSurveyCharts() {
-        const chartInstances = {};
+    // Initialize chartInstances outside to manage their lifecycle
+    const chartInstances = {};
+
+    function initSurveyCharts(sectionId) {
+        // Prevent re-initialization if charts for this section are already drawn
+        if (chartInitFlags[sectionId]) return;
 
         function createOrUpdateChart(canvasId, config) {
             const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
+            if (!canvas) return; // Exit if canvas element doesn't exist
             if (chartInstances[canvasId]) {
-                chartInstances[canvasId].destroy();
+                chartInstances[canvasId].destroy(); // Destroy previous instance if it exists
             }
             chartInstances[canvasId] = new Chart(canvas.getContext('2d'), config);
         }
@@ -775,40 +770,49 @@ document.addEventListener('DOMContentLoaded', function() {
             bridgeFund: { labels: ['Rating of 5 (Very Effective)', 'Rating of 4'], data: [93.3, 6.7] }
         };
 
-        createWaffleChart('relianceWaffleChart', 'relianceWaffleLegend', surveyData.reliance);
-        
-        const chartConfigs = {
-            impactChart: { type: 'bar', data: { labels: surveyData.impact.labels, datasets: [{ data: surveyData.impact.data, backgroundColor: 'rgba(123, 17, 19, 0.8)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100}}}},
-            copingChart: { type: 'bar', data: { labels: surveyData.coping.labels, datasets: [{ data: surveyData.coping.data, backgroundColor: 'rgba(1, 68, 33, 0.8)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100}}}},
-            stipendPreferenceChart: { type: 'bar', data: { labels: surveyData.stipendPreference.labels, datasets: [{ data: surveyData.stipendPreference.data, backgroundColor: ['rgba(1, 68, 33, 0.8)', 'rgba(200, 200, 200, 0.8)'] }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100}}}},
-            bridgeFundChart: { type: 'bar', data: { labels: [''], datasets: [{ label: 'Rating of 5', data: [surveyData.bridgeFund.data[0]], backgroundColor: 'rgba(1, 68, 33, 0.8)' }, { label: 'Rating of 4', data: [surveyData.bridgeFund.data[1]], backgroundColor: 'rgba(123, 17, 19, 0.5)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, max: 100 }, y: { stacked: true }}, plugins: { legend: { position: 'bottom' }} }}
-        };
-
-        for (const [canvasId, config] of Object.entries(chartConfigs)) {
-           createOrUpdateChart(canvasId, config);
+        // Initialize charts based on the active section
+        if (sectionId === 'scholars') {
+            createWaffleChart('relianceWaffleChart', 'relianceWaffleLegend', surveyData.reliance);
+            createOrUpdateChart('impactChart', { type: 'bar', data: { labels: surveyData.impact.labels, datasets: [{ data: surveyData.impact.data, backgroundColor: 'rgba(123, 17, 19, 0.8)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100, ticks: { callback: value => value + '%' }}}} });
+            createOrUpdateChart('copingChart', { type: 'bar', data: { labels: surveyData.coping.labels, datasets: [{ data: surveyData.coping.data, backgroundColor: 'rgba(1, 68, 33, 0.8)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100, ticks: { callback: value => value + '%' }}}} });
+        } else if (sectionId === 'solutions') {
+            createOrUpdateChart('stipendPreferenceChart', { type: 'bar', data: { labels: surveyData.stipendPreference.labels, datasets: [{ data: surveyData.stipendPreference.data, backgroundColor: ['rgba(1, 68, 33, 0.8)', 'rgba(200, 200, 200, 0.8)'] }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false}}, scales: {x: {max:100, ticks: { callback: value => value + '%' }}}} });
+            createOrUpdateChart('bridgeFundChart', { type: 'bar', data: { labels: [''], datasets: [{ label: 'Rating of 5', data: [surveyData.bridgeFund.data[0]], backgroundColor: 'rgba(1, 68, 33, 0.8)' }, { label: 'Rating of 4', data: [surveyData.bridgeFund.data[1]], backgroundColor: 'rgba(123, 17, 19, 0.5)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, max: 100, ticks: { callback: value => value + '%' } }, y: { stacked: true }}, plugins: { legend: { position: 'bottom', display: true }} }});
         }
+        
+        chartInitFlags[sectionId] = true; // Mark charts for this section as initialized
     }
 
     // --- Navigation Logic ---
     const navMenu = document.getElementById('main-nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link, .nav-button');
+    const navLinks = document.querySelectorAll('.nav-link, .nav-button'); // Include nav-button for active state logic
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const sections = document.querySelectorAll('main .content-section');
-    let chartInitFlags = {};
+    let chartInitFlags = {}; // Flag to track if charts for a section have been initialized
 
     function showSection(targetId) {
-        targetId = targetId.substring(1); // remove #
-        if (!targetId || !document.getElementById(targetId)) targetId = 'home';
+        let cleanTargetId = targetId.substring(1); // remove #
+        if (!cleanTargetId || !document.getElementById(cleanTargetId)) cleanTargetId = 'home';
         
-        sections.forEach(section => section.classList.toggle('active', section.id === targetId));
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.toggle('active', link.getAttribute('href').substring(1) === targetId));
+        sections.forEach(section => section.classList.toggle('active', section.id === cleanTargetId));
         
-        if(history.pushState) history.pushState(null, null, `#${targetId}`);
-        else location.hash = `#${targetId}`;
+        // Update active state for both nav-links and nav-buttons
+        document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
+            // Check if the link's href matches the target section ID
+            const linkHrefId = link.getAttribute('href').substring(1);
+            if (linkHrefId === cleanTargetId) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
         
-        if ((targetId === 'scholars' || targetId === 'solutions') && !chartInitFlags[targetId]) {
-            initSurveyCharts();
-            chartInitFlags[targetId] = true;
+        if(history.pushState) history.pushState(null, null, `#${cleanTargetId}`);
+        else location.hash = `#${cleanTargetId}`;
+        
+        // Initialize charts only when their respective section is activated for the first time
+        if (cleanTargetId === 'scholars' || cleanTargetId === 'solutions') {
+            initSurveyCharts(cleanTargetId);
         }
     }
     
@@ -829,6 +833,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // --- Initial Load ---
     initFaqs();
+    // Call showSection with the initial hash or default to #home
     showSection(location.hash || '#home');
 });
 </script>
