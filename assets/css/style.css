@@ -1,0 +1,47 @@
+html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; color: #1F2937; }
+        
+        :root {
+            --up-maroon: #7B1113;
+            --up-green: #014421;
+        }
+
+        ::selection { background-color: var(--up-maroon); color: white; }
+
+        .main-nav-link {
+            padding: 1rem 0.75rem;
+            border-bottom: 4px solid transparent;
+            transition: all 0.2s ease-in-out;
+            font-weight: 600;
+            color: #4B5563;
+            cursor: pointer;
+        }
+        .main-nav-link:hover { color: var(--up-maroon); }
+        .main-nav-link.active {
+            color: var(--up-maroon);
+            border-bottom-color: var(--up-maroon);
+        }
+        
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.5s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .faq-arrow { transition: transform 0.3s ease; }
+        .faq-item[open] .faq-arrow { transform: rotate(180deg); }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #E5E7EB;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        sup { line-height: 0; }
